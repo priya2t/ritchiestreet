@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install Dependencies
@@ -25,9 +25,9 @@ jobs:
       - name: Build React
         run: npm run build
 
-        - name: Deploy via FTPS
+      - name: Deploy via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-          with:
+        with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
