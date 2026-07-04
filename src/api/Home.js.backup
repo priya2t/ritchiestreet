@@ -1,0 +1,112 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { getProducts } from './woocommerce';
+import { useCartStore } from './cartStore';
+import Layout from './Layout';
+import { asset } from './siteConfig';
+import ProductCard from '../components/ProductCard';
+import ProductTicker from '../components/ProductTicker';
+import CategoriesSection from '../components/CategoriesSection';
+
+const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
+  const { addToCart, openCart } = useCartStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+      setLoading(false);
+    } catch (err) {
+      setError('Failed to fetch products');
+      setLoading(false);
+    }
+  };
+
+  const handleAddToCart = (product) => {
+    const productToAdd = {
+      id: product.id,
+      name: product.name,
+      price: (parseFloat(product.prices.price || 0) / 100),
+      images: product.images,
+      prices: product.prices
+    };
+    addToCart(productToAdd);
+    openCart();
+  };
+
+  const filteredProducts = products.filter(product => {
+    const categoryName = product.categories && product.categories.length > 0 
+      ? product.categories[0].name 
+      : '';
+    
+    if (activeCategory === 'All') return true;
+    if (activeCategory === 'Laptop') return categoryName.includes('Laptop');
+    if (activeCategory === 'Gaming') return categoryName.includes('Gaming');
+    if (activeCategory === 'Desktop') return categoryName.includes('Desktop');
+    if (activeCategory === 'iPad') return categoryName.includes('iPad') || categoryName.includes('Tablet');
+    if (activeCategory === 'CCTV') return categoryName.includes('CCTV');
+    if (activeCategory === 'Computer Accessories') return categoryName.includes('Computer') || categoryName.includes('Accessory');
+    if (activeCategory === 'Phone') return categoryName.includes('Phone') || categoryName.includes('Mobile');
+    if (activeCategory === 'TV') return categoryName.includes('TV') || categoryName.includes('Television');
+    if (activeCategory === 'Others') return true;
+    return false;
+  });
+
+  return (
+    <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
+      <main className="home">
+        <section className="rs-hero">
+          <div className="rs-container">
+            <img src="/slider.png" alt="Ritchie Street electronics banner" />
+          </div>
+          <div className="rs-services">
+            <Link to="/services">
+              <img src="/services.png" alt="Services" style={{ cursor: 'pointer', transition: 'opacity 0.3s ease' }} onMouseEnter={(e) => e.target.style.opacity = '0.8'} onMouseLeave={(e) => e.target.style.opacity = '1'} />
+            </Link>
+          </div>
+        </section>
+        <section className="rs-static-area">
+          <div className="rs-container rs-static-grid">
+            <div className="rs-static-card"><img src={asset('images/icons/static-icons-1.png')} alt="" /><div><h4>Free Shipping</h4><p>On all orders over ₹75.00</p></div></div>
+            <div className="rs-static-card"><img src={asset('images/icons/static-icons-2.png')} alt="" /><div><h4>Free Returns</h4><p>Returns are free within 9 days</p></div></div>
+            <div className="rs-static-card"><img src={asset('images/icons/static-icons-3.png')} alt="" /><div><h4>100% Payment Secure</h4><p>Your payment are safe with us.</p></div></div>
+            <div className="rs-static-card"><img src={asset('images/icons/static-icons-4.png')} alt="" /><div><h4>Support 24/7</h4><p>Contact us 24 hours a day</p></div></div>
+          </div>
+<br></br>
+          <div className="rs-container">
+            <Link to="/contact">
+              <img src="/contactBanner.png" alt="Contact Banner" style={{ width: '1336px', height: '200px', cursor: 'pointer' }} />
+            </Link>
+          </div>
+        </section>
+      <div className="home-container">
+        <main className="main-content">
+          {loading ? (
+            <div className="loading">Loading products...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : (
+            <>
+              <h2 className="featured-products-title">FEATURED PRODUCTS</h2>
+              <ProductTicker 
+                products={products}
+              />
+              <CategoriesSection />
+            </>
+          )}
+        </main>
+      </div>
+      </main>
+    </Layout>
+  );
+};
+
+export default Home;
