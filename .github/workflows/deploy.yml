@@ -19,10 +19,10 @@ jobs:
           node-version: 20
           cache: npm
 
-        - name: Install Dependencies
-          run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Build React App
+      - name: Build React
         run: npm run build
 
       - name: Deploy via FTP
