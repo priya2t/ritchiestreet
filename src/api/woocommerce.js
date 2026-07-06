@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://ritchiestreet.co.in/demo/engaArea/wp-json/wc/store';
+const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'http://ritchiestreet.co.in/demo/engaArea';
+const STORE_API_URL = `${WP_URL}/wp-json/wc/store`;
 const CONSUMER_KEY = process.env.REACT_APP_WC_CONSUMER_KEY;
 const CONSUMER_SECRET = process.env.REACT_APP_WC_CONSUMER_SECRET;
 
 // Create axios instance for Store API (no auth needed for public endpoints)
 const storeApi = axios.create({
-  baseURL: API_URL,
+  baseURL: STORE_API_URL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -14,7 +15,7 @@ const storeApi = axios.create({
 
 // Create axios instance with WooCommerce authentication for admin endpoints
 const woocommerceApi = axios.create({
-  baseURL: 'https://ritchiestreet.co.in/demo/engaArea/wp-json/wc/v3',
+  baseURL: `${WP_URL}/wp-json/wc/v3`,
   params: {
     consumer_key: CONSUMER_KEY,
     consumer_secret: CONSUMER_SECRET
@@ -139,7 +140,7 @@ export const clearCart = async () => {
 export const createOrder = async (orderData) => {
   try {
     console.log('=== CUSTOM ORDER API: CREATE ORDER START ===');
-    const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'https://ritchiestreet.co.in/demo/engaArea/';
+    // Uses top-level WP_URL
     const customApiUrl = `${WP_URL}/wp-json/custom/v1/create-order`;
     
     console.log('Custom API URL:', customApiUrl);
@@ -184,7 +185,7 @@ export const getOrders = async (customerId) => {
     console.log('=== WOOCOMMERCE API: GET ORDERS START ===');
     console.log('Customer ID:', customerId);
     
-    const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'https://ritchiestreet.co.in/demo/engaArea/';
+    // Uses top-level WP_URL
     const customApiUrl = `${WP_URL}/wp-json/custom/v1/get-orders`;
     
     console.log('Custom API URL:', customApiUrl);
@@ -228,7 +229,7 @@ export const getCustomer = async (id) => {
     console.log('=== WOOCOMMERCE API: GET CUSTOMER START ===');
     console.log('Customer ID:', id);
     
-    const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'https://ritchiestreet.co.in/demo/engaArea/';
+    // Uses top-level WP_URL
     const customApiUrl = `${WP_URL}/wp-json/custom/v1/get-customer`;
     
     console.log('Custom API URL:', customApiUrl);
@@ -281,7 +282,7 @@ export const updateCustomer = async (customerData) => {
     console.log('=== UPDATE CUSTOMER START ===');
     console.log('Customer Data:', JSON.stringify(customerData, null, 2));
     
-    const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'https://ritchiestreet.co.in/demo/engaArea/';
+    // Uses top-level WP_URL
     const customApiUrl = `${WP_URL}/wp-json/custom/v1/update-customer`;
     
     console.log('Custom API URL:', customApiUrl);
