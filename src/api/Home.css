@@ -1340,6 +1340,15 @@ body {
 .hrp-service-icon {
   font-size: 22px;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hrp-service-icon img {
+  
+  object-fit: contain;
+  display: block;
 }
 
 .hrp-service-label {

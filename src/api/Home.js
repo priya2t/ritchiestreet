@@ -153,7 +153,9 @@ const Home = () => {
               <div className="hrp-card-title">Our Services</div>
               <div className="hrp-services-grid">
                 <Link to="/services" className="hrp-service-item">
-                  <span className="hrp-service-icon">💻</span>
+                  <span className="hrp-service-icon">
+                    <img src="demo/computer.png" alt="Computer Repair" />
+                  </span>
                   <span className="hrp-service-label">Computer<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
