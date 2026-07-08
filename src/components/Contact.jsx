@@ -65,20 +65,20 @@ const Contact = () => {
 
   const contactCards = [
     {
-      icon: '📞', title: 'Call Us', color: '#f15b29',
+      icon: '/images/phone.png', title: 'Call Us', color: '#f15b29',
       lines: [
         { href: 'tel:+918667507040', text: '+91 86675 07040' }
       ]
     },
     {
-      icon: '✉️', title: 'Email Us', color: '#2563eb',
+      icon: '/images/edit.png', title: 'Email Us', color: '#2563eb',
       lines: [
         { href: 'mailto:info@ritchiestreet.co.in', text: 'info@ritchiestreet.co.in' },
         { href: 'https://www.ritchiestreet.co.in', text: 'www.ritchiestreet.co.in' }
       ]
     },
     {
-      icon: '📍', title: 'Visit Us', color: '#16a34a',
+      icon: '/images/location.png', title: 'Visit Us', color: '#16a34a',
       lines: [
         { text: '6, 107, Mangadu Rd, next to Niagara Juice Shop, Mangala Nagar, Paraniputhur, Iyyappanthangal, Chennai, Tamil Nadu 600122' }
       ]
@@ -167,7 +167,9 @@ const Contact = () => {
                 fontSize: '26px', marginBottom: '16px',
                 border: `2px solid ${card.color}25`
               }}>
-                {card.icon}
+                {typeof card.icon === 'string' && (card.icon.startsWith('/') || card.icon.includes('.'))
+                  ? <img src={card.icon} alt={card.title} style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
+                  : card.icon}
               </div>
               <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#111827', margin: '0 0 10px 0' }}>{card.title}</h3>
               {card.lines.map((line, j) => (
@@ -221,9 +223,9 @@ const Contact = () => {
               <p style={{ fontSize: '14px', color: '#64748b', margin: '0 0 20px 0' }}>Stay connected on social media</p>
               <div style={{ display: 'flex', gap: '16px' }}>
                 {[
-                  { href: 'https://www.facebook.com/profile.php?id=61550673917474', src: '/fb.png', alt: 'Facebook', bg: '#1877f2' },
-                  { href: 'https://twitter.com/Ritchistreetchn', src: '/twitter.png', alt: 'Twitter', bg: '#1da1f2' },
-                  { href: 'https://www.instagram.com/ritchiestreet_chn', src: '/insta.png', alt: 'Instagram', bg: '#e1306c' }
+                  { href: 'https://www.facebook.com/profile.php?id=61550673917474', src: '/images/fb.png', alt: 'Facebook', bg: '#1877f2' },
+                  { href: 'https://twitter.com/Ritchistreetchn', src: '/images/twitter.png', alt: 'Twitter', bg: '#1da1f2' },
+                  { href: 'https://www.instagram.com/ritchiestreet_chn', src: '/images/insta.png', alt: 'Instagram', bg: '#e1306c' }
                 ].map((s, i) => (
                   <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
                     className="social-icon-btn"
@@ -376,7 +378,7 @@ const Contact = () => {
                   onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(241,91,41,0.45)'; }}}
                   onMouseLeave={e => { if (!loading) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(241,91,41,0.35)'; }}}
                 >
-                  {loading ? 'Sending...' : '🚀 Send Message'}
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
 
                 <p style={{ fontSize: '12px', color: '#94a3b8', textAlign: 'center', margin: '16px 0 0 0' }}>

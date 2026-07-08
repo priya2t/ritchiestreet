@@ -95,13 +95,13 @@ const Services = () => {
   };
 
   const serviceTypes = [
-    { name: 'Laptop', icon: '💻' },
-    { name: 'Desktop', icon: '🖥️' },
-    { name: 'Mobile', icon: '📱' },
-    { name: 'Printer', icon: '🖨️' },
-    { name: 'CCTV', icon: '📹' },
-    { name: 'TV', icon: '📺' },
-    { name: 'Data Recovery', icon: '💾' }
+    { name: 'Laptop', icon: '/images/laptop1.png' },
+    { name: 'Desktop', icon: '/images/pc.png' },
+    { name: 'Mobile', icon: '/images/smartphone.png' },
+    { name: 'Printer', icon: '/images/printer.png' },
+    { name: 'CCTV', icon: '/images/camera.png' },
+    { name: 'TV', icon: '/images/tv.png' },
+    { name: 'Data Recovery', icon: '/images/harddisk.png' }
   ];
 
   return (
@@ -220,7 +220,7 @@ const Services = () => {
               fontSize: '15px',
               color: '#334155'
             }}>
-              <span style={{ fontSize: '20px', marginRight: '12px' }}>☎</span>
+              <span style={{ fontSize: '20px', marginRight: '12px' }}><img src="/images/telephone.png"/></span>
               24/7 Support
             </li>
             <li style={{
@@ -231,7 +231,7 @@ const Services = () => {
               fontSize: '15px',
               color: '#334155'
             }}>
-              <span style={{ fontSize: '20px', marginRight: '12px' }}>🛠</span>
+              <span style={{ fontSize: '20px', marginRight: '12px' }}><img src="/images/tools.png"/></span>
               Troubleshooting
             </li>
             <li style={{
@@ -242,7 +242,7 @@ const Services = () => {
               fontSize: '15px',
               color: '#334155'
             }}>
-              <span style={{ fontSize: '20px', marginRight: '12px' }}>💻</span>
+              <span style={{ fontSize: '20px', marginRight: '12px' }}><img src="/images/laptop1.png"/></span>
               Remote Guidance
             </li>
             <li style={{
@@ -252,7 +252,7 @@ const Services = () => {
               fontSize: '15px',
               color: '#334155'
             }}>
-              <span style={{ fontSize: '20px', marginRight: '12px' }}>📞</span>
+              <span style={{ fontSize: '20px', marginRight: '12px' }}><img src="/images/phone.png"/></span>
               Expert Assistance
             </li>
           </ul>
@@ -308,7 +308,11 @@ const Services = () => {
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               onClick={() => setFormData({ ...formData, serviceType: service.name })}
               >
-                <div style={{ fontSize: '32px', marginBottom: '8px' }}>{service.icon}</div>
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>
+                  {typeof service.icon === 'string' && (service.icon.startsWith('/') || service.icon.includes('.'))
+                    ? <img src={service.icon} alt={service.name} style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
+                    : service.icon}
+                </div>
                 <div style={{
                   fontSize: '13px',
                   fontWeight: '600',
@@ -335,7 +339,7 @@ const Services = () => {
               display: 'flex',
               alignItems: 'center'
             }}>
-              <span style={{ marginRight: '12px' }}>🔧</span>
+              <span style={{ marginRight: '12px' }}><img src="/images/spanner.png"/></span>
               Request a Service
             </h2>
             

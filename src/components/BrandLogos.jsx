@@ -3,14 +3,14 @@ import '../api/Home.css';
 
 const BrandLogos = () => {
   const brands = [
-    { name: 'Acer', img: '/demo/acer.png' },
-    { name: 'HP', img: '/demo/hp.png' },
-    { name: 'Dell', img: '/demo/dell.png' },
-    { name: 'Lenovo', img: '/demo/lenova.png' },
-    { name: 'Logitech', img: '/demo/logi.png' },
-    { name: 'Samsung', img: '/demo/samsung.png' },
-    { name: 'Asus', img: '/demo/asus.png' },
-    { name: 'Zebronics', img: '/demo/zebronics.png' }
+    { name: 'Acer', img: '/images/acer.png' },
+    { name: 'HP', img: '/images/hp.png' },
+    { name: 'Dell', img: '/images/dell.png' },
+    { name: 'Lenovo', img: '/images/lenova.png' },
+    { name: 'Logitech', img: '/images/logi.png' },
+    { name: 'Samsung', img: '/images/samsung.png' },
+    { name: 'Asus', img: '/images/asus.png' },
+    { name: 'Zebronics', img: '/images/zebronics.png' }
   ];
 
   // Duplicate brands for seamless infinite scrolling

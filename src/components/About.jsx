@@ -51,17 +51,17 @@ const About = () => {
 
   const featureCards = [
     { icon: '✅', title: 'Genuine Products', desc: '100% authentic products sourced directly from authorized distributors and top brands.' },
-    { icon: '💰', title: 'Best Pricing', desc: 'Competitive prices on all electronics with regular deals, discounts, and offers.' },
-    { icon: '🎧', title: 'Expert Support', desc: 'Our trained team is available to assist you with any product or service query.' },
-    { icon: '🚚', title: 'Fast Delivery', desc: 'Quick and reliable delivery across Chennai with real-time order tracking.' },
-    { icon: '🔒', title: 'Secure Shopping', desc: 'Shop safely with encrypted payments and a fully secure checkout experience.' },
-    { icon: '↩️', title: 'Easy Returns', desc: 'Hassle-free returns within 9 days. Customer satisfaction is our priority.' },
+    { icon: '/images/money.png', title: 'Best Pricing', desc: 'Competitive prices on all electronics with regular deals, discounts, and offers.' },
+    { icon: '/images/support.png', title: 'Expert Support', desc: 'Our trained team is available to assist you with any product or service query.' },
+    { icon: '/images/truck.png', title: 'Fast Delivery', desc: 'Quick and reliable delivery across Chennai with real-time order tracking.' },
+    { icon: '/images/security.png', title: 'Secure Shopping', desc: 'Shop safely with encrypted payments and a fully secure checkout experience.' },
+    { icon: '/images/return.png', title: 'Easy Returns', desc: 'Hassle-free returns within 9 days. Customer satisfaction is our priority.' },
   ];
 
   const teamMembers = [
-    { name: 'G. Kameshwaran', role: 'Founder & CEO', emoji: '👨‍💼', desc: 'A visionary professional with years of experience in electronics retail and tech services.' },
-    { name: 'Core Team', role: 'Engineers & Developers', emoji: '👨‍💻', desc: 'Network engineers, developers, and problem-solvers delivering exceptional tech.' },
-    { name: 'Support Team', role: 'Customer Experience', emoji: '🎧', desc: 'Dedicated support agents available to ensure every customer gets the best experience.' },
+    { name: 'G. Kameshwaran', role: 'Founder & CEO', emoji: '/images/male.png', desc: 'A visionary professional with years of experience in electronics retail and tech services.' },
+    { name: 'Core Team', role: 'Engineers & Developers', emoji: '/images/developer.png', desc: 'Network engineers, developers, and problem-solvers delivering exceptional tech.' },
+    { name: 'Support Team', role: 'Customer Experience', emoji: '/images/icon-contact-nav.png', desc: 'Dedicated support agents available to ensure every customer gets the best experience.' },
   ];
 
   const trustBadges = [
@@ -201,7 +201,7 @@ const About = () => {
               boxShadow: '0 30px 60px rgba(0,0,0,0.4)'
             }}>
               <img
-                src="/demo/about-us.jpg"
+                src="/images/about-us.webp"
                 alt="Ritchie Street Electronics"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 onError={e => {
@@ -255,7 +255,7 @@ const About = () => {
                 height: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
                 <img
-                  src="/demo/about-us.jpg"
+                  src="/images/start_up.png"
                   alt="Our Story"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={e => { e.target.style.display='none'; e.target.parentElement.innerHTML='<div style="font-size:100px">🏬</div>'; }}
@@ -266,11 +266,11 @@ const About = () => {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {[
                 {
-                  icon: '🏢', title: 'Who We Are',
+                  icon: '/images/calendar.png', title: 'Who We Are',
                   text: "We're a passionate team of tech enthusiasts who believe that great solutions start with simple ideas and strong partnerships. Founded by Mr. G. Kameshwaran, our startup is built on innovation, trust, and a commitment to delivering results that make a real difference."
                 },
                 {
-                  icon: '⚙️', title: 'What We Do',
+                  icon: '/images/gear.png', title: 'What We Do',
                   text: "We specialize in genuine electronics retail, custom software development, and networking services for businesses. Whether you need the latest gadgets, IT support, or reliable networking infrastructure — we're your one-stop tech destination."
                 }
               ].map((item, i) => (
@@ -286,7 +286,11 @@ const About = () => {
                       fontSize: '28px', width: '48px', height: '48px',
                       background: '#fff7ed', borderRadius: '12px',
                       display: 'flex', alignItems: 'center', justifyContent: 'center'
-                    }}>{item.icon}</span>
+                    }}>
+                      {typeof item.icon === 'string' && (item.icon.startsWith('/') || item.icon.includes('.'))
+                        ? <img src={item.icon} alt={item.title} style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
+                        : item.icon}
+                    </span>
                     <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', margin: 0 }}>{item.title}</h3>
                   </div>
                   <p style={{ fontSize: '15px', color: '#64748b', lineHeight: '1.7', margin: 0 }}>{item.text}</p>
@@ -332,7 +336,9 @@ const About = () => {
                   borderRadius: '14px', display: 'flex', alignItems: 'center',
                   justifyContent: 'center', margin: '0 auto 14px auto'
                 }}>
-                  {card.icon}
+                  {typeof card.icon === 'string' && (card.icon.startsWith('/') || card.icon.includes('.'))
+                    ? <img src={card.icon} alt={card.title} style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                    : card.icon}
                 </div>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', margin: '0 0 10px 0' }}>{card.title}</h3>
                 <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.6', margin: 0 }}>{card.desc}</p>
@@ -368,11 +374,11 @@ const About = () => {
           <div className="about-mission-grid" style={{ display: 'flex', gap: '32px' }}>
             {[
               {
-                icon: '🎯', label: 'Our Mission', color: '#f15b29',
+                icon: '/images/target.png', label: 'Our Mission', color: '#f15b29',
                 text: 'To empower customers with affordable, genuine, and reliable electronics — and build long-term relationships based on trust, transparency, and results. We are committed to making technology accessible to everyone in Chennai and beyond.'
               },
               {
-                icon: '🔭', label: 'Our Vision', color: '#2563eb',
+                icon: '/images/telescope.png', label: 'Our Vision', color: '#2563eb',
                 text: 'To be the most trusted electronics destination in South India — a go-to marketplace where customers find quality-driven products and expert services without compromise, backed by a team that truly cares.'
               }
             ].map((item, i) => (
@@ -390,7 +396,9 @@ const About = () => {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   marginBottom: '24px', border: `2px solid ${item.color}44`
                 }}>
-                  {item.icon}
+                  {typeof item.icon === 'string' && (item.icon.startsWith('/') || item.icon.includes('.'))
+                    ? <img src={item.icon} alt={item.label} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+                    : item.icon}
                 </div>
                 <h3 style={{ fontSize: '24px', fontWeight: '700', color: item.color, margin: '0 0 16px 0' }}>{item.label}</h3>
                 <p style={{ fontSize: '16px', color: '#cbd5e1', lineHeight: '1.8', margin: 0 }}>{item.text}</p>
@@ -418,10 +426,10 @@ const About = () => {
             display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px'
           }}>
             {[
-              { value: customers, suffix: 'K+', label: 'Happy Customers', icon: '😊', color: '#f15b29' },
-              { value: Math.floor(products / 1000), suffix: 'K+', label: 'Products Available', icon: '📦', color: '#2563eb' },
-              { value: brands, suffix: '+', label: 'Top Brands', icon: '🏆', color: '#16a34a' },
-              { value: satisfaction, suffix: '%', label: 'Customer Satisfaction', icon: '⭐', color: '#f15b29' },
+              { value: customers, suffix: 'K+', label: 'Happy Customers', icon: '/images/smile.png', color: '#f15b29' },
+              { value: Math.floor(products / 1000), suffix: 'K+', label: 'Products Available', icon: '/images/parcel.png', color: '#2563eb' },
+              { value: brands, suffix: '+', label: 'Top Brands', icon: '/images/trophy.png', color: '#16a34a' },
+              { value: satisfaction, suffix: '%', label: 'Customer Satisfaction', icon: '/images/star.png', color: '#f15b29' },
             ].map((stat, i) => (
               <div key={i} style={{
                 backgroundColor: '#ffffff', borderRadius: '16px',
@@ -431,7 +439,11 @@ const About = () => {
               }}
                 {...cardHover}
               >
-                <div style={{ fontSize: '28px', marginBottom: '8px' }}>{stat.icon}</div>
+                <div style={{ fontSize: '28px', marginBottom: '8px' }}>
+                  {typeof stat.icon === 'string' && (stat.icon.startsWith('/') || stat.icon.includes('.'))
+                    ? <img src={stat.icon} alt={stat.label} style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                    : stat.icon}
+                </div>
                 <div style={{ fontSize: '44px', fontWeight: '800', color: stat.color, lineHeight: 1 }}>
                   {stat.value}{stat.suffix}
                 </div>
@@ -474,7 +486,9 @@ const About = () => {
                   fontSize: '36px', margin: '0 auto 20px auto',
                   boxShadow: '0 8px 24px rgba(241,91,41,0.3)'
                 }}>
-                  {member.emoji}
+                  {typeof member.emoji === 'string' && (member.emoji.startsWith('/') || member.emoji.includes('.'))
+                    ? <img src={member.emoji} alt={member.name} style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '50%' }} />
+                    : member.emoji}
                 </div>
                 <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', margin: '0 0 6px 0' }}>{member.name}</h3>
                 <p style={{

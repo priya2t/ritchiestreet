@@ -284,7 +284,7 @@ const Checkout = () => {
 
       // Clear cart and redirect
       clearCart();
-      window.location.href = `/demo/order-success/${order.order_id}`;
+      window.location.href = `/order-success/${order.order_id}`;
     } catch (err) {
       console.error('=== ORDER CREATION ERROR ===');
       console.error('Error object:', err);

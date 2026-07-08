@@ -191,7 +191,9 @@ const OrderSuccess = () => {
 
           <div className="trust-badges">
             <div className="trust-badge">
-              <span className="trust-icon">🔒</span>
+              <span className="trust-icon">
+                <img src='/images/security.png'/>
+              </span>
               <div className="trust-text">
                 <span className="trust-title">Secure Checkout</span>
                 <span className="trust-desc">100% Protected</span>
@@ -205,14 +207,18 @@ const OrderSuccess = () => {
               </div>
             </div>
             <div className="trust-badge">
-              <span className="trust-icon">🚚</span>
+              <span className="trust-icon">
+                <img src='/images/truck.png'/>
+              </span>
               <div className="trust-text">
                 <span className="trust-title">Fast Delivery</span>
                 <span className="trust-desc">Across Chennai</span>
               </div>
             </div>
             <div className="trust-badge">
-              <span className="trust-icon">🎧</span>
+              <span className="trust-icon">
+                <img src='/images/support.png'/>
+              </span>
               <div className="trust-text">
                 <span className="trust-title">Dedicated Support</span>
                 <span className="trust-desc">We're Here to Help</span>

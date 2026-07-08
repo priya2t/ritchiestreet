@@ -5,12 +5,12 @@ import '../api/Home.css';
 
 const CategoriesSection = () => {
   const categories = [
-    { name: 'Laptop', image: '/laptop.png', slug: 'laptops' },
-    { name: 'Gaming', image: '/gaming.png', slug: 'gamings' },
-    { name: 'Desktop', image: '/desktop.png', slug: 'desktops' },
-    { name: 'iPad', image: '/ipad.png', slug: 'ipads-tablets' },
-    { name: 'CCTV', image: '/cctv.png', slug: 'cctvs' },
-    { name: 'Other', image: '/other.png', slug: 'others' }
+    { name: 'Laptop', image: '/images/laptop.png', slug: 'laptops' },
+    { name: 'Gaming', image: '/images/gaming.png', slug: 'gamings' },
+    { name: 'Desktop', image: '/images/desktop.png', slug: 'desktops' },
+    { name: 'iPad', image: '/images/ipad.png', slug: 'ipads-tablets' },
+    { name: 'CCTV', image: '/images/cctv.png', slug: 'cctvs' },
+    { name: 'Other', image: '/images/other.png', slug: 'others' }
   ];
 
   return (

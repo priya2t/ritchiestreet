@@ -49,7 +49,7 @@ const Login = () => {
   React.useEffect(() => {
     if (isAuthenticated) {
       console.log('=== LOGIN: USER ALREADY AUTHENTICATED ===');
-      const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/';
+      const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/my-account';
       console.log('Redirecting to:', redirectPath);
       sessionStorage.removeItem('redirectAfterLogin');
       navigate(redirectPath);
@@ -209,7 +209,7 @@ const Login = () => {
       
       // Redirect to saved return URL after successful login
       setTimeout(() => {
-        const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/';
+        const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/my-account';
         console.log('=== LOGIN: REDIRECT AFTER SUCCESSFUL LOGIN ===');
         console.log('Saved redirectAfterLogin:', redirectPath);
         console.log('Redirecting to:', redirectPath);

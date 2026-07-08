@@ -17,12 +17,15 @@ const ExistingUserLogin = () => {
   const [isNewUser, setIsNewUser] = useState(false);
   const inputRefs = useRef([]);
 
-  // Redirect if already logged in
+  // Redirect if already logged in (guard for users who visit /login while already authenticated)
+  const hasNavigatedRef = useRef(false);
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/');
+    if (isAuthenticated && step !== 3) {
+      const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/my-account';
+      sessionStorage.removeItem('redirectAfterLogin');
+      navigate(redirectPath);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, step]);
 
   // Resend timer countdown
   useEffect(() => {
@@ -154,13 +157,13 @@ const ExistingUserLogin = () => {
         shipping_country: customerData?.shipping?.country || 'IN'
       };
 
-      setUser(userData);
+      const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/my-account';
+      sessionStorage.removeItem('redirectAfterLogin');
       setIsNewUser(!!is_new_user);
       setStep(3);
+      setUser(userData);
 
       setTimeout(() => {
-        const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/';
-        sessionStorage.removeItem('redirectAfterLogin');
         navigate(redirectPath);
       }, 1500);
     } catch (err) {
@@ -218,19 +221,19 @@ const ExistingUserLogin = () => {
         .auth-page {
           min-height: 100vh;
           display: flex;
-          align-items: center;
+          flex-direction: row;
+          align-items: stretch;
           justify-content: center;
           background: #F8FAFC;
           padding: 24px 16px;
           font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          max-width: 1080px;
+          margin: 0 auto;
         }
         .auth-card {
           display: flex;
-          width: 100%;
-          max-width: 1080px;
-          min-height: 630px;
-          max-height: 760px;
-          border-radius: 24px;
+          flex: 1;
+          border-radius: 0 24px 24px 0;
           overflow: hidden;
           background: #FFFFFF;
           box-shadow: 0 20px 60px rgba(49, 46, 129, 0.12), 0 8px 24px rgba(0, 0, 0, 0.06);
@@ -240,8 +243,10 @@ const ExistingUserLogin = () => {
         /* LEFT PANEL */
         .auth-left {
           position: relative;
-          width: 42%;
+          width: 380px;
           min-width: 360px;
+          flex-shrink: 0;
+          border-radius: 24px 0 0 24px;
           background: linear-gradient(165deg, #312E81 0%, #4338CA 55%, #4F46E5 100%);
           color: #fff;
           display: flex;
@@ -344,6 +349,7 @@ const ExistingUserLogin = () => {
           padding: 44px 48px;
           background: #FFFFFF;
           overflow-y: auto;
+          height: 100%;
         }
         .auth-form-wrap {
           width: 100%;
@@ -666,9 +672,7 @@ const ExistingUserLogin = () => {
       `}</style>
 
       <div className="auth-page">
-        <div className="auth-card">
-
-          {/* LEFT PROMOTIONAL PANEL */}
+                {/* LEFT PROMOTIONAL PANEL */}
           <div className="auth-left" aria-hidden="true">
             <div className="auth-circuit">
               <svg width="100%" height="100%" preserveAspectRatio="none">
@@ -751,13 +755,16 @@ const ExistingUserLogin = () => {
               </svg>
             </div>
           </div>
+        <div className="auth-card">
+
+  
 
           {/* RIGHT AUTHENTICATION PANEL */}
           <div className="auth-right">
             <div className="auth-form-wrap">
 
               <div className="auth-right-logo">
-                <img src="/demo/logo.png" alt="RitchieStreet" onError={(e) => { e.target.style.display = 'none'; }} />
+                <img src="/images/logo.png" alt="RitchieStreet" onError={(e) => { e.target.style.display = 'none'; }} />
               </div>
 
               {/* Step 1 — Mobile Number */}

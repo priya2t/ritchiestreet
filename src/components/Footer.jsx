@@ -57,15 +57,21 @@ const Footer = () => {
               <span className="rs-trust-label">Genuine Products</span>
             </div>
             <div className="rs-trust-item">
-              <span className="rs-trust-icon">🚚</span>
+              <span className="rs-trust-icon">
+                <img src="/images/truck.png" alt="Quick Delivery"/>
+              </span>
               <span className="rs-trust-label">Fast Delivery</span>
             </div>
             <div className="rs-trust-item">
-              <span className="rs-trust-icon">🎧</span>
+              <span className="rs-trust-icon">
+                <img src="/images/support.png" alt="customer support"/>
+                </span>
               <span className="rs-trust-label">Expert Support</span>
             </div>
             <div className="rs-trust-item">
-              <span className="rs-trust-icon">🔒</span>
+              <span className="rs-trust-icon">
+                <img src="/images/security1.png" alt="secure payments"/>
+              </span>
               <span className="rs-trust-label">Secure Payments</span>
             </div>
           </div>
@@ -80,34 +86,40 @@ const Footer = () => {
             {/* Col 1: Brand + Contact + Social */}
             <div className="rs-footer-widget">
               <div className="rs-footer-logo">
-                <Link to="/"><img src="/demo/logo.png" alt="Ritchie Street" /></Link>
+                <Link to="/"><img src="/images/logo.png" alt="Ritchie Street" /></Link>
               </div>
               <p className="rs-footer-description">
                 Premium electronics &amp; repair services in Chennai. Genuine products, expert support, fast delivery.
               </p>
               <div className="rs-footer-contact">
                 <p className="rs-contact-item">
-                  <span className="rs-contact-icon">📍</span>
+                  <span className="rs-contact-icon">
+                    <img src="/images/location.png" />
+                  </span>
                   Mangadu Rd, Paraniputhur, Iyyappanthangal, Chennai 600122
                 </p>
                 <p className="rs-contact-item">
-                  <span className="rs-contact-icon">📧</span>
+                  <span className="rs-contact-icon">
+                    <img src="/images/message.png" />
+                  </span>
                   <a href="mailto:info@ritchiestreet.co.in">info@ritchiestreet.co.in</a>
                 </p>
                 <p className="rs-contact-item">
-                  <span className="rs-contact-icon">📞</span>
+                  <span className="rs-contact-icon">
+                    <img src="/images/phone.png" />
+                  </span>
                   <a href="tel:+918667507040">+91 86675 07040</a>
                 </p>
               </div>
               <div className="rs-footer-socials">
                 <a href="https://www.facebook.com/profile.php?id=61550673917474" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Facebook">
-                  <img src="/demo/fb.png" alt="Facebook" />
+                  <img src="/images/fb.png" alt="Facebook" />
                 </a>
                 <a href="https://www.instagram.com/ritchiestreet_chn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Instagram">
-                  <img src="/demo/insta.png" alt="Instagram" />
+                  <img src="/images/insta.png" alt="Instagram" />
                 </a>
                 <a href="https://twitter.com/Ritchistreetchn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="X / Twitter">
-                  <img src="/demo/twitter.png" alt="X" />
+                  <img src="/images/twitter.png" alt="X" />
                 </a>
               </div>
             </div>

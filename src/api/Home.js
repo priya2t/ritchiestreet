@@ -19,9 +19,9 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const banners = [
-    { image: '/demo/slider.png', alt: 'Ritchie Street Shopping banner', link: null },
-    { image: '/demo/services.png', alt: 'Services banner', link: '/services' },
-    { image: '/demo/contactBanner.png', alt: 'Other Enquiries banner', link: '/contact' }
+    { image: '/images/slider.webp', alt: 'Ritchie Street Shopping banner', link: null },
+    { image: '/images/services.webp', alt: 'Services banner', link: '/services' },
+    { image: '/images/contactBanner.webp', alt: 'Other Enquiries banner', link: '/contact' }
   ];
 
   useEffect(() => {
@@ -154,20 +154,26 @@ const Home = () => {
               <div className="hrp-services-grid">
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="demo/computer.png" alt="Computer Repair" />
+                    <img src="/images/laptop1.png" alt="Computer Repair" />
                   </span>
                   <span className="hrp-service-label">Computer<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
-                  <span className="hrp-service-icon">📱</span>
-                  <span className="hrp-service-label">Mobile<br/>Repair</span>
+                  <span className="hrp-service-icon">
+                    <img src="/images/tv.png" alt="TV Repair" />
+                  </span>
+                  <span className="hrp-service-label">Tv & Mobile<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
-                  <span className="hrp-service-icon">🖨️</span>
+                  <span className="hrp-service-icon">
+                    <img src="/images/printer.png" alt="Printer Repair" />
+                  </span>
                   <span className="hrp-service-label">Printer<br/>Service</span>
                 </Link>
                 <Link to="/contact" className="hrp-service-item">
-                  <span className="hrp-service-icon">🌐</span>
+                  <span className="hrp-service-icon">
+                    <img src="/images/globe.png" alt="Web Developement" />
+                  </span>
                   <span className="hrp-service-label">Web<br/>Dev</span>
                 </Link>
               </div>
@@ -248,28 +254,28 @@ const Home = () => {
           <div className="service-features-grid">
             <div className="service-feature-card">
               <div className="service-icon-wrapper shipping">
-                <img src={asset('images/icons/static-icons-1.png')} alt="Free Shipping" />
+                <img src='/images/free_ship.png' alt="Free Shipping" />
               </div>
               <h3 className="service-feature-title">Free Shipping</h3>
               <p className="service-feature-desc">On all orders over ₹1000</p>
             </div>
             <div className="service-feature-card">
               <div className="service-icon-wrapper returns">
-                <img src={asset('images/icons/static-icons-2.png')} alt="Free Returns" />
+                <img src='/images/free_return.png' alt="Free Returns" />
               </div>
               <h3 className="service-feature-title">Free Returns</h3>
               <p className="service-feature-desc">Returns are free within 9 days</p>
             </div>
             <div className="service-feature-card">
               <div className="service-icon-wrapper payment">
-                <img src={asset('images/icons/static-icons-3.png')} alt="Payment Secure" />
+                <img src='/images/lock_card.png' alt="Payment Secure" />
               </div>
               <h3 className="service-feature-title">Payment Secure</h3>
               <p className="service-feature-desc">Your payments are safe with us</p>
             </div>
             <div className="service-feature-card">
               <div className="service-icon-wrapper support">
-                <img src="/demo/static-icons-4.png" alt="Support 24/7" />
+                <img src="/images/static-icons-4.png" alt="Support 24/7" />
               </div>
               <h3 className="service-feature-title">Support 24/7</h3>
               <p className="service-feature-desc">Contact us 24 hours a day</p>
@@ -289,17 +295,23 @@ const Home = () => {
               <p className="why-buy-desc">100% authentic products from authorized dealers</p>
             </div>
             <div className="why-buy-card">
-              <div className="why-buy-icon">🚚</div>
+              <div className="why-buy-icon">
+                 <img src="/images/truck.png" alt="Quick Delivery"/>
+              </div>
               <h3 className="why-buy-title">Fast Delivery</h3>
               <p className="why-buy-desc">Quick delivery across Chennai and beyond</p>
             </div>
             <div className="why-buy-card">
-              <div className="why-buy-icon">🎧</div>
+              <div className="why-buy-icon">
+                 <img src="/images/support.png" alt="Customer Care Support" />
+              </div>
               <h3 className="why-buy-title">Expert Support</h3>
               <p className="why-buy-desc">Professional technical support team</p>
             </div>
             <div className="why-buy-card">
-              <div className="why-buy-icon">🔒</div>
+              <div className="why-buy-icon">
+                <img src="/images/security1.png" alt="Secure Payment" />
+              </div>
               <h3 className="why-buy-title">Secure Payments</h3>
               <p className="why-buy-desc">Safe and secure payment options</p>
             </div>

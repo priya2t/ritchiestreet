@@ -98,7 +98,13 @@ const Header = () => {
       setAccountDropdownOpen(!accountDropdownOpen);
     } else {
       const currentPath = window.location.pathname + window.location.search;
-      sessionStorage.setItem('redirectAfterLogin', currentPath);
+      const basePath = window.location.pathname.replace(/\/$/, '');
+      const isHomePage = basePath === '' || basePath === '/';
+      if (!isHomePage) {
+        sessionStorage.setItem('redirectAfterLogin', currentPath);
+      } else {
+        sessionStorage.removeItem('redirectAfterLogin');
+      }
       navigate('/login');
     }
   };
@@ -146,7 +152,7 @@ const Header = () => {
           <div className="premium-header-left">
             <div className="premium-logo">
               <Link to="/">
-                <img src="/demo/logo.png" alt="Ritchie Street" />
+                <img src="/images/logo.png" alt="Ritchie Street" />
               </Link>
             </div>
           </div>
