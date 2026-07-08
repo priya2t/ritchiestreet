@@ -34,4 +34,4 @@ jobs:
           protocol: ftps
           security: loose
           local-dir: ./build/
-          server-dir: /public_html/demo/
+          server-dir: /public_html/
