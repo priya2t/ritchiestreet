@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
@@ -32,6 +32,7 @@ const ProductCard = ({ product, compact = false }) => {
   const { addToCart } = useCartStore();
   const [showToast, setShowToast] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const prices = product.prices || {};
   const currencyMinorUnit = prices.currency_minor_unit || 2;
@@ -45,6 +46,11 @@ const ProductCard = ({ product, compact = false }) => {
   const { rating, reviews } = generateRating(product.id);
 
   const imageUrl = (product.images && product.images.length > 0 && product.images[0].src) || PLACEHOLDER_IMG;
+
+  useEffect(() => {
+    setImgLoaded(false);
+    setImgError(false);
+  }, [imageUrl]);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -70,7 +76,10 @@ const ProductCard = ({ product, compact = false }) => {
             src={imgError ? PLACEHOLDER_IMG : imageUrl}
             alt={product.name}
             loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
+            style={{ opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.3s ease' }}
           />
         </Link>
         <div className="fd-card-body">
@@ -109,7 +118,10 @@ const ProductCard = ({ product, compact = false }) => {
           src={imgError ? PLACEHOLDER_IMG : imageUrl}
           alt={product.name}
           loading="lazy"
+          decoding="async"
+          onLoad={() => setImgLoaded(true)}
           onError={() => setImgError(true)}
+          style={{ opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.3s ease' }}
         />
       </Link>
 

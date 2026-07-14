@@ -14,12 +14,13 @@ const BrandLogos = () => {
   ];
 
   // Duplicate brands for seamless infinite scrolling
-  const duplicatedBrands = [...brands, ...brands, ...brands];
+  const duplicatedBrands = [...brands, ...brands];
 
   return (
     <section className="brands-section">
       <div className="brands-slider-container">
         <h2 className="brands-section-title">Trusted Brands</h2>
+        <div className="premium-section__accent" aria-hidden="true"></div>
         <div className="brands-slider">
           {duplicatedBrands.map((brand, index) => (
             <div key={`${brand.name}-${index}`} className="brand-logo-card">

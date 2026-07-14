@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
@@ -9,6 +9,7 @@ const CategoryProductCard = ({ product }) => {
   const { addToCart } = useCartStore();
   const [showToast, setShowToast] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   // Price extraction — WooCommerce Store API format (prices in minor units)
   const prices = product.prices || {};
@@ -28,6 +29,12 @@ const CategoryProductCard = ({ product }) => {
     product.featured_image ||
     product.thumbnail ||
     PLACEHOLDER_IMAGE;
+
+  // Reset image state when the product image changes so the placeholder is shown
+  useEffect(() => {
+    setImgLoaded(false);
+    setImgError(false);
+  }, [imageUrl]);
 
   // Stock status
   const isInStock = product.is_in_stock !== false;
@@ -69,11 +76,15 @@ const CategoryProductCard = ({ product }) => {
 
       {/* Product Image */}
       <div className="cp-card-image-wrap">
+        {!imgLoaded && <div className="cp-card-image-placeholder" aria-hidden="true" />}
         <Link to={`/product/${product.id}`} className="cp-card-image-link">
           <img
+            className={imgLoaded ? 'cp-card-image-loaded' : ''}
             src={imgError ? PLACEHOLDER_IMAGE : imageUrl}
             alt={product.name}
             loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
             onError={handleImageError}
           />
         </Link>

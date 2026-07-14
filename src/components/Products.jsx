@@ -67,7 +67,7 @@ function Products() {
                                     src={product.images[0].src} 
                                     alt={product.name}
                                     onError={(e) => {
-                                        e.target.src = 'https://via.placeholder.com/300x300?text=No+Image';
+                                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23f8fafc'/%3E%3Ctext x='150' y='150' text-anchor='middle' font-family='Arial' font-size='14' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
                                     }}
                                 />
                                 {product.sale_price && (

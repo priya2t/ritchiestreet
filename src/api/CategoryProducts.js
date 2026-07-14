@@ -5,48 +5,150 @@ import Layout from './Layout';
 import CategoryProductCard from '../components/CategoryProductCard';
 import './CategoryProducts.css';
 
+const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
+const categoryCache = new Map();
+const allCategoriesCache = { data: null, timestamp: 0 };
+
+const isCacheEntryValid = (entry) =>
+  Boolean(entry) && Boolean(entry.timestamp) && Date.now() - entry.timestamp < CACHE_TTL;
+
+const isListCacheValid = () =>
+  Boolean(allCategoriesCache.data) &&
+  Boolean(allCategoriesCache.timestamp) &&
+  Date.now() - allCategoriesCache.timestamp < CACHE_TTL;
+
+const getCategoryDisplayName = (slug) => {
+  if (!slug) return 'Category';
+  return decodeURIComponent(slug)
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
 const CategoryProducts = () => {
   const { slug } = useParams();
   const [category, setCategory] = useState(null);
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState('');
   const [sortBy, setSortBy] = useState('featured');
   const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
-    fetchCategoryAndProducts();
-  }, [slug]);
+    let isCancelled = false;
+    let fadeInTimer = null;
 
-  const fetchCategoryAndProducts = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      setFadeIn(false);
+    const scheduleFadeIn = () => {
+      if (fadeInTimer) clearTimeout(fadeInTimer);
+      fadeInTimer = setTimeout(() => {
+        if (!isCancelled) setFadeIn(true);
+      }, 50);
+    };
 
-      // Fetch all categories to find the one matching the slug
-      const categories = await getCategories();
-      const matchedCategory = categories.find(cat => cat.slug === slug);
-
-      if (!matchedCategory) {
-        setError('Category not found');
-        setLoading(false);
-        return;
+    const loadCategoryData = async () => {
+      const cached = categoryCache.get(slug);
+      if (isCacheEntryValid(cached)) {
+        if (!isCancelled) {
+          setCategory(cached.category);
+          setProducts(cached.products);
+          setIsLoading(false);
+          setError('');
+          setFadeIn(false);
+          scheduleFadeIn();
+        }
+      } else {
+        if (!isCancelled) {
+          setCategory(null);
+          setProducts([]);
+          setIsLoading(true);
+          setError('');
+          setFadeIn(false);
+          if (fadeInTimer) clearTimeout(fadeInTimer);
+        }
       }
 
-      setCategory(matchedCategory);
+      if (!isCancelled) {
+        setIsFetching(true);
+      }
 
-      // Fetch products for this category
-      const productsData = await getProductsByCategory(matchedCategory.id);
-      setProducts(productsData);
-    } catch (err) {
-      setError('Failed to load products. Please try again later.');
-      console.error('Error fetching category products:', err);
-    } finally {
-      setLoading(false);
-      setTimeout(() => setFadeIn(true), 50);
-    }
-  };
+      try {
+        let categories = await getCategories({ slug, per_page: 1 });
+        let matchedCategory = categories.find((cat) => cat.slug === slug);
+
+        if (!matchedCategory) {
+          if (isListCacheValid()) {
+            categories = allCategoriesCache.data;
+          } else {
+            categories = await getCategories({ per_page: 100 });
+            allCategoriesCache.data = categories;
+            allCategoriesCache.timestamp = Date.now();
+          }
+          matchedCategory = categories.find((cat) => cat.slug === slug);
+        }
+
+        if (!matchedCategory) {
+          if (!isCancelled) {
+            setError('Category not found');
+            setCategory(null);
+            setProducts([]);
+            setIsLoading(false);
+            setFadeIn(false);
+            if (fadeInTimer) clearTimeout(fadeInTimer);
+          }
+          return;
+        }
+
+        const productsData = await getProductsByCategory(matchedCategory.id);
+
+        if (!isCancelled) {
+          setCategory(matchedCategory);
+          setProducts(productsData);
+          categoryCache.set(slug, {
+            category: matchedCategory,
+            products: productsData,
+            timestamp: Date.now(),
+          });
+          setIsLoading(false);
+          setError('');
+          setFadeIn(false);
+          scheduleFadeIn();
+        }
+      } catch (err) {
+        console.error('Error fetching category products:', err);
+        if (!isCancelled) {
+          const cached = categoryCache.get(slug);
+          if (isCacheEntryValid(cached)) {
+            // Keep cached data; do not overwrite with error on a background refresh.
+            setCategory(cached.category);
+            setProducts(cached.products);
+            setIsLoading(false);
+            setError('');
+            setFadeIn(false);
+            scheduleFadeIn();
+          } else {
+            setError('Failed to load products. Please try again later.');
+            setCategory(null);
+            setProducts([]);
+            setIsLoading(false);
+            setFadeIn(false);
+            if (fadeInTimer) clearTimeout(fadeInTimer);
+          }
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsFetching(false);
+        }
+      }
+    };
+
+    loadCategoryData();
+
+    return () => {
+      isCancelled = true;
+      if (fadeInTimer) clearTimeout(fadeInTimer);
+    };
+  }, [slug]);
 
   // Helper to extract price from WooCommerce Store API product
   const getProductPrice = (product) => {
@@ -71,10 +173,13 @@ const CategoryProducts = () => {
     }
   }, [products, sortBy]);
 
+  const categoryName = category?.name || getCategoryDisplayName(slug);
+  const showProductCount = category && products.length > 0 && !isLoading;
+
   // Skeleton loader
   const renderSkeleton = () => (
-    <div className="cp-grid">
-      {[...Array(8)].map((_, i) => (
+    <div className="cp-grid cp-grid--loading" key={`${slug}-skeleton`}>
+      {[...Array(12)].map((_, i) => (
         <div key={i} className="cp-skeleton-card">
           <div className="cp-skeleton-image cp-shimmer"></div>
           <div className="cp-skeleton-body">
@@ -89,7 +194,7 @@ const CategoryProducts = () => {
 
   return (
     <Layout
-      title={category ? `${category.name} - Ritchie Street` : 'Category - Ritchie Street'}
+      title={`${categoryName} - Ritchie Street`}
       description={category ? `Shop ${category.name} at Ritchie Street - Best electronics hub in Chennai` : 'Browse categories at Ritchie Street'}
     >
       <main className="cp-page">
@@ -98,7 +203,7 @@ const CategoryProducts = () => {
           <nav className="cp-breadcrumb">
             <Link to="/">Home</Link>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-            <span>{category ? category.name : 'Category'}</span>
+            <span>{categoryName}</span>
           </nav>
 
           {/* Premium Category Header */}
@@ -111,21 +216,26 @@ const CategoryProducts = () => {
                 </svg>
               </div>
               <div className="cp-header-text">
-                <h1>{category ? category.name : 'Category'}</h1>
-                {!loading && !error && (
-                  <p>Showing <strong>{sortedProducts.length}</strong> Product{sortedProducts.length !== 1 ? 's' : ''}</p>
-                )}
+                <h1>{categoryName}</h1>
+                <p>
+                  {isLoading || (isFetching && products.length === 0)
+                    ? 'Loading products...'
+                    : showProductCount
+                    ? `Showing ${sortedProducts.length} Product${sortedProducts.length !== 1 ? 's' : ''}`
+                    : ' '}
+                </p>
               </div>
             </div>
 
             {/* Sort Dropdown */}
-            {!loading && products.length > 0 && (
+            {!error && (
               <div className="cp-sort">
                 <label htmlFor="cp-sort-select">Sort By:</label>
                 <select
                   id="cp-sort-select"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
+                  disabled={isLoading || products.length === 0}
                 >
                   <option value="featured">Featured</option>
                   <option value="price-low-high">Price: Low to High</option>
@@ -137,10 +247,10 @@ const CategoryProducts = () => {
           </div>
 
           {/* Loading Skeleton */}
-          {loading && renderSkeleton()}
+          {isLoading && !error && renderSkeleton()}
 
           {/* Error State */}
-          {!loading && error && (
+          {!isLoading && error && (
             <div className="cp-error">
               <div className="cp-error-icon">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
@@ -155,15 +265,15 @@ const CategoryProducts = () => {
           )}
 
           {/* Empty State */}
-          {!loading && !error && category && products.length === 0 && (
+          {!isLoading && !error && category && products.length === 0 && (
             <div className="cp-empty">
               <div className="cp-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                 </svg>
               </div>
-              <h2>No products found</h2>
-              <p>There are no products in the "{category.name}" category yet.</p>
+              <h2>Products are not available for this category</h2>
+              <p>There are no products in the "{categoryName}" category yet.</p>
               <Link to="/" className="cp-back-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                 Browse All Products
@@ -172,9 +282,9 @@ const CategoryProducts = () => {
           )}
 
           {/* Products Grid */}
-          {!loading && !error && sortedProducts.length > 0 && (
-            <div className={`cp-grid ${fadeIn ? 'cp-fade-in' : ''}`}>
-              {sortedProducts.map(product => (
+          {!isLoading && !error && sortedProducts.length > 0 && (
+            <div className={`cp-grid ${fadeIn ? 'cp-fade-in' : ''}`} key={slug}>
+              {sortedProducts.map((product) => (
                 <CategoryProductCard key={product.id} product={product} />
               ))}
             </div>

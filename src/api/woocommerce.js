@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'http://ritchiestreet.co.in/demo/engaArea';
+const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'http://localhost/rich/rich_wordpress';
 const STORE_API_URL = `${WP_URL}/wp-json/wc/store`;
 const CONSUMER_KEY = process.env.REACT_APP_WC_CONSUMER_KEY;
 const CONSUMER_SECRET = process.env.REACT_APP_WC_CONSUMER_SECRET;

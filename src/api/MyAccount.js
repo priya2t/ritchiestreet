@@ -9,6 +9,11 @@ import StatsCard from '../components/StatsCard';
 import OrderCard from '../components/OrderCard';
 import AddressCard from '../components/AddressCard';
 
+const isChennaiCity = (city) => {
+  if (!city || city.trim() === '') return false;
+  return city.trim().toLowerCase() === 'chennai';
+};
+
 const MyAccount = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout, setUser } = useUserStore();
@@ -55,6 +60,17 @@ const MyAccount = () => {
 
   const [activeTab, setActiveTab] = useState('dashboard');
 
+  // Sync account form when user data changes
+  useEffect(() => {
+    if (user) {
+      setAccountForm({
+        first_name: user.first_name || '',
+        last_name: user.last_name || '',
+        email: user.email || ''
+      });
+    }
+  }, [user]);
+
   useEffect(() => {
     if (!isAuthenticated) {
       console.log('=== MY ACCOUNT: USER NOT AUTHENTICATED ===');
@@ -79,9 +95,10 @@ const MyAccount = () => {
         // Update user store with fresh data
         const updatedUser = {
           ...user,
-          first_name: freshData.billing.first_name,
-          last_name: freshData.billing.last_name,
-          email: freshData.billing.email || user.email,
+          first_name: freshData.first_name || freshData.billing.first_name || user.first_name,
+          last_name: freshData.last_name || freshData.billing.last_name || user.last_name,
+          email: freshData.email || freshData.billing.email || user.email || '',
+          date_created: freshData.date_created || user.date_created,
           billing_first_name: freshData.billing.first_name,
           billing_last_name: freshData.billing.last_name,
           billing_company: freshData.billing.company,
@@ -101,7 +118,9 @@ const MyAccount = () => {
           shipping_city: freshData.shipping.city,
           shipping_state: freshData.shipping.state,
           shipping_postcode: freshData.shipping.postcode,
-          shipping_country: freshData.shipping.country
+          shipping_country: freshData.shipping.country,
+          shipping_phone: freshData.shipping.phone,
+          shipping_email: freshData.shipping.email || ''
         };
         
         setUser(updatedUser);
@@ -119,7 +138,7 @@ const MyAccount = () => {
           postcode: freshData.billing.postcode || '',
           country: freshData.billing.country || 'IN',
           phone: freshData.billing.phone || '',
-          email: freshData.billing.email || ''
+          email: freshData.billing.email || freshData.email || ''
         });
         
         setShippingForm({
@@ -133,7 +152,7 @@ const MyAccount = () => {
           postcode: freshData.shipping.postcode || '',
           country: freshData.shipping.country || 'IN',
           phone: freshData.shipping.phone || '',
-          email: freshData.shipping.email || ''
+          email: freshData.shipping.email || freshData.email || ''
         });
         
         // Fetch orders for this customer
@@ -232,7 +251,9 @@ const MyAccount = () => {
         city: user.shipping_city || '',
         state: user.shipping_state || '',
         postcode: user.shipping_postcode || '',
-        country: user.shipping_country || 'IN'
+        country: user.shipping_country || 'IN',
+        phone: user.shipping_phone || user.billing_phone || '',
+        email: user.shipping_email || user.email || ''
       });
     }
   };
@@ -253,11 +274,15 @@ const MyAccount = () => {
 
       console.log('User ID:', user.id);
       console.log('Billing form data:', JSON.stringify(billingForm, null, 2));
-      console.log('Shipping form data:', JSON.stringify(shippingForm, null, 2));
+
+      if (!isChennaiCity(billingForm.city)) {
+        setMessage({ type: 'error', text: 'Sorry, delivery is only available within Chennai.' });
+        setSaving(false);
+        return;
+      }
 
       const customerData = {
-        billing: billingForm,
-        shipping: shippingForm
+        billing: billingForm
       };
 
       console.log('Customer data payload:', JSON.stringify(customerData, null, 2));
@@ -324,6 +349,12 @@ const MyAccount = () => {
 
       console.log('Shipping form data:', JSON.stringify(shippingForm, null, 2));
 
+      if (!isChennaiCity(shippingForm.city)) {
+        setMessage({ type: 'error', text: 'Sorry, delivery is only available within Chennai.' });
+        setSaving(false);
+        return;
+      }
+
       const customerData = {
         shipping: shippingForm
       };
@@ -347,7 +378,7 @@ const MyAccount = () => {
         shipping_postcode: updatedCustomer.shipping.postcode,
         shipping_country: updatedCustomer.shipping.country,
         shipping_phone: updatedCustomer.shipping.phone,
-        shipping_email: updatedCustomer.shipping.email
+        shipping_email: updatedCustomer.shipping.email || shippingForm.email || ''
       };
       
       console.log('Updated user object for store:', JSON.stringify(updatedUser, null, 2));
@@ -386,19 +417,30 @@ const MyAccount = () => {
       }
 
       const customerData = {
-        first_name: accountForm.first_name,
-        last_name: accountForm.last_name,
-        email: accountForm.email
+        billing: {
+          first_name: accountForm.first_name,
+          last_name: accountForm.last_name,
+          email: accountForm.email,
+          company: user.billing_company || '',
+          address_1: user.billing_address_1 || '',
+          address_2: user.billing_address_2 || '',
+          city: user.billing_city || '',
+          state: user.billing_state || '',
+          postcode: user.billing_postcode || '',
+          country: user.billing_country || 'IN',
+          phone: user.billing_phone || ''
+        }
       };
 
       const updatedCustomer = await updateCustomer(customerData);
       
-      // Update user store with new data
+      // Update user store with new data from response
       setUser({
         ...user,
-        first_name: updatedCustomer.first_name,
-        last_name: updatedCustomer.last_name,
-        email: updatedCustomer.email
+        first_name: updatedCustomer.billing.first_name,
+        last_name: updatedCustomer.billing.last_name,
+        email: updatedCustomer.billing.email || user.email,
+        billing_email: updatedCustomer.billing.email || user.billing_email || ''
       });
 
       setMessage({ type: 'success', text: 'Account details updated successfully!' });

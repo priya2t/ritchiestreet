@@ -131,9 +131,10 @@ const ExistingUserLogin = () => {
 
       const userData = {
         id: user_id,
-        email: user_email,
-        first_name: user_display_name || '',
-        last_name: '',
+        email: customerData?.email || user_email || '',
+        first_name: customerData?.first_name || user_display_name || 'Guest',
+        last_name: customerData?.last_name || '',
+        name: user_display_name || 'Guest',
         phone: userPhone || phone,
         billing_first_name: customerData?.billing?.first_name || '',
         billing_last_name: customerData?.billing?.last_name || '',
@@ -145,7 +146,7 @@ const ExistingUserLogin = () => {
         billing_postcode: customerData?.billing?.postcode || '',
         billing_country: customerData?.billing?.country || 'IN',
         billing_phone: customerData?.billing?.phone || userPhone || phone,
-        billing_email: customerData?.billing?.email || user_email,
+        billing_email: customerData?.billing?.email || user_email || '',
         shipping_first_name: customerData?.shipping?.first_name || '',
         shipping_last_name: customerData?.shipping?.last_name || '',
         shipping_company: customerData?.shipping?.company || '',

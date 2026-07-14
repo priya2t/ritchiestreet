@@ -210,7 +210,7 @@ const Contact = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                style={{ display: 'block', border: 'none' }}
+                style={{ display: 'block', border: 'none', width: '100%', height: '100%' }}
               />
             </div>
 

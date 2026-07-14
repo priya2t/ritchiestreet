@@ -1285,3 +1285,89 @@ img {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Mobile Footer Redesign */
+@media (max-width: 768px) {
+  .rs-footer-main {
+    padding: 32px 20px;
+  }
+
+  .rs-footer-main .rs-container,
+  .rs-footer-bottom .rs-container {
+    width: 100%;
+  }
+
+  .rs-footer-bottom {
+    padding: 0 20px;
+  }
+
+  .rs-footer-logo {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .rs-footer-logo img {
+    width: 80px;
+    height: 80px !important;
+    object-fit: contain;
+  }
+
+  .rs-footer-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 0;
+  }
+
+  .rs-contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+    width: 100%;
+  }
+
+  .rs-contact-item:last-child {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .rs-contact-icon {
+    margin-top: 0;
+    line-height: 1;
+  }
+
+  .rs-contact-icon img {
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+
+  .rs-footer-socials {
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .rs-review-rotator {
+    text-align: center;
+  }
+
+  .rs-rr-rating {
+    justify-content: center;
+  }
+
+  .rs-trust-icon img {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+}

@@ -1,10 +1,20 @@
 import React from 'react';
 
 const AccountHeader = ({ user, onEditProfile, onLogout }) => {
+  const isPlaceholderEmail = (email) => {
+    if (!email || typeof email !== 'string') return true;
+    const lower = email.toLowerCase();
+    return lower.includes('@richreact.local') ||
+           lower.includes('@ritchiestreet.co.in') ||
+           lower.includes('temp_') ||
+           lower.startsWith('notspecified_');
+  };
+
   const getInitials = (firstName, lastName) => {
     const first = firstName || '';
     const last = lastName || '';
-    return (first.charAt(0) + last.charAt(0)).toUpperCase();
+    const initials = (first.charAt(0) + last.charAt(0)).toUpperCase();
+    return initials || 'G';
   };
 
   const memberSince = user?.date_created 
@@ -74,9 +84,20 @@ const AccountHeader = ({ user, onEditProfile, onLogout }) => {
               color: '#111827',
               margin: '0 0 4px 0'
             }}>
-              {user?.first_name} {user?.last_name}
+              {user?.first_name || user?.name || 'Guest'} {user?.last_name || ''}
             </h2>
-            {user?.email && !user?.email?.includes('temp_') && (
+            {isPlaceholderEmail(user?.email) ? (
+              <p style={{
+                fontSize: '14px',
+                color: '#94a3b8',
+                margin: '0 0 4px 0',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}>
+                ✉️ Not Specified
+              </p>
+            ) : (
               <p style={{
                 fontSize: '14px',
                 color: '#64748b',

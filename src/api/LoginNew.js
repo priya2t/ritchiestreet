@@ -124,8 +124,10 @@ const LoginNew = () => {
       localStorage.setItem('jwt_token', token);
       
       const userData = {
-        email: user_email,
-        name: user_display_name,
+        email: user_email || '',
+        first_name: user_display_name || 'Guest',
+        last_name: '',
+        name: user_display_name || 'Guest',
         token: token,
         id: user_id,
         phone: phone

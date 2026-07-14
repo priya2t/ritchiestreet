@@ -139,12 +139,18 @@
   gap: 24px;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .cp-grid.cp-fade-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+.cp-grid.cp-grid--loading {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
 }
 
 /* === Product Card === */
@@ -232,7 +238,29 @@
   height: 100%;
   object-fit: contain;
   padding: 20px;
-  transition: transform 0.4s ease;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+  opacity: 0;
+}
+
+.cp-card-image-wrap img.cp-card-image-loaded {
+  opacity: 1;
+}
+
+.cp-card-image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: cp-shimmer 1.5s ease-in-out infinite;
+  z-index: 0;
+}
+
+.cp-card-image-link {
+  position: relative;
+  z-index: 1;
 }
 
 .cp-card:hover .cp-card-image-wrap img {
@@ -249,6 +277,7 @@
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 2;
 }
 
 .cp-card:hover .cp-card-overlay {

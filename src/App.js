@@ -32,7 +32,7 @@ function App() {
   }, [initAuth]);
 
 return (
-  <Router basename="/">
+  <Router basename="/" useTransitions>
     <Header />
     <Routes>
       <Route path="/" element={<Home />} />

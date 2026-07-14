@@ -255,7 +255,7 @@ const About = () => {
                 height: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
                 <img
-                  src="/images/start_up.png"
+                  src="/images/start_up.webp"
                   alt="Our Story"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={e => { e.target.style.display='none'; e.target.parentElement.innerHTML='<div style="font-size:100px">🏬</div>'; }}

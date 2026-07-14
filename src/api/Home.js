@@ -8,7 +8,18 @@ import ProductCard from '../components/ProductCard';
 import ProductTicker from '../components/ProductTicker';
 import CategoriesSection from '../components/CategoriesSection';
 import BrandLogos from '../components/BrandLogos';
+import { FaShippingFast, FaUndo, FaMoneyBillWave, FaHeadset, FaAward, FaTruck, FaTools, FaLock, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import './Home.css';
+
+const BenefitCard = ({ icon, title, desc, accent }) => (
+  <article className={`premium-card premium-card--${accent}`} aria-label={title}>
+    <div className="premium-card__badge" aria-hidden="true">
+      {icon}
+    </div>
+    <h3 className="premium-card__title">{title}</h3>
+    <p className="premium-card__desc">{desc}</p>
+  </article>
+);
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -174,7 +185,7 @@ const Home = () => {
                   <span className="hrp-service-icon">
                     <img src="/images/globe.png" alt="Web Developement" />
                   </span>
-                  <span className="hrp-service-label">Web<br/>Dev</span>
+                  <span className="hrp-service-label">Web<br/>Developement</span>
                 </Link>
               </div>
             </div>
@@ -203,25 +214,29 @@ const Home = () => {
 
             {/* Quick Contact */}
             <div className="hrp-card hrp-contact">
-              <div className="hrp-card-title">Quick Contact</div>
+              <div className="hrp-card-title">Quick Assistance</div>
+              {/*<p className="hrp-contact-subtitle">
+                Need help choosing a product or booking a repair?<br />
+                Our experts are ready to assist you.
+              </p>*/}
               <div className="hrp-contact-row">
                 <a href="tel:+919876543210" className="hrp-contact-btn hrp-contact-call">
-                  <span>📞</span> Call Now
+                  <FaPhone /> Call Now
                 </a>
                 <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="hrp-contact-btn hrp-contact-wa">
-                  <span>💬</span> WhatsApp
-                </a>
-                <a href="mailto:info@ritchiestreet.com" className="hrp-contact-btn hrp-contact-mail">
-                  <span>📧</span> Email
+                  <FaWhatsapp /> WhatsApp
                 </a>
               </div>
-              {/* Trust badges */}
+              <p className="hrp-contact-email">
+                Prefer email? <a href="mailto:info@ritchiestreet.co.in">info@ritchiestreet.co.in</a>
+              </p>
+              {/* Trust badges 
               <div className="hrp-trust-row">
                 <span className="hrp-trust-badge">✓ Genuine Parts</span>
-                <span className="hrp-trust-badge">✓ Warranty</span>
                 <span className="hrp-trust-badge">✓ Certified</span>
-                <span className="hrp-trust-badge">✓ Affordable</span>
-              </div>
+                <span className="hrp-trust-badge">✓ Warranty</span>
+                <span className="hrp-trust-badge">✓ Same-Day Support</span>
+              </div>*/}
             </div>
 
           </div>
@@ -234,7 +249,7 @@ const Home = () => {
         <section className="featured-products-section">
           <div className="section-header">
             <h2 className="section-title">Featured Products</h2>
-            <Link to="/products" className="view-all-btn">View All</Link>
+            {/*<Link to="/products" className="view-all-btn">View All</Link>*/}
           </div>
           {loading ? (
             <div className="loading">Loading products...</div>
@@ -249,71 +264,77 @@ const Home = () => {
         <BrandLogos />
 
         {/* Why Choose Us Section */}
-        <section className="service-features-section">
-          <h2 className="service-features-title">Why Choose Us</h2>
-          <div className="service-features-grid">
-            <div className="service-feature-card">
-              <div className="service-icon-wrapper shipping">
-                <img src='/images/free_ship.png' alt="Free Shipping" />
-              </div>
-              <h3 className="service-feature-title">Free Shipping</h3>
-              <p className="service-feature-desc">On all orders over ₹1000</p>
+        <section className="premium-section" aria-labelledby="why-choose-title">
+          <div className="premium-section__inner">
+            <div className="premium-section__header">
+              <h2 id="why-choose-title" className="premium-section__title">
+                Why Choose Us
+              </h2>
+              <div className="premium-section__accent" aria-hidden="true"></div>
             </div>
-            <div className="service-feature-card">
-              <div className="service-icon-wrapper returns">
-                <img src='/images/free_return.png' alt="Free Returns" />
-              </div>
-              <h3 className="service-feature-title">Free Returns</h3>
-              <p className="service-feature-desc">Returns are free within 9 days</p>
-            </div>
-            <div className="service-feature-card">
-              <div className="service-icon-wrapper payment">
-                <img src='/images/lock_card.png' alt="Payment Secure" />
-              </div>
-              <h3 className="service-feature-title">Payment Secure</h3>
-              <p className="service-feature-desc">Your payments are safe with us</p>
-            </div>
-            <div className="service-feature-card">
-              <div className="service-icon-wrapper support">
-                <img src="/images/static-icons-4.png" alt="Support 24/7" />
-              </div>
-              <h3 className="service-feature-title">Support 24/7</h3>
-              <p className="service-feature-desc">Contact us 24 hours a day</p>
+            <div className="premium-section__grid">
+              <BenefitCard
+                icon={<FaShippingFast />}
+                title="Free Shipping"
+                desc="Fast & reliable delivery on all orders above ₹1000."
+                accent="blue"
+              />
+              <BenefitCard
+                icon={<FaUndo />}
+                title="Easy Returns"
+                desc="Hassle-free replacements within 7 days."
+                accent="green"
+              />
+              <BenefitCard
+                icon={<FaMoneyBillWave />}
+                title="Cash On Delivery"
+                desc="Multiple safe payment options."
+                accent="purple"
+              />
+              <BenefitCard
+                icon={<FaHeadset />}
+                title="24/7 Support"
+                desc="Expert assistance whenever you need help."
+                accent="orange"
+              />
             </div>
           </div>
         </section>
 
         {/* Why Buy From Ritchie Street Section */}
-        <section className="why-buy-section">
-          <div className="section-header">
-            <h2 className="section-title">Why Buy From Ritchie Street</h2>
-          </div>
-          <div className="why-buy-grid">
-            <div className="why-buy-card">
-              <div className="why-buy-icon">✓</div>
-              <h3 className="why-buy-title">Genuine Products</h3>
-              <p className="why-buy-desc">100% authentic products from authorized dealers</p>
+        <section className="premium-section premium-section--decorated" aria-labelledby="why-buy-title">
+          <div className="premium-section__inner">
+            <div className="premium-section__header">
+              <h2 id="why-buy-title" className="premium-section__title">
+                Why Buy From Ritchie Street
+              </h2>
+              <div className="premium-section__accent" aria-hidden="true"></div>
             </div>
-            <div className="why-buy-card">
-              <div className="why-buy-icon">
-                 <img src="/images/truck.png" alt="Quick Delivery"/>
-              </div>
-              <h3 className="why-buy-title">Fast Delivery</h3>
-              <p className="why-buy-desc">Quick delivery across Chennai and beyond</p>
-            </div>
-            <div className="why-buy-card">
-              <div className="why-buy-icon">
-                 <img src="/images/support.png" alt="Customer Care Support" />
-              </div>
-              <h3 className="why-buy-title">Expert Support</h3>
-              <p className="why-buy-desc">Professional technical support team</p>
-            </div>
-            <div className="why-buy-card">
-              <div className="why-buy-icon">
-                <img src="/images/security1.png" alt="Secure Payment" />
-              </div>
-              <h3 className="why-buy-title">Secure Payments</h3>
-              <p className="why-buy-desc">Safe and secure payment options</p>
+            <div className="premium-section__grid">
+              <BenefitCard
+                icon={<FaAward />}
+                title="Genuine Products"
+                desc="100% authentic products from authorized dealers."
+                accent="blue"
+              />
+              <BenefitCard
+                icon={<FaTruck />}
+                title="Fast Delivery"
+                desc="Quick delivery across Chennai and nearby locations."
+                accent="orange"
+              />
+              <BenefitCard
+                icon={<FaTools />}
+                title="Expert Support"
+                desc="Professional technical guidance before and after purchase."
+                accent="purple"
+              />
+              <BenefitCard
+                icon={<FaLock />}
+                title="Secure Shopping"
+                desc="Trusted checkout with encrypted payment protection."
+                accent="green"
+              />
             </div>
           </div>
         </section>

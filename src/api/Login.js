@@ -171,9 +171,10 @@ const Login = () => {
       // Build complete user object
       const userData = {
         id: user_id,
-        email: user_email,
-        first_name: user_display_name,
-        last_name: '',
+        email: user_email || customerData?.billing?.email || '',
+        first_name: customerData?.first_name || user_display_name || 'Guest',
+        last_name: customerData?.last_name || '',
+        name: user_display_name || 'Guest',
         phone: phone,
         // Use WooCommerce data if available, otherwise use basic data
         billing_first_name: customerData?.billing?.first_name || '',
@@ -186,7 +187,7 @@ const Login = () => {
         billing_postcode: customerData?.billing?.postcode || '',
         billing_country: customerData?.billing?.country || 'IN',
         billing_phone: customerData?.billing?.phone || phone,
-        billing_email: customerData?.billing?.email || user_email,
+        billing_email: customerData?.billing?.email || user_email || '',
         shipping_first_name: customerData?.shipping?.first_name || '',
         shipping_last_name: customerData?.shipping?.last_name || '',
         shipping_company: customerData?.shipping?.company || '',

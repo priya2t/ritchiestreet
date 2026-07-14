@@ -22,6 +22,8 @@ const Footer = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
     if (!email || !email.trim()) {
@@ -58,19 +60,19 @@ const Footer = () => {
             </div>
             <div className="rs-trust-item">
               <span className="rs-trust-icon">
-                <img src="/images/truck.png" alt="Quick Delivery"/>
+                <img src="/images/truck.webp" alt="Quick Delivery"/>
               </span>
               <span className="rs-trust-label">Fast Delivery</span>
             </div>
             <div className="rs-trust-item">
               <span className="rs-trust-icon">
-                <img src="/images/support.png" alt="customer support"/>
+                <img src="/images/support.webp" alt="customer support"/>
                 </span>
               <span className="rs-trust-label">Expert Support</span>
             </div>
             <div className="rs-trust-item">
               <span className="rs-trust-icon">
-                <img src="/images/security1.png" alt="secure payments"/>
+                <img src="/images/security1.webp" alt="secure payments"/>
               </span>
               <span className="rs-trust-label">Secure Payments</span>
             </div>
@@ -86,11 +88,13 @@ const Footer = () => {
             {/* Col 1: Brand + Contact + Social */}
             <div className="rs-footer-widget">
               <div className="rs-footer-logo">
-                <Link to="/"><img src="/images/logo.png" alt="Ritchie Street" /></Link>
+                <Link to="/" onClick={scrollToTop}>
+                  <img src="/images/logo.png" alt="Ritchie Street" />
+                </Link>
               </div>
-              <p className="rs-footer-description">
+              {/*<p className="rs-footer-description">
                 Premium electronics &amp; repair services in Chennai. Genuine products, expert support, fast delivery.
-              </p>
+              </p>*/}
               <div className="rs-footer-contact">
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
@@ -106,7 +110,7 @@ const Footer = () => {
                 </p>
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
-                    <img src="/images/phone.png" />
+                    <img src="/images/phone.webp" />
                   </span>
                   <a href="tel:+918667507040">+91 86675 07040</a>
                 </p>
@@ -128,11 +132,11 @@ const Footer = () => {
             <div className="rs-footer-widget">
               <h4 className="rs-footer-heading">Quick Links</h4>
               <ul className="rs-footer-links">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/products">Products</Link></li>
-                <li><Link to="/categories">Categories</Link></li>
-                <li><Link to="/services">Services</Link></li>
-                <li><Link to="/about">About Us</Link></li>
+                <li><Link to="/" onClick={scrollToTop}>Home</Link></li>
+                
+                <li><Link to="/categories" onClick={scrollToTop}>Categories</Link></li>
+                <li><Link to="/services" onClick={scrollToTop}>Services</Link></li>
+                <li><Link to="/about" onClick={scrollToTop}>About Us</Link></li>
               </ul>
             </div>
 
@@ -140,11 +144,11 @@ const Footer = () => {
             <div className="rs-footer-widget">
               <h4 className="rs-footer-heading">Customer Service</h4>
               <ul className="rs-footer-links">
-                <li><Link to="/contact">Shipping Policy</Link></li>
-                <li><Link to="/contact">Return Policy</Link></li>
-                <li><Link to="/terms">Terms &amp; Conditions</Link></li>
-                <li><Link to="/terms">Privacy Policy</Link></li>
-                <li><Link to="/contact">Contact Us</Link></li>
+                
+                <li><Link to="/contact" onClick={scrollToTop}>Replacement Policy</Link></li>
+                <li><Link to="/terms" onClick={scrollToTop}>Terms &amp; Conditions</Link></li>
+                <li><Link to="/terms" onClick={scrollToTop}>Privacy Policy</Link></li>
+                <li><Link to="/contact" onClick={scrollToTop}>Contact Us</Link></li>
               </ul>
             </div>
 
@@ -202,16 +206,20 @@ const Footer = () => {
           <div className="rs-bottom-inner">
             <p className="rs-copyright">Copyright © 2026 Mak Technology India</p>
             <div className="rs-bottom-links">
-              <Link to="/terms">Privacy</Link>
+              <Link to="/terms" onClick={scrollToTop}>Privacy</Link>
               <span>|</span>
-              <Link to="/terms">Terms</Link>
+              <Link to="/terms" onClick={scrollToTop}>Terms</Link>
               <span>|</span>
-              <Link to="/contact">Refund</Link>
+              <Link to="/contact" onClick={scrollToTop}>Replacement</Link>
               <span>|</span>
-              <Link to="/contact">Contact</Link>
+              <Link to="/contact" onClick={scrollToTop}>Contact</Link>
             </div>
+            
             <div className="rs-bottom-payments">
-              <span className="rs-pay-badge">COD</span>
+              <span>Payment method:</span>
+              <span className="rs-pay-badge">
+                Cash On Delivery
+              </span>
               
             </div>
           </div>

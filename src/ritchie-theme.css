@@ -1108,15 +1108,6 @@ body {
   gap: 30px;
 }
 
-.rs-footer-widget h4 {
-  color: #ffffff;
-  font-size: 16px;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
 .rs-footer-widget ul {
   list-style: none;
   padding: 0;
@@ -1359,13 +1350,6 @@ body {
   color: #cbd5e1;
   margin-bottom: 20px;
   font-size: 14px;
-}
-
-.rs-footer-contact p {
-  color: #cbd5e1;
-  font-size: 13px;
-  margin-bottom: 10px;
-  line-height: 1.6;
 }
 
 .rs-contact-label {
@@ -1725,7 +1709,7 @@ body {
 .rs-trust-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  height: 62px;
+  height: 48px;
 }
 
 .rs-trust-item {
@@ -1763,14 +1747,14 @@ body {
 
 /* ── Main Footer ── */
 .rs-footer-main {
-  padding: 40px 0 32px;
+  padding: 24px 0 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.rs-footer-grid {
+.rs-footer .rs-footer-grid {
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
-  gap: 32px;
+  gap: 18px;
 }
 
 .rs-footer-widget {
@@ -1779,7 +1763,9 @@ body {
 
 /* Logo */
 .rs-footer-logo {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  width: 55px;
+  height: 55px;
 }
 
 .rs-footer-logo img {
@@ -1805,8 +1791,8 @@ body {
 .rs-footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .rs-contact-item {
@@ -1838,8 +1824,8 @@ body {
 /* Social Pills */
 .rs-footer-socials {
   display: flex;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 4px;
+  margin-top: 0;
 }
 
 .rs-social-pill {
@@ -1874,9 +1860,9 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 6px;
 }
 
 .rs-footer-heading::after {
@@ -1897,7 +1883,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
 }
 
 .rs-footer-links li {
@@ -1911,7 +1897,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 0;
+  padding: 4px 0;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
@@ -1938,7 +1924,7 @@ body {
 .rs-nl-form {
   display: flex;
   gap: 0;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1946,7 +1932,7 @@ body {
 
 .rs-nl-input {
   flex: 1;
-  padding: 9px 12px;
+  padding: 8px 10px;
   background: rgba(255, 255, 255, 0.05);
   border: none;
   color: #ffffff;
@@ -1964,7 +1950,7 @@ body {
 }
 
 .rs-nl-btn {
-  padding: 9px 16px;
+  padding: 8px 12px;
   background: #f15b29;
   color: #ffffff;
   border: none;
@@ -1988,8 +1974,8 @@ body {
 
 .rs-nl-msg {
   font-size: 12px;
-  margin: 0 0 10px 0;
-  padding: 6px 10px;
+  margin: 0 0 4px 0;
+  padding: 4px 8px;
   border-radius: 6px;
 }
 
@@ -2005,8 +1991,8 @@ body {
 
 /* ── Rotating Review ── */
 .rs-review-rotator {
-  margin-top: 14px;
-  padding: 12px 14px;
+  margin-top: 8px;
+  padding: 8px 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
@@ -2016,7 +2002,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .rs-rr-stars {
@@ -2043,7 +2029,7 @@ body {
   font-size: 12.5px;
   color: #cbd5e1;
   line-height: 1.5;
-  margin: 0 0 5px 0;
+  margin: 0 0 4px 0;
   font-style: italic;
 }
 
@@ -2057,7 +2043,7 @@ body {
 .rs-rr-dots {
   display: flex;
   gap: 5px;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .rs-rr-dot {
@@ -2088,10 +2074,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  height: 50px;
+  gap: 12px;
+  height: 38px;
   flex-wrap: wrap;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .rs-copyright {
@@ -2150,9 +2136,9 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-  .rs-footer-grid {
+  .rs-footer .rs-footer-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 16px;
   }
 }
 
@@ -2163,7 +2149,7 @@ body {
   }
 
   .rs-trust-item {
-    height: 52px;
+    height: 48px;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     justify-content: flex-start;
@@ -2179,12 +2165,12 @@ body {
   }
 
   .rs-footer-main {
-    padding: 28px 0 20px;
+    padding: 20px 0 14px;
   }
 
-  .rs-footer-grid {
+  .rs-footer .rs-footer-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 14px;
   }
 
   .rs-footer-widget {
@@ -2232,8 +2218,8 @@ body {
   .rs-bottom-inner {
     flex-direction: column;
     height: auto;
-    padding: 12px 0;
-    gap: 8px;
+    padding: 8px 0;
+    gap: 6px;
     text-align: center;
   }
 
@@ -2252,7 +2238,7 @@ body {
   }
 
   .rs-footer-main {
-    padding: 20px 0 16px;
+    padding: 16px 0 12px;
   }
 
   .rs-footer-links a {

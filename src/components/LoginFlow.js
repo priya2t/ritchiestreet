@@ -154,8 +154,10 @@ const LoginFlow = () => {
       localStorage.setItem('jwt_token', token);
       
       const userData = {
-        email: user.email,
-        name: user.name,
+        email: user.email || '',
+        first_name: user.name || 'Guest',
+        last_name: '',
+        name: user.name || 'Guest',
         token: token,
         id: user.id,
         phone: user.phone

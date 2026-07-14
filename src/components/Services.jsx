@@ -95,11 +95,11 @@ const Services = () => {
   };
 
   const serviceTypes = [
-    { name: 'Laptop', icon: '/images/laptop1.png' },
-    { name: 'Desktop', icon: '/images/pc.png' },
+    { name: 'Laptop', icon: '/images/laptop.webp' },
+    { name: 'Desktop', icon: '/images/computer.jpeg' },
     { name: 'Mobile', icon: '/images/smartphone.png' },
     { name: 'Printer', icon: '/images/printer.png' },
-    { name: 'CCTV', icon: '/images/camera.png' },
+    { name: 'CCTV', icon: '/images/cctv.webp' },
     { name: 'TV', icon: '/images/tv.png' },
     { name: 'Data Recovery', icon: '/images/harddisk.png' }
   ];

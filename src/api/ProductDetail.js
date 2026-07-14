@@ -4,6 +4,12 @@ import { getProduct, getProductReviews } from './woocommerce';
 import { useCartStore } from './cartStore';
 import Layout from './Layout';
 import './ProductDetail.css';
+import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
+
+const CACHE_TTL = 1000 * 60 * 30;
+const productCache = new Map();
+const reviewsCache = new Map();
+const isCacheEntryValid = (entry) => entry && (Date.now() - entry.timestamp) < CACHE_TTL;
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -19,51 +25,72 @@ const ProductDetail = () => {
   const [addingToCart, setAddingToCart] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
   const [cartMessage, setCartMessage] = useState('');
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
   const { addToCart, openCart } = useCartStore();
 
   useEffect(() => {
+    setSelectedImage(0);
+    setQuantity(1);
+    setImageZoom(false);
+    setMainImageLoaded(false);
     fetchProduct();
     fetchReviews();
   }, [id]);
 
   useEffect(() => {
+    let timer;
     if (product) {
-      setTimeout(() => setFadeIn(true), 50);
+      timer = setTimeout(() => setFadeIn(true), 50);
+    } else {
+      setFadeIn(false);
     }
+    return () => clearTimeout(timer);
   }, [product]);
 
   const fetchProduct = async () => {
-    try {
+    const cachedProduct = productCache.get(Number(id));
+    if (isCacheEntryValid(cachedProduct)) {
+      setProduct(cachedProduct.product);
+      setLoading(false);
+      setError('');
+      setFadeIn(false);
+    } else {
       setLoading(true);
       setFadeIn(false);
+      setProduct(null);
+      setError('');
+    }
+
+    try {
       const data = await getProduct(id);
-      console.log('[ProductDetail] Raw product data:', data);
-      console.log('[ProductDetail] Price fields:', {
-        price: data.price,
-        prices: data.prices,
-        regular_price: data.regular_price,
-        sale_price: data.sale_price,
-        selling_price: data.selling_price,
-      });
-      console.log('[ProductDetail] Stock fields:', {
-        stock_status: data.stock_status,
-        stock_quantity: data.stock_quantity,
-        is_in_stock: data.is_in_stock,
-        in_stock: data.in_stock,
-        quantity: data.quantity,
-      });
+      productCache.set(Number(id), { product: data, timestamp: Date.now() });
       setProduct(data);
-    } catch (err) {
-      setError('Failed to load product');
-      console.error('Error fetching product:', err);
-    } finally {
       setLoading(false);
+      setError('');
+      setFadeIn(false);
+    } catch (err) {
+      console.error('Error fetching product:', err);
+      const fallback = productCache.get(Number(id));
+      if (isCacheEntryValid(fallback)) {
+        setProduct(fallback.product);
+        setLoading(false);
+        setError('');
+      } else {
+        setError('Failed to load product');
+        setLoading(false);
+      }
     }
   };
 
   const fetchReviews = async () => {
+    const cachedReviews = reviewsCache.get(Number(id));
+    if (isCacheEntryValid(cachedReviews)) {
+      setReviews(cachedReviews.reviews);
+    }
+
     try {
       const data = await getProductReviews(id);
+      reviewsCache.set(Number(id), { reviews: data, timestamp: Date.now() });
       setReviews(data);
     } catch (err) {
       console.error('Error fetching reviews:', err);
@@ -168,10 +195,7 @@ const ProductDetail = () => {
     return (
       <Layout title="Loading Product | Ritchie Street" description="Loading product details from Ritchie Street.">
         <main className="pd-page">
-          <div className="pd-loading">
-            <div className="pd-loading-spinner"></div>
-            <p>Loading product...</p>
-          </div>
+          <ProductDetailSkeleton />
         </main>
       </Layout>
     );
@@ -215,7 +239,8 @@ const ProductDetail = () => {
 
   return (
     <Layout title={`${product.name} | Ritchie Street`} description={`Buy ${product.name} from Ritchie Street Best Online Electronics Hub.`}>
-      <main className={`pd-page ${fadeIn ? 'pd-fade-in' : ''}`}>
+      <main className="pd-page">
+        <div className={`pd-content ${fadeIn ? 'pd-fade-in' : ''}`}>
         {/* Cart Success Toast */}
         {cartMessage && (
           <div className="pd-toast">
@@ -224,6 +249,11 @@ const ProductDetail = () => {
           </div>
         )}
         <div className="pd-container">
+          <nav className="pd-breadcrumb">
+            <Link to="/">Home</Link>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+            <span>{product.name}</span>
+          </nav>
           {/* === PRODUCT GALLERY === */}
           <div className="pd-gallery">
             <div
@@ -233,14 +263,20 @@ const ProductDetail = () => {
               onMouseMove={handleMouseMove}
             >
               {images[selectedImage] && images[selectedImage].src ? (
-                <img
-                  src={images[selectedImage].src}
-                  alt={images[selectedImage].alt || product.name}
-                  className="pd-main-image"
-                  style={imageZoom ? {
-                    transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
-                  } : {}}
-                />
+                <>
+                  {!mainImageLoaded && <div className="pd-image-placeholder" aria-hidden="true" />}
+                  <img
+                    src={images[selectedImage].src}
+                    alt={images[selectedImage].alt || product.name}
+                    className={`pd-main-image ${mainImageLoaded ? 'pd-main-image-loaded' : ''}`}
+                    style={imageZoom ? {
+                      transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
+                    } : {}}
+                    onLoad={() => setMainImageLoaded(true)}
+                    onError={() => setMainImageLoaded(true)}
+                    decoding="async"
+                  />
+                </>
               ) : (
                 <div className="pd-no-image">
                   <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1">
@@ -264,7 +300,7 @@ const ProductDetail = () => {
                     className={`pd-thumb ${index === selectedImage ? 'pd-thumb-active' : ''}`}
                     onClick={() => setSelectedImage(index)}
                   >
-                    <img src={img.src} alt={img.alt || `View ${index + 1}`} />
+                    <img src={img.src} alt={img.alt || `View ${index + 1}`} loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>
@@ -443,6 +479,7 @@ const ProductDetail = () => {
             </div>
           </div>
         )}
+      </div>
       </main>
     </Layout>
   );

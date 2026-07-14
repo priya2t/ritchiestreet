@@ -1,4 +1,5 @@
-export const phpAssetBase = 'http://localhost/rich/rich_wordpress/wp-content/uploads';
+const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'http://localhost/rich/rich_wordpress';
+export const phpAssetBase = `${WP_URL}/wp-content/uploads`;
 
 export const asset = (path) => `${phpAssetBase}/${path}`;
 
