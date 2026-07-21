@@ -95,13 +95,13 @@ const MyAccount = () => {
       if (user && user.id) {
         const freshData = await getCustomer(user.id);
         console.log('Fresh customer data from backend:', JSON.stringify(freshData, null, 2));
-        
+
         // Update user store with fresh data
         const updatedUser = {
           ...user,
           first_name: freshData.first_name || freshData.billing.first_name || user.first_name,
           last_name: freshData.last_name || freshData.billing.last_name || user.last_name,
-          email: freshData.email || freshData.billing.email || user.email || '',
+          email: freshData.billing.email || freshData.email || user.email || '',
           date_created: freshData.date_created || user.date_created,
           billing_first_name: freshData.billing.first_name,
           billing_last_name: freshData.billing.last_name,
@@ -113,7 +113,7 @@ const MyAccount = () => {
           billing_postcode: freshData.billing.postcode,
           billing_country: freshData.billing.country,
           billing_phone: freshData.billing.phone,
-          billing_email: freshData.billing.email,
+          billing_email: freshData.billing.email || freshData.email || user.billing_email || '',
           shipping_first_name: freshData.shipping.first_name,
           shipping_last_name: freshData.shipping.last_name,
           shipping_company: freshData.shipping.company,
@@ -126,7 +126,7 @@ const MyAccount = () => {
           shipping_phone: freshData.shipping.phone,
           shipping_email: freshData.shipping.email || ''
         };
-        
+
         setUser(updatedUser);
         console.log('User store updated with fresh data');
         
@@ -448,7 +448,7 @@ const MyAccount = () => {
       });
 
       setMessage({ type: 'success', text: 'Account details updated successfully!' });
-      
+
       // Refresh customer data
       await fetchCustomerData();
     } catch (error) {
