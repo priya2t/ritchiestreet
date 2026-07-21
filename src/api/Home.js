@@ -165,25 +165,25 @@ const Home = () => {
               <div className="hrp-services-grid">
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/laptop1.png" alt="Computer Repair" />
+                    <img src="/images/laptop1.webp" alt="Computer Repair" />
                   </span>
                   <span className="hrp-service-label">Computer<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/tv.png" alt="TV Repair" />
+                    <img src="/images/tv&mobile.webp" alt="TV Repair" />
                   </span>
                   <span className="hrp-service-label">Tv & Mobile<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/printer.png" alt="Printer Repair" />
+                    <img src="/images/printer.webp" alt="Printer Repair" />
                   </span>
                   <span className="hrp-service-label">Printer<br/>Service</span>
                 </Link>
                 <Link to="/contact" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/globe.png" alt="Web Developement" />
+                    <img src="/images/globe.webp" alt="Web Developement" />
                   </span>
                   <span className="hrp-service-label">Web<br/>Developement</span>
                 </Link>
@@ -281,7 +281,7 @@ const Home = () => {
               />
               <BenefitCard
                 icon={<FaUndo />}
-                title="Easy Returns"
+                title="Easy Replacements"
                 desc="Hassle-free replacements within 7 days."
                 accent="green"
               />

@@ -1,6 +1,11 @@
 import React from 'react';
 
 const StatsCard = ({ icon, label, value, color = '#f15b29' }) => {
+  const isImagePath = typeof icon === 'string' && (icon.startsWith('/') || icon.startsWith('http'));
+
+  const renderIcon = (size) => isImagePath
+    ? <img src={icon} alt={label} style={{ width: size, height: size, objectFit: 'contain' }} />
+    : <span style={{ fontSize: size }}>{icon}</span>;
   return (
     <div style={{
       backgroundColor: '#ffffff',
@@ -31,9 +36,14 @@ const StatsCard = ({ icon, label, value, color = '#f15b29' }) => {
         marginBottom: '16px'
       }}>
         <span style={{
-          fontSize: '32px'
+          fontSize: '32px',
+          width: '32px',
+          height: '32px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
-          {icon}
+          {renderIcon('32px')}
         </span>
         <div style={{
           width: '40px',
@@ -46,9 +56,14 @@ const StatsCard = ({ icon, label, value, color = '#f15b29' }) => {
         }}>
           <span style={{
             fontSize: '20px',
-            color: color
+            color: color,
+            width: '20px',
+            height: '20px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}>
-            {icon}
+            {renderIcon('20px')}
           </span>
         </div>
       </div>

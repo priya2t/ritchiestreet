@@ -16,7 +16,7 @@ const isChennaiCity = (city) => {
 
 const MyAccount = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout, setUser } = useUserStore();
+  const { user, isAuthenticated, isAuthInitialized, logout, setUser } = useUserStore();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingBilling, setEditingBilling] = useState(false);
@@ -72,6 +72,10 @@ const MyAccount = () => {
   }, [user]);
 
   useEffect(() => {
+    if (!isAuthInitialized) {
+      return;
+    }
+
     if (!isAuthenticated) {
       console.log('=== MY ACCOUNT: USER NOT AUTHENTICATED ===');
       console.log('Saving redirectAfterLogin: /my-account');
@@ -80,7 +84,7 @@ const MyAccount = () => {
     } else {
       fetchCustomerData();
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthInitialized, isAuthenticated, navigate]);
 
   const fetchCustomerData = async () => {
     try {
@@ -510,25 +514,25 @@ const MyAccount = () => {
                 marginBottom: '32px'
               }}>
                 <StatsCard 
-                  icon="📦" 
+                  icon="/images/parcel.webp" 
                   label="Total Orders" 
                   value={orders.length}
                   color="#f15b29"
                 />
                 <StatsCard 
-                  icon="⏳" 
+                  icon="/images/sandclock.webp" 
                   label="Pending Orders" 
                   value={orders.filter(o => o.status === 'pending').length}
                   color="#f15b29"
                 />
                 <StatsCard 
-                  icon="✅" 
+                  icon="/images/tick.webp" 
                   label="Completed Orders" 
                   value={orders.filter(o => o.status === 'completed').length}
                   color="#16a34a"
                 />
                 <StatsCard 
-                  icon="📍" 
+                  icon="/images/location.webp" 
                   label="Saved Addresses" 
                   value={(user?.billing_address_1 ? 1 : 0) + (user?.shipping_address_1 ? 1 : 0)}
                   color="#2563eb"
@@ -571,7 +575,13 @@ const MyAccount = () => {
                     padding: '60px 20px',
                     color: '#94a3b8'
                   }}>
-                    <span style={{ fontSize: '64px', display: 'block', marginBottom: '16px' }}>📦</span>
+                    <span style={{ fontSize: '64px', display: 'block', marginBottom: '16px' }}>
+                      <img
+                        src='/images/parcel.webp'
+                        alt='No orders'
+                        style={{ width: '64px', height: '64px', objectFit: 'contain' }}
+                      />
+                    </span>
                     <p style={{
                       fontSize: '16px',
                       margin: '0 0 16px 0'
@@ -631,7 +641,13 @@ const MyAccount = () => {
                   padding: '60px 20px',
                   color: '#94a3b8'
                 }}>
-                  <span style={{ fontSize: '64px', display: 'block', marginBottom: '16px' }}>📦</span>
+                  <span style={{ fontSize: '64px', display: 'block', marginBottom: '16px' }}>
+                    <img
+                      src='/images/parcel.webp'
+                      alt='No orders'
+                      style={{ width: '64px', height: '64px', objectFit: 'contain' }}
+                    />
+                  </span>
                   <p style={{
                     fontSize: '16px',
                     margin: '0 0 16px 0'

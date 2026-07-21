@@ -2,10 +2,10 @@ import React from 'react';
 
 const AccountTabs = ({ activeTab, onTabChange }) => {
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-    { id: 'orders', label: 'Orders', icon: '📦' },
-    { id: 'addresses', label: 'Addresses', icon: '📍' },
-    { id: 'profile', label: 'Profile', icon: '👤' },
+    { id: 'dashboard', label: 'Dashboard', icon: '/images/chart.webp' },
+    { id: 'orders', label: 'Orders', icon: '/images/parcel.webp' },
+    { id: 'addresses', label: 'Addresses', icon: '/images/location.webp' },
+    { id: 'profile', label: 'Profile', icon: '/images/male.webp' },
   ];
 
   return (
@@ -37,7 +37,11 @@ const AccountTabs = ({ activeTab, onTabChange }) => {
             gap: '8px'
           }}
         >
-          <span style={{ fontSize: '18px' }}>{tab.icon}</span>
+          <img
+            src={tab.icon}
+            alt={tab.label}
+            style={{ width: '18px', height: '18px', objectFit: 'contain' }}
+          />
           {tab.label}
         </button>
       ))}

@@ -65,20 +65,20 @@ const Contact = () => {
 
   const contactCards = [
     {
-      icon: '/images/phone.png', title: 'Call Us', color: '#f15b29',
+      icon: '/images/chat.webp', title: 'Call Us', color: '#f15b29',
       lines: [
         { href: 'tel:+918667507040', text: '+91 86675 07040' }
       ]
     },
     {
-      icon: '/images/edit.png', title: 'Email Us', color: '#2563eb',
+      icon: '/images/message.webp', title: 'Email Us', color: '#2563eb',
       lines: [
         { href: 'mailto:info@ritchiestreet.co.in', text: 'info@ritchiestreet.co.in' },
         { href: 'https://www.ritchiestreet.co.in', text: 'www.ritchiestreet.co.in' }
       ]
     },
     {
-      icon: '/images/location.png', title: 'Visit Us', color: '#16a34a',
+      icon: '/images/location.webp', title: 'Visit Us', color: '#16a34a',
       lines: [
         { text: '6, 107, Mangadu Rd, next to Niagara Juice Shop, Mangala Nagar, Paraniputhur, Iyyappanthangal, Chennai, Tamil Nadu 600122' }
       ]
@@ -223,9 +223,9 @@ const Contact = () => {
               <p style={{ fontSize: '14px', color: '#64748b', margin: '0 0 20px 0' }}>Stay connected on social media</p>
               <div style={{ display: 'flex', gap: '16px' }}>
                 {[
-                  { href: 'https://www.facebook.com/profile.php?id=61550673917474', src: '/images/fb.png', alt: 'Facebook', bg: '#1877f2' },
-                  { href: 'https://twitter.com/Ritchistreetchn', src: '/images/twitter.png', alt: 'Twitter', bg: '#1da1f2' },
-                  { href: 'https://www.instagram.com/ritchiestreet_chn', src: '/images/insta.png', alt: 'Instagram', bg: '#e1306c' }
+                  { href: 'https://www.facebook.com/profile.php?id=61550673917474', src: '/images/fb.webp', alt: 'Facebook', bg: '#1877f2' },
+                  { href: 'https://twitter.com/Ritchistreetchn', src: '/images/twitter.webp', alt: 'Twitter', bg: '#1da1f2' },
+                  { href: 'https://www.instagram.com/ritchiestreet_chn', src: '/images/insta.webp', alt: 'Instagram', bg: '#e1306c' }
                 ].map((s, i) => (
                   <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
                     className="social-icon-btn"

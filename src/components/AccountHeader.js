@@ -156,7 +156,7 @@ const AccountHeader = ({ user, onEditProfile, onLogout }) => {
               gap: '8px'
             }}
           >
-            ✏️ Edit Profile
+            <img src='images/pencil.webp'/> Edit Profile
           </button>
           <button
             onClick={onLogout}
@@ -175,7 +175,7 @@ const AccountHeader = ({ user, onEditProfile, onLogout }) => {
               gap: '8px'
             }}
           >
-            🚪 Logout
+            <img src='/images/door.webp'/> Logout
           </button>
         </div>
       </div>

@@ -8,7 +8,7 @@ import Layout from './Layout';
 const Checkout = () => {
   const navigate = useNavigate();
   const { cart, getCartTotal, getCartCount, clearCart, getGstAmount, getShippingCharge, getGrandTotal } = useCartStore();
-  const { user, isAuthenticated } = useUserStore();
+  const { user, isAuthenticated, isAuthInitialized } = useUserStore();
   const [billingForm, setBillingForm] = useState({
     first_name: '',
     last_name: '',
@@ -65,13 +65,17 @@ const Checkout = () => {
 
   // Redirect to login if not authenticated
   React.useEffect(() => {
+    if (!isAuthInitialized) {
+      return;
+    }
+
     if (!isAuthenticated) {
       console.log('=== CHECKOUT: USER NOT AUTHENTICATED ===');
       console.log('Saving redirectAfterLogin: /checkout');
       sessionStorage.setItem('redirectAfterLogin', '/checkout');
       navigate('/login');
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthInitialized, isAuthenticated, navigate]);
 
   // Pre-fill forms if user is logged in
   React.useEffect(() => {

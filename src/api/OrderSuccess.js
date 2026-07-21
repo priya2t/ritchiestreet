@@ -192,7 +192,7 @@ const OrderSuccess = () => {
           <div className="trust-badges">
             <div className="trust-badge">
               <span className="trust-icon">
-                <img src='/images/security.png'/>
+                <img src='/images/lock.webp'/>
               </span>
               <div className="trust-text">
                 <span className="trust-title">Secure Checkout</span>
@@ -200,7 +200,9 @@ const OrderSuccess = () => {
               </div>
             </div>
             <div className="trust-badge">
-              <span className="trust-icon">✓</span>
+              <span className="trust-icon">
+              <img src='/images/tick.webp'/>
+              </span>
               <div className="trust-text">
                 <span className="trust-title">Genuine Products</span>
                 <span className="trust-desc">Original & Brand New</span>
@@ -208,7 +210,7 @@ const OrderSuccess = () => {
             </div>
             <div className="trust-badge">
               <span className="trust-icon">
-                <img src='/images/truck.png'/>
+                <img src='/images/truck1.webp'/>
               </span>
               <div className="trust-text">
                 <span className="trust-title">Fast Delivery</span>
@@ -217,7 +219,7 @@ const OrderSuccess = () => {
             </div>
             <div className="trust-badge">
               <span className="trust-icon">
-                <img src='/images/support.png'/>
+                <img src='/images/support1.webp'/>
               </span>
               <div className="trust-text">
                 <span className="trust-title">Dedicated Support</span>

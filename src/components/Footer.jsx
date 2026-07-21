@@ -51,7 +51,7 @@ const Footer = () => {
     <footer className="rs-footer">
 
       {/* Trust Bar — compact single row */}
-      <div className="rs-trust-bar">
+      {/*<div className="rs-trust-bar">
         <div className="rs-container">
           <div className="rs-trust-grid">
             <div className="rs-trust-item">
@@ -78,7 +78,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>*/}
 
       {/* Main Footer — 4 columns */}
       <div className="rs-footer-main">
@@ -98,32 +98,32 @@ const Footer = () => {
               <div className="rs-footer-contact">
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
-                    <img src="/images/location.png" />
+                    <img src="/images/location.webp" alt="Location" />
                   </span>
                   Mangadu Rd, Paraniputhur, Iyyappanthangal, Chennai 600122
                 </p>
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
-                    <img src="/images/message.png" />
+                    <img src="/images/message.webp" alt="Email" />
                   </span>
                   <a href="mailto:info@ritchiestreet.co.in">info@ritchiestreet.co.in</a>
                 </p>
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
-                    <img src="/images/phone.webp" />
+                    <img src="/images/phone.webp" alt="Phone" />
                   </span>
                   <a href="tel:+918667507040">+91 86675 07040</a>
                 </p>
               </div>
               <div className="rs-footer-socials">
                 <a href="https://www.facebook.com/profile.php?id=61550673917474" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Facebook">
-                  <img src="/images/fb.png" alt="Facebook" />
+                  <img src="/images/fb.webp" alt="Facebook" />
                 </a>
                 <a href="https://www.instagram.com/ritchiestreet_chn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Instagram">
-                  <img src="/images/insta.png" alt="Instagram" />
+                  <img src="/images/insta.webp" alt="Instagram" />
                 </a>
                 <a href="https://twitter.com/Ritchistreetchn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="X / Twitter">
-                  <img src="/images/twitter.png" alt="X" />
+                  <img src="/images/twitter.webp" alt="X" />
                 </a>
               </div>
             </div>

@@ -50,26 +50,26 @@ const About = () => {
   }, []);
 
   const featureCards = [
-    { icon: '✅', title: 'Genuine Products', desc: '100% authentic products sourced directly from authorized distributors and top brands.' },
-    { icon: '/images/money.png', title: 'Best Pricing', desc: 'Competitive prices on all electronics with regular deals, discounts, and offers.' },
-    { icon: '/images/support.png', title: 'Expert Support', desc: 'Our trained team is available to assist you with any product or service query.' },
-    { icon: '/images/truck.png', title: 'Fast Delivery', desc: 'Quick and reliable delivery across Chennai with real-time order tracking.' },
-    { icon: '/images/security.png', title: 'Secure Shopping', desc: 'Shop safely with encrypted payments and a fully secure checkout experience.' },
-    { icon: '/images/return.png', title: 'Easy Returns', desc: 'Hassle-free returns within 9 days. Customer satisfaction is our priority.' },
+    { icon: '/images/genuine.webp', title: 'Genuine Products', desc: '100% authentic products sourced directly from authorized distributors and top brands.' },
+    { icon: '/images/money.webp', title: 'Best Pricing', desc: 'Competitive prices on all electronics with regular deals, discounts, and offers.' },
+    { icon: '/images/support1.webp', title: 'Expert Support', desc: 'Our trained team is available to assist you with any product or service query.' },
+    { icon: '/images/truck1.webp', title: 'Fast Delivery', desc: 'Quick and reliable delivery across Chennai with real-time order tracking.' },
+    { icon: '/images/lock.webp', title: 'Secure Shopping', desc: 'Shop safely with encrypted payments and a fully secure checkout experience.' },
+    { icon: '/images/return1.webp', title: 'Easy Returns', desc: 'Hassle-free returns within 9 days. Customer satisfaction is our priority.' },
   ];
 
   const teamMembers = [
-    { name: 'G. Kameshwaran', role: 'Founder & CEO', emoji: '/images/male.png', desc: 'A visionary professional with years of experience in electronics retail and tech services.' },
-    { name: 'Core Team', role: 'Engineers & Developers', emoji: '/images/developer.png', desc: 'Network engineers, developers, and problem-solvers delivering exceptional tech.' },
-    { name: 'Support Team', role: 'Customer Experience', emoji: '/images/icon-contact-nav.png', desc: 'Dedicated support agents available to ensure every customer gets the best experience.' },
+    { name: 'G. Kameshwaran', role: 'Founder & CEO', emoji: '/images/male.webp', desc: 'A visionary professional with years of experience in electronics retail and tech services.' },
+    { name: 'Core Team', role: 'Engineers & Developers', emoji: '/images/developer.webp', desc: 'Network engineers, developers, and problem-solvers delivering exceptional tech.' },
+    { name: 'Support Team', role: 'Customer Experience', emoji: '/images/support1.webp', desc: 'Dedicated support agents available to ensure every customer gets the best experience.' },
   ];
 
   const trustBadges = [
-    { icon: '✅', label: 'Genuine Products' },
-    { icon: '🔐', label: 'Secure Payments' },
-    { icon: '🚀', label: 'Fast Delivery' },
-    { icon: '🤝', label: 'Trusted Sellers' },
-    { icon: '🛡️', label: 'Warranty Support' },
+    { icon: '/images/genuine.webp', label: 'Genuine Products' },
+    { icon: '/images/lock.webp', label: 'Secure Payments' },
+    { icon: '/images/rocket.webp', label: 'Fast Delivery' },
+    { icon: '/images/connecting.webp', label: 'Trusted Sellers' },
+    { icon: '/images/warranty.webp', label: 'Warranty Support' },
   ];
 
   const cardHover = {
@@ -266,11 +266,11 @@ const About = () => {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {[
                 {
-                  icon: '/images/calendar.png', title: 'Who We Are',
+                  icon: '/images/calendar.webp', title: 'Who We Are',
                   text: "We're a passionate team of tech enthusiasts who believe that great solutions start with simple ideas and strong partnerships. Founded by Mr. G. Kameshwaran, our startup is built on innovation, trust, and a commitment to delivering results that make a real difference."
                 },
                 {
-                  icon: '/images/gear.png', title: 'What We Do',
+                  icon: '/images/gear.webp', title: 'What We Do',
                   text: "We specialize in genuine electronics retail, custom software development, and networking services for businesses. Whether you need the latest gadgets, IT support, or reliable networking infrastructure — we're your one-stop tech destination."
                 }
               ].map((item, i) => (
@@ -288,7 +288,7 @@ const About = () => {
                       display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
                       {typeof item.icon === 'string' && (item.icon.startsWith('/') || item.icon.includes('.'))
-                        ? <img src={item.icon} alt={item.title} style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
+                        ? <img src={item.icon} alt={item.title} style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
                         : item.icon}
                     </span>
                     <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', margin: 0 }}>{item.title}</h3>
@@ -337,7 +337,7 @@ const About = () => {
                   justifyContent: 'center', margin: '0 auto 14px auto'
                 }}>
                   {typeof card.icon === 'string' && (card.icon.startsWith('/') || card.icon.includes('.'))
-                    ? <img src={card.icon} alt={card.title} style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                    ? <img src={card.icon} alt={card.title} style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
                     : card.icon}
                 </div>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', margin: '0 0 10px 0' }}>{card.title}</h3>
@@ -374,11 +374,11 @@ const About = () => {
           <div className="about-mission-grid" style={{ display: 'flex', gap: '32px' }}>
             {[
               {
-                icon: '/images/target.png', label: 'Our Mission', color: '#f15b29',
+                icon: '/images/target.webp', label: 'Our Mission', color: '#f15b29',
                 text: 'To empower customers with affordable, genuine, and reliable electronics — and build long-term relationships based on trust, transparency, and results. We are committed to making technology accessible to everyone in Chennai and beyond.'
               },
               {
-                icon: '/images/telescope.png', label: 'Our Vision', color: '#2563eb',
+                icon: '/images/telescope.webp', label: 'Our Vision', color: '#2563eb',
                 text: 'To be the most trusted electronics destination in South India — a go-to marketplace where customers find quality-driven products and expert services without compromise, backed by a team that truly cares.'
               }
             ].map((item, i) => (
@@ -426,10 +426,10 @@ const About = () => {
             display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px'
           }}>
             {[
-              { value: customers, suffix: 'K+', label: 'Happy Customers', icon: '/images/smile.png', color: '#f15b29' },
-              { value: Math.floor(products / 1000), suffix: 'K+', label: 'Products Available', icon: '/images/parcel.png', color: '#2563eb' },
-              { value: brands, suffix: '+', label: 'Top Brands', icon: '/images/trophy.png', color: '#16a34a' },
-              { value: satisfaction, suffix: '%', label: 'Customer Satisfaction', icon: '/images/star.png', color: '#f15b29' },
+              { value: customers, suffix: 'K+', label: 'Happy Customers', icon: '/images/smile.webp', color: '#f15b29' },
+              { value: Math.floor(products / 1000), suffix: 'K+', label: 'Products Available', icon: '/images/parcel.webp', color: '#2563eb' },
+              { value: brands, suffix: '+', label: 'Top Brands', icon: '/images/trophy.webp', color: '#16a34a' },
+              { value: satisfaction, suffix: '%', label: 'Customer Satisfaction', icon: '/images/star.webp', color: '#f15b29' },
             ].map((stat, i) => (
               <div key={i} style={{
                 backgroundColor: '#ffffff', borderRadius: '16px',
@@ -481,7 +481,7 @@ const About = () => {
               >
                 <div style={{
                   width: '80px', height: '80px', borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #f15b29, #f15b29)',
+                  
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '36px', margin: '0 auto 20px auto',
                   boxShadow: '0 8px 24px rgba(241,91,41,0.3)'
@@ -524,7 +524,7 @@ const About = () => {
                 onMouseEnter={e => { e.currentTarget.style.borderColor = '#f15b29'; e.currentTarget.style.color = '#f15b29'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#111827'; }}
               >
-                <span style={{ fontSize: '20px' }}>{badge.icon}</span>
+                <img src={badge.icon} alt={badge.label} style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
                 {badge.label}
               </div>
             ))}

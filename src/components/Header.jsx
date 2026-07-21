@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useUserStore } from '../api/userStore';
 import { searchSuggestions } from '../api/wordpress';
@@ -276,11 +276,25 @@ const Header = () => {
 
       <nav className={`premium-nav ${mobileMenuOpen ? 'open' : ''}`}>
         <div className="premium-nav-inner">
-          <Link to="/" className="premium-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-          <Link to="/about" className="premium-nav-link" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
-          <Link to="/services" className="premium-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</Link>
-          <Link to="/contact" className="premium-nav-link" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
-          <Link to="/terms" className="premium-nav-link" onClick={() => setMobileMenuOpen(false)}>Terms & Conditions</Link>
+          {[
+            { to: '/', label: 'Home', end: true },
+            { to: '/about', label: 'About Us' },
+            { to: '/services', label: 'Services' },
+            { to: '/contact', label: 'Contact Us' },
+            { to: '/terms', label: 'Terms & Conditions' },
+          ].map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end || false}
+              className={({ isActive }) =>
+                isActive ? 'premium-nav-link active' : 'premium-nav-link'
+              }
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </div>
       </nav>
     </header>

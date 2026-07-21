@@ -228,7 +228,7 @@ body {
 }
 
 .premium-action-link svg {
-  color: #1f2937;
+  color: #f15b29;
   transition: color 0.3s ease;
 }
 
@@ -1791,24 +1791,39 @@ body {
 .rs-footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
   margin-bottom: 8px;
 }
 
 .rs-contact-item {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
   color: #94a3b8;
   font-size: 12.5px;
-  line-height: 1.45;
-  margin: 0;
+  line-height: 1.4;
+  margin: 0 0 14px 0;
+  padding: 0;
+}
+
+.rs-contact-item:last-child {
+  margin-bottom: 0;
 }
 
 .rs-contact-icon {
-  font-size: 14px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
-  margin-top: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rs-contact-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .rs-contact-item a {
@@ -2361,6 +2376,23 @@ body {
   .rs-contact-icon {
     margin: 0 auto 10px;
   }
+
+  /* Footer contact items keep horizontal icon-text alignment */
+  .rs-footer-contact .rs-contact-item {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .rs-footer-contact .rs-contact-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .rs-footer-contact .rs-contact-icon {
+    margin: 0;
+  }
 }
 
 @media (max-width: 575px) {
@@ -2648,7 +2680,7 @@ body {
 .cart-icon-svg {
   width: 30px;
   height: 30px;
-  color: #272727;
+  color: #f15b29;
   display: block;
 }
 

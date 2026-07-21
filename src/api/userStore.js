@@ -17,6 +17,7 @@ const cleanEmail = (email) => {
 const useUserStore = create((set) => ({
   user: null,
   isAuthenticated: false,
+  isAuthInitialized: false,
   
   setUser: (user) => {
     console.log('=== USER STORE: SET USER START ===');
@@ -39,13 +40,13 @@ const useUserStore = create((set) => ({
       console.log('User data removed from localStorage');
     }
 
-    set({ user: cleanedUser, isAuthenticated: !!cleanedUser });
+    set({ user: cleanedUser, isAuthenticated: !!cleanedUser, isAuthInitialized: true });
     console.log('=== USER STORE: SET USER END ===');
   },
   
   logout: () => {
     console.log('=== USER STORE: LOGOUT START ===');
-    set({ user: null, isAuthenticated: false });
+    set({ user: null, isAuthenticated: false, isAuthInitialized: true });
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('user_data');
     console.log('JWT token and user data removed from localStorage');
@@ -70,12 +71,15 @@ const useUserStore = create((set) => ({
           shipping_email: cleanEmail(user.shipping_email)
         };
         console.log('User data loaded from localStorage:', JSON.stringify(cleanedUser, null, 2));
-        set({ user: cleanedUser, isAuthenticated: true });
+        set({ user: cleanedUser, isAuthenticated: true, isAuthInitialized: true });
         console.log('User authenticated from localStorage');
       } catch (e) {
         console.error('Failed to parse user data:', e);
         localStorage.removeItem('user_data');
+        set({ isAuthInitialized: true });
       }
+    } else {
+      set({ isAuthInitialized: true });
     }
     console.log('=== USER STORE: INIT AUTH END ===');
   }

@@ -4,34 +4,34 @@ import Layout from '../api/Layout';
 
 const sections = [
   {
-    id: 1, icon: '/images/wave.png', title: 'Introduction',
+    id: 1, icon: '/images/wavehand.webp', title: 'Introduction',
     content: [
       'Welcome to ritchiestreet.co.in. By using our website and services, you agree to comply with the following terms and conditions. Please read them carefully before proceeding with any transactions.'
     ]
   },
   {
-    id: 2, icon: '/images/trophy.png', title: 'Product Quality and Warranty',
+    id: 2, icon: '/images/trophy.webp', title: 'Product Quality and Warranty',
     content: [
       'We take pride in offering high-quality products, including Computers, Laptops & Laptop Services, CCTV with installation, Home Automation, and computer-related cables.',
       'All products sold on our platform come with a manufacturer\'s warranty, the terms of which may vary. Warranty details are provided with each product listing.'
     ]
   },
   {
-    id: 3, icon: '/images/cart.png', title: 'Order Placement and Processing',
+    id: 3, icon: '/images/cart.webp', title: 'Order Placement and Processing',
     content: [
       'When you place an order on our website, you are making an offer to purchase a product or service. We reserve the right to accept or decline this offer.',
       'Orders are processed promptly, and you will receive confirmation via email once your order is placed.'
     ]
   },
   {
-    id: 4, icon: '/images/truck.png', title: 'Shipping and Delivery',
+    id: 4, icon: '/images/truck1.webp', title: 'Shipping and Delivery',
     content: [
       'We aim to deliver products within the specified delivery timeframe. However, delays may occur due to unforeseen circumstances. We are not liable for any such delays.',
       'Shipping costs are clearly stated during the checkout process.'
     ]
   },
   {
-    id: 5, icon: '/images/return.png', title: 'Returns and Replacement Policy',
+    id: 5, icon: '/images/return1.webp', title: 'Returns and Replacement Policy',
     content: [
       'If you receive a defective or damaged product, please contact our customer service team within two days of delivery to request a replacement.',
       'To be eligible for a replacement, the product must be in its original packaging and unused.',
@@ -39,31 +39,31 @@ const sections = [
     ]
   },
   {
-    id: 6, icon: '/images/cross.png', title: 'Cancellation Policy',
+    id: 6, icon: '/images/cross.webp', title: 'Cancellation Policy',
     content: [
       'You can cancel your order within 1 day of placing it, provided it has not been shipped. A cancellation fee may apply.'
     ]
   },
   {
-    id: 7, icon: '/images/security.png', title: 'Privacy Policy',
+    id: 7, icon: '/images/security1.webp', title: 'Privacy Policy',
     content: [
       'We are committed to protecting your privacy. Our Privacy Policy outlines how we collect, use, and safeguard your personal information.'
     ]
   },
   {
-    id: 8, icon: '/images/justice.png', title: 'Limitation of Liability',
+    id: 8, icon: '/images/justice.webp', title: 'Limitation of Liability',
     content: [
       'We shall not be held liable for any direct or indirect damages arising from the use of our website or products.'
     ]
   },
   {
-    id: 9, icon: '/images/edit.png', title: 'Changes to Terms and Conditions',
+    id: 9, icon: '/images/edit.webp', title: 'Changes to Terms and Conditions',
     content: [
       'We reserve the right to modify these terms and conditions at any time. Any changes will be posted on our website.'
     ]
   },
   {
-    id: 10, icon: '/images/phone.png', title: 'Communication Policy',
+    id: 10, icon: '/images/telephone.webp', title: 'Communication Policy',
     content: [
       'We communicate with our customers primarily through phone calls and official order confirmation emails. We do not send unsolicited SMS messages to customers.',
       'Our official address for communication and correspondence is "F1 Teknosolutionss, Mangadu Rd, Paraniputhur, Chennai, Tamil Nadu 600122".',
@@ -71,31 +71,31 @@ const sections = [
     ]
   },
   {
-    id: 11, icon: '/images/bulb.png', title: 'Intellectual Property',
+    id: 11, icon: '/images/bulb.webp', title: 'Intellectual Property',
     content: [
       'All content, including text, images, logos, and trademarks displayed on ritchiestreet.co.in, are the property of F1techno, our parent company, and are protected by intellectual property laws. Any unauthorized use or reproduction is strictly prohibited.'
     ]
   },
   {
-    id: 12, icon: '/images/male.png', title: 'User Account',
+    id: 12, icon: '/images/male.webp', title: 'User Account',
     content: [
       'To access certain features and make purchases on our website, you may need to create a user account. You are responsible for maintaining the confidentiality of your account information and password.'
     ]
   },
   {
-    id: 13, icon: '/images/block.png', title: 'Prohibited Activities',
+    id: 13, icon: '/images/block.webp', title: 'Prohibited Activities',
     content: [
       'You agree not to engage in any unlawful, fraudulent, or malicious activities on our website, including but not limited to hacking, data mining, and spamming.'
     ]
   },
   {
-    id: 14, icon: '/images/link.png', title: 'Third-Party Links',
+    id: 14, icon: '/images/link.webp', title: 'Third-Party Links',
     content: [
       'Our website may contain links to third-party websites. We are not responsible for the content or privacy practices of these websites.'
     ]
   },
   {
-    id: 15, icon: '/images/envelope.png', title: 'Contact Information',
+    id: 15, icon: '/images/chat.webp', title: 'Contact Information',
     content: [
       'If you have any questions, concerns, or inquiries regarding our terms and conditions, please contact our customer service team.'
     ],
@@ -216,7 +216,7 @@ const Terms = () => {
               margin: '0 0 16px 0', paddingBottom: '12px',
               borderBottom: '2px solid #f15b29', display: 'flex', alignItems: 'center', gap: '8px'
             }}>
-              <img src='/images/edit.png'/> Quick Navigation
+              <img src='/images/edit.webp'/> Quick Navigation
             </h3>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {sections.map(s => (
@@ -255,7 +255,7 @@ const Terms = () => {
               borderRadius: '16px', padding: '20px 24px',
               marginBottom: '32px', display: 'flex', alignItems: 'flex-start', gap: '14px'
             }}>
-              <span style={{ fontSize: '24px', flexShrink: 0 }}><img src='/images/warning.png'/></span>
+              <span style={{ fontSize: '24px', flexShrink: 0 }}><img src='/images/warning.webp'/></span>
               <div>
                 <p style={{ fontSize: '14px', color: '#9a3412', margin: 0, lineHeight: '1.7' }}>
                   <strong>Important:</strong> By accessing and using <a href="https://ritchiestreet.co.in" style={{ color: '#f15b29' }}>ritchiestreet.co.in</a>, you confirm that you have read, understood, and agreed to be bound by these Terms and Conditions. If you disagree with any part, please discontinue use of our services.
@@ -375,7 +375,7 @@ const Terms = () => {
                 pointerEvents: 'none'
               }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}><img src='/images/wave.png' /></div>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}><img src='/images/wavehand.webp' /></div>
                 <h3 style={{ fontSize: '24px', fontWeight: '700', color: '#ffffff', margin: '0 0 12px 0' }}>
                   You've Agreed to Our Terms
                 </h3>
