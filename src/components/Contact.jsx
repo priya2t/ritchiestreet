@@ -252,17 +252,20 @@ const Contact = () => {
               {/* Form Header */}
               <div style={{ marginBottom: '28px' }}>
                 <span style={{
-                  display: 'inline-block', background: '#fff7ed', color: '#f15b29',
+                  display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff7ed', color: '#f15b29',
                   padding: '5px 14px', borderRadius: '20px', fontSize: '12px',
                   fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '10px'
                 }}>
-                  Send a Message
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#f15b29" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                  PRODUCT SOURCING REQUEST
                 </span>
                 <h2 style={{ fontSize: '26px', fontWeight: '800', color: '#111827', margin: '0 0 6px 0' }}>
-                  We'd Love to Hear From You
+                  Can't Find Your Product?
                 </h2>
                 <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-                  Fill in the details below and our team will get back to you within 24 hours.
+                  Tell us what you're looking for and our sourcing experts will find genuine IT products through our trusted distributor network and send you the best available price and availability within 24 hours.
                 </p>
               </div>
 

@@ -21,16 +21,18 @@ const OrderSuccess = () => {
           total: parseFloat(item.total) || 0
         })) || [];
         const subtotal = items.reduce((sum, item) => sum + item.total, 0);
-        const grandTotal = parseFloat(orderFromState.total) || 0;
+        const gst = subtotal * 0.18;
+        const shipping = subtotal >= 1000 ? 0 : 50;
+        const grandTotal = subtotal + gst + shipping;
         setOrderSummary({
           orderId: orderFromState.id,
           status: orderFromState.status,
           items,
           subtotal,
-          gst: 0,
-          shipping: 0,
+          gst,
+          shipping,
           grandTotal,
-          hasExactBreakdown: false,
+          hasExactBreakdown: true,
           isFromHistory: true
         });
         return;

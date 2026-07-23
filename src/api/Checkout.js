@@ -677,11 +677,11 @@ const Checkout = () => {
 
             <div className="security-badges">
               <div className="security-badge">
-                <span className="badge-icon">🔒</span>
+                <span className="badge-icon"><img src='/images/security1.webp'/></span>
                 <span>Secure Checkout</span>
               </div>
               <div className="security-badge">
-                <span className="badge-icon">🛡️</span>
+                <span className="badge-icon"><img src='/images/privacy.webp'/></span>
                 <span>Safe Payments</span>
               </div>
               <div className="security-badge">

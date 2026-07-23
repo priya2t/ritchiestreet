@@ -29,11 +29,9 @@ const ExistingUserLogin = () => {
 
   // Resend timer countdown
   useEffect(() => {
-    let interval;
-    if (step === 2 && resendTimer > 0) {
-      interval = setInterval(() => setResendTimer((p) => p - 1), 1000);
-    }
-    return () => clearInterval(interval);
+    if (step !== 2 || resendTimer <= 0) return;
+    const timeout = setTimeout(() => setResendTimer((p) => p - 1), 1000);
+    return () => clearTimeout(timeout);
   }, [step, resendTimer]);
 
   // Auto-focus first OTP box when entering step 2
@@ -71,6 +69,7 @@ const ExistingUserLogin = () => {
     try {
       await sendOTP(phone.trim());
       setResendTimer(30);
+      setAttempts(0);
       setOtp(['', '', '', '', '', '']);
       setTimeout(() => inputRefs.current[0]?.focus(), 50);
     } catch (err) {
@@ -809,7 +808,7 @@ const ExistingUserLogin = () => {
                   <p className="auth-terms">
                     By continuing, you agree to our{' '}
                     <Link to="/terms">Terms of Use</Link> and{' '}
-                    <Link to="/privacy">Privacy Policy</Link>.
+                    <Link to="/terms">Privacy Policy</Link>.
                   </p>
                 </>
               )}
