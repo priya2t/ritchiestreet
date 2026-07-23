@@ -19,6 +19,22 @@ const normalizePath = (value) => {
   return normalized.replace(/\/$/, '') || '/';
 };
 
+const Bubble = () => (
+  <span className="ba__bubble" aria-hidden="true">
+    <span className="ba__bubble-main">வாருங்கள்!</span>
+    <span className="ba__bubble-sub">Find My Product</span>
+    <span className="ba__bubble-shine" aria-hidden="true" />
+  </span>
+);
+
+const Waves = ({ className }) => (
+  <span className={`ba__waves ${className}`} aria-hidden="true">
+    <span className="ba__wave ba__wave--1" />
+    <span className="ba__wave ba__wave--2" />
+    <span className="ba__wave ba__wave--3" />
+  </span>
+);
+
 const BrandAnnouncer = ({
   show = true,
   page,
@@ -54,7 +70,7 @@ const BrandAnnouncer = ({
     if (!show || !isAllowed) return;
 
     if (!animate || prefersReduced) {
-      setPhase('compact');
+      setPhase('rest');
       return;
     }
 
@@ -62,7 +78,7 @@ const BrandAnnouncer = ({
     const timers = [
       setTimeout(() => setPhase('intro'), 500),
       setTimeout(() => setPhase('playing'), 1400),
-      setTimeout(() => setPhase('compact'), 4800),
+      setTimeout(() => setPhase('rest'), 4800),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -87,36 +103,35 @@ const BrandAnnouncer = ({
         className="ba__link"
         aria-label="Find a product - go to Product Finder enquiry form"
       >
-        <div className="ba__stage" aria-hidden={phase === 'compact'}>
+        <span className="ba__hero" aria-hidden={phase === 'rest'}>
           <img
             src="/images/murasu_man.webp"
             alt="RitchieStreet Murasu Announcer"
-            className="ba__image"
+            className="ba__hero-img"
             width="280"
             height="280"
             loading="eager"
           />
           <span className="ba__drum" aria-hidden="true" />
-          <span className="ba__waves" aria-hidden="true">
-            <span className="ba__wave ba__wave--1" />
-            <span className="ba__wave ba__wave--2" />
-            <span className="ba__wave ba__wave--3" />
-          </span>
+          <Waves className="ba__hero-waves" />
           <span className="ba__call" aria-hidden="true">
             வாருங்கள்!
           </span>
-        </div>
+        </span>
 
-        <span className="ba__compact" aria-hidden={phase !== 'compact'}>
-          <img
-            src="/images/murasu_man.webp"
-            alt=""
-            className="ba__compact-img"
-            width="72"
-            height="72"
-            loading="eager"
-          />
-          <span className="ba__compact-dot" aria-hidden="true" />
+        <span className="ba__widget" aria-hidden={phase !== 'rest'}>
+          <span className="ba__widget-mascot">
+            <img
+              src="/images/murasu_man.webp"
+              alt=""
+              className="ba__widget-img"
+              width="72"
+              height="72"
+              loading="eager"
+            />
+            <Waves className="ba__widget-waves" />
+          </span>
+          <Bubble />
         </span>
       </Link>
     </div>
