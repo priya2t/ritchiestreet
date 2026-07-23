@@ -21,6 +21,7 @@ import Services from './components/Services';
 import ProductsPage from './api/ProductsPage';
 import CategoryProducts from './api/CategoryProducts';
 import SearchResults from './api/SearchResults';
+import BrandAnnouncer from './components/BrandAnnouncer';
 import { useUserStore } from './api/userStore';
 
 function App() {
@@ -51,6 +52,7 @@ return (
       <Route path="/category/:slug" element={<CategoryProducts />} />
       <Route path="/search" element={<SearchResults />} />
     </Routes>
+    <BrandAnnouncer />
     <Footer />
   </Router>
 );

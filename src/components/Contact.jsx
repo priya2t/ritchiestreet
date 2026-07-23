@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { submitContactForm } from '../api/wordpress';
 
 const inputStyle = {
@@ -17,6 +17,7 @@ const inputStyle = {
 };
 
 const Contact = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,6 +37,17 @@ const Contact = () => {
       metaDescription.setAttribute('content', 'Contact Ritchie Street for electronics, software development, and networking services in Chennai. Call us at +91 86675 07040.');
     }
   }, []);
+
+  useEffect(() => {
+    if (location.hash === '#product-finder-form') {
+      const el = document.getElementById('product-finder-form');
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      }
+    }
+  }, [location.hash]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -244,7 +256,7 @@ const Contact = () => {
           </div>
 
           {/* Right: Contact Form */}
-          <div style={{ flex: '1.2' }}>
+          <div id="product-finder-form" style={{ flex: '1.2' }}>
             <div style={{
               backgroundColor: '#ffffff', borderRadius: '20px', padding: '36px 32px',
               boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9'

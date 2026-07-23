@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getProducts } from './woocommerce';
 import { useCartStore } from './cartStore';
 import Layout from './Layout';
-import { asset } from './siteConfig';
 import ProductCard from '../components/ProductCard';
 import ProductTicker from '../components/ProductTicker';
 import CategoriesSection from '../components/CategoriesSection';
 import BrandLogos from '../components/BrandLogos';
-import SourcingModal from '../components/SourcingModal';
-import ProductSourcingSection from '../components/ProductSourcingSection';
 import { FaShippingFast, FaUndo, FaMoneyBillWave, FaHeadset, FaAward, FaTruck, FaTools, FaLock, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import './Home.css';
 
@@ -31,8 +28,6 @@ const Home = () => {
   const { addToCart, openCart } = useCartStore();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isSourcingOpen, setIsSourcingOpen] = useState(false);
-  const navigate = useNavigate();
   const banners = [
     { image: '/images/slider.webp', alt: 'Ritchie Street Shopping banner', link: null },
     { image: '/images/services.webp', alt: 'Services banner', link: '/services' },
@@ -108,8 +103,6 @@ const Home = () => {
   return (
     <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
       <main className="home">
-        <ProductSourcingSection onOpen={() => setIsSourcingOpen(true)} />
-
         {/* Hero Section - Premium Carousel + Right Panel */}
         <section className="hero-section">
 
@@ -346,12 +339,6 @@ const Home = () => {
         </section>
 
       </main>
-
-      <SourcingModal
-        isOpen={isSourcingOpen}
-        onClose={() => setIsSourcingOpen(false)}
-        onRequest={() => navigate('/contact')}
-      />
     </Layout>
   );
 };
