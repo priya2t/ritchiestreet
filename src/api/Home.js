@@ -241,6 +241,11 @@ const Home = () => {
           </div>
         </section>
 
+        {/* Coming Soon Banner */}
+        <div className="coming-soon-banner coming-soon-banner--home">
+          <img src="/images/coming_soon_banner.webp" alt="Products coming soon" />
+        </div>
+
         {/* Categories Section */}
         <CategoriesSection />
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FiSearch, FiCheck, FiArrowRight, FiArrowDown } from 'react-icons/fi';
 import { submitContactForm } from '../api/wordpress';
 
 const inputStyle = {
@@ -14,6 +15,77 @@ const inputStyle = {
   backgroundColor: '#f8fafc',
   color: '#111827',
   transition: 'all 0.3s ease'
+};
+
+const ProductFinderInfo = ({ onCtaClick }) => {
+  const benefits = [
+    'Genuine & Authorized Products',
+    'Best Market Pricing',
+    'Fast Product Sourcing',
+    'Trusted Distributor Network',
+    'Bulk & Corporate Orders Welcome',
+    'Response Within 24 Hours',
+  ];
+
+  return (
+    <div className="pf-card" style={{
+      backgroundColor: '#ffffff', borderRadius: '20px',
+      padding: '36px 32px',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9',
+      display: 'flex', flexDirection: 'column', height: '100%'
+    }}>
+      <div style={{ marginBottom: '24px' }}>
+        <h2 style={{ fontSize: '28px', fontWeight: '800', color: '#111827', margin: '0 0 12px 0', lineHeight: '1.2', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <FiSearch size={28} color="#e85d04" />
+          Product Finder
+        </h2>
+        <h3 style={{ fontSize: '17px', fontWeight: '600', color: '#374151', margin: '0 0 14px 0', lineHeight: '1.5' }}>
+          Can't find the IT product you're looking for? <span style={{ color: '#f15b29' }}>We've got you covered.</span>
+        </h3>
+        <p style={{ fontSize: '15px', color: '#64748b', margin: 0, lineHeight: '1.7' }}>
+          Whether you're searching for a rare laptop, server component, networking device, industrial equipment, CCTV system, printer, accessories, or any other IT hardware, our sourcing experts will find the genuine product at the best possible price through our trusted distributor network.
+        </p>
+      </div>
+
+      <div style={{ marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#111827', margin: '0 0 14px 0' }}>
+          Why use our Product Finder?
+        </h3>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {benefits.map((text, i) => (
+            <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#374151', fontWeight: '500', lineHeight: '1.4' }}>
+              <span style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: '22px', height: '22px', minWidth: '22px', borderRadius: '50%',
+                background: '#fff7ed', color: '#f15b29'
+              }}>
+                <FiCheck size={13} strokeWidth={3} />
+              </span>
+              {text}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <button type="button" onClick={onCtaClick} className="pf-cta" style={{
+        marginTop: 'auto',
+        width: '100%',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+        padding: '18px 20px', borderRadius: '14px', border: '2px solid #ffdfc4',
+        background: '#fff7ed', color: '#f15b29', fontSize: '15px', fontWeight: '700',
+        cursor: 'pointer', transition: 'all 0.25s ease', textAlign: 'left'
+      }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '18px', lineHeight: 1 }}>➡</span>
+          <span>Use the Product Finder Form</span>
+        </span>
+        <span className="pf-arrow-wrap" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <FiArrowRight className="pf-arrow pf-arrow-desktop" size={26} />
+          <FiArrowDown className="pf-arrow pf-arrow-mobile" size={26} />
+        </span>
+      </button>
+    </div>
+  );
 };
 
 const Contact = () => {
@@ -73,6 +145,17 @@ const Contact = () => {
     }
   };
 
+  const scrollToProductFinder = () => {
+    const form = document.getElementById('product-finder-form');
+    const input = document.getElementById('fullName');
+    if (form) {
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (input) {
+        setTimeout(() => input.focus(), 650);
+      }
+    }
+  };
+
   const focusStyle = { borderColor: '#f15b29', boxShadow: '0 0 0 4px rgba(241,91,41,0.12)', backgroundColor: '#ffffff' };
 
   const contactCards = [
@@ -88,12 +171,6 @@ const Contact = () => {
         { href: 'mailto:info@ritchiestreet.co.in', text: 'info@ritchiestreet.co.in' },
         { href: 'https://www.ritchiestreet.co.in', text: 'www.ritchiestreet.co.in' }
       ]
-    },
-    {
-      icon: '/images/location.webp', title: 'Visit Us', color: '#16a34a',
-      lines: [
-        { text: '6, 107, Mangadu Rd, next to Niagara Juice Shop, Mangala Nagar, Paraniputhur, Iyyappanthangal, Chennai, Tamil Nadu 600122' }
-      ]
     }
   ];
 
@@ -104,10 +181,27 @@ const Contact = () => {
         @keyframes fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
         .contact-card { animation: fadeInUp 0.5s ease forwards; }
         .contact-card:hover { transform: translateY(-6px) !important; box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important; }
-        .social-icon-btn:hover { transform: scale(1.15) !important; }
+        @keyframes pf-arrow-x {
+          0%, 100% { transform: translateX(0) scale(1); }
+          40% { transform: translateX(12px) scale(1.12); }
+          80% { transform: translateX(0) scale(1); }
+        }
+        @keyframes pf-arrow-y {
+          0%, 100% { transform: translateY(0) scale(1); }
+          40% { transform: translateY(10px) scale(1.12); }
+          80% { transform: translateY(0) scale(1); }
+        }
+        .pf-arrow { color: #e85d04; animation: pf-arrow-x 1.6s ease-in-out infinite; }
+        .pf-arrow-desktop { display: inline-block; }
+        .pf-arrow-mobile { display: none; animation-name: pf-arrow-y; }
+        .pf-cta { cursor: pointer; transition: all 0.25s ease; }
+        .pf-cta:hover { background: #fff0e6 !important; border-color: #ffd0b3 !important; }
+        .pf-cta:hover .pf-arrow-wrap { filter: drop-shadow(0 0 10px rgba(232,93,4,0.55)); }
         @media (max-width: 900px) {
           .contact-main-grid { flex-direction: column !important; }
           .contact-form-row { flex-direction: column !important; }
+          .pf-arrow-desktop { display: none; }
+          .pf-arrow-mobile { display: inline-block; }
         }
       `}</style>
 
@@ -204,62 +298,20 @@ const Contact = () => {
           ))}
         </div>
 
-        {/* Map + Form Grid */}
-        <div className="contact-main-grid" style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
+        {/* Product Finder Info + Form Grid */}
+        <div className="contact-main-grid" style={{ display: 'flex', gap: '32px', alignItems: 'stretch' }}>
 
-          {/* Left: Map + Social */}
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {/* Map */}
-            <div style={{
-              borderRadius: '20px', overflow: 'hidden',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
-              border: '1px solid #e2e8f0', height: '340px'
-            }}>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248783.14652415624!2d79.84599848671878!3d13.020595500000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526162c6fe9de9%3A0xb3a12f1400dcab4a!2sF1%20Tekno%20Solutions!5e0!3m2!1sen!2sin!4v1765988025468!5m2!1sen!2sin"
-                width="100%" height="100%"
-                frameBorder="0"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                style={{ display: 'block', border: 'none', width: '100%', height: '100%' }}
-              />
-            </div>
-
-            {/* Social Media */}
-            <div style={{
-              backgroundColor: '#ffffff', borderRadius: '20px', padding: '28px 24px',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.07)', border: '1px solid #f1f5f9'
-            }}>
-              <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', margin: '0 0 6px 0' }}>Follow Us</h3>
-              <p style={{ fontSize: '14px', color: '#64748b', margin: '0 0 20px 0' }}>Stay connected on social media</p>
-              <div style={{ display: 'flex', gap: '16px' }}>
-                {[
-                  { href: 'https://www.facebook.com/profile.php?id=61550673917474', src: '/images/fb.webp', alt: 'Facebook', bg: '#1877f2' },
-                  { href: 'https://twitter.com/Ritchistreetchn', src: '/images/twitter.webp', alt: 'Twitter', bg: '#1da1f2' },
-                  { href: 'https://www.instagram.com/ritchiestreet_chn', src: '/images/insta.webp', alt: 'Instagram', bg: '#e1306c' }
-                ].map((s, i) => (
-                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
-                    className="social-icon-btn"
-                    style={{
-                      width: '52px', height: '52px', borderRadius: '14px',
-                      background: `${s.bg}15`, border: `2px solid ${s.bg}30`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      transition: 'transform 0.3s ease', overflow: 'hidden'
-                    }}
-                  >
-                    <img src={s.src} alt={s.alt} style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-                  </a>
-                ))}
-              </div>
-            </div>
+          {/* Left: Product Finder Info */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+            <ProductFinderInfo onCtaClick={scrollToProductFinder} />
           </div>
 
           {/* Right: Contact Form */}
-          <div id="product-finder-form" style={{ flex: '1.2' }}>
+          <div id="product-finder-form" style={{ flex: '1.2', display: 'flex', flexDirection: 'column' }}>
             <div style={{
               backgroundColor: '#ffffff', borderRadius: '20px', padding: '36px 32px',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9'
+              boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9',
+              display: 'flex', flexDirection: 'column', minHeight: '100%'
             }}>
               {/* Form Header */}
               <div style={{ marginBottom: '28px' }}>
@@ -315,7 +367,7 @@ const Contact = () => {
                       Full Name *
                     </label>
                     <input
-                      type="text" name="name" placeholder="John Doe"
+                      type="text" name="name" id="fullName" placeholder="John Doe"
                       value={formData.name} onChange={handleChange} required
                       style={{ ...inputStyle, ...(focused === 'name' ? focusStyle : {}) }}
                       onFocus={() => setFocused('name')} onBlur={() => setFocused('')}

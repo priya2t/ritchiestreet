@@ -96,12 +96,12 @@ const Footer = () => {
                 Premium electronics &amp; repair services in Chennai. Genuine products, expert support, fast delivery.
               </p>*/}
               <div className="rs-footer-contact">
-                <p className="rs-contact-item">
+                {/*<p className="rs-contact-item">
                   <span className="rs-contact-icon">
                     <img src="/images/location.webp" alt="Location" />
                   </span>
                   Mangadu Rd, Paraniputhur, Iyyappanthangal, Chennai 600122
-                </p>
+                </p>*/}
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
                     <img src="/images/message.webp" alt="Email" />

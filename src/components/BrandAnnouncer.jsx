@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FiMousePointer } from 'react-icons/fi';
 import './BrandAnnouncer.css';
 
 const ALLOWED_PATHS = ['/', '/about', '/services', '/contact', '/terms'];
@@ -32,6 +33,21 @@ const Waves = ({ className }) => (
     <span className="ba__wave ba__wave--1" />
     <span className="ba__wave ba__wave--2" />
     <span className="ba__wave ba__wave--3" />
+  </span>
+);
+
+const Cursor = ({ variant = 'hero' }) => (
+  <span className={`ba__cursor ba__cursor--${variant}`} aria-hidden="true">
+    <span className="ba__cursor-hand">
+      <FiMousePointer size="100%" />
+    </span>
+    <span className="ba__cursor-ripple" />
+    <span className="ba__cursor-hint">
+      <span className="ba__cursor-hint-inner">
+        <span className="ba__cursor-hint-emoji">👆</span>
+        <span>Click Me</span>
+      </span>
+    </span>
   </span>
 );
 
@@ -104,14 +120,17 @@ const BrandAnnouncer = ({
         aria-label="Find a product - go to Product Finder enquiry form"
       >
         <span className="ba__hero" aria-hidden={phase === 'rest'}>
-          <img
-            src="/images/murasu_man.webp"
-            alt="RitchieStreet Murasu Announcer"
-            className="ba__hero-img"
-            width="280"
-            height="280"
-            loading="eager"
-          />
+          <span className="ba__hero-figure">
+            <img
+              src="/images/murasu_man.webp"
+              alt="RitchieStreet Murasu Announcer"
+              className="ba__hero-img"
+              width="280"
+              height="280"
+              loading="eager"
+            />
+            <Cursor variant="hero" />
+          </span>
           <span className="ba__drum" aria-hidden="true" />
           <Waves className="ba__hero-waves" />
           <span className="ba__call" aria-hidden="true">
@@ -132,6 +151,7 @@ const BrandAnnouncer = ({
             <Waves className="ba__widget-waves" />
           </span>
           <Bubble />
+          <Cursor variant="widget" />
         </span>
       </Link>
     </div>

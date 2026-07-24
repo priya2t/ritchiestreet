@@ -323,6 +323,32 @@ body {
   color: #f15b29;
 }
 
+/* Coming soon banner */
+.coming-soon-banner {
+  width: 100%;
+  background: #ffffff;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.coming-soon-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Home page banner above categories — show the full image, no cropping */
+.coming-soon-banner--home {
+  width: 100%;
+  background: #ffffff;
+}
+
+.coming-soon-banner--home img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Responsive Styles */
 @media (max-width: 1200px) {
   .premium-container {
@@ -906,14 +932,6 @@ body {
 
 .rs-content-card p {
   margin-bottom: 18px;
-}
-
-.rs-map iframe {
-  width: 100%;
-  height: 360px;
-  border: 0;
-  display: block;
-  margin-bottom: 30px;
 }
 
 .rs-contact-grid {
