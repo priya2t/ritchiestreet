@@ -89,7 +89,7 @@ const Footer = () => {
             <div className="rs-footer-widget">
               <div className="rs-footer-logo">
                 <Link to="/" onClick={scrollToTop}>
-                  <img src="/images/logo.png" alt="Ritchie Street" />
+                  <img src="/images/logo.png" alt="Ritchie Street" width="160" height="40" decoding="async" />
                 </Link>
               </div>
               {/*<p className="rs-footer-description">
@@ -104,26 +104,26 @@ const Footer = () => {
                 </p>*/}
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
-                    <img src="/images/message.webp" alt="Email" />
+                    <img src="/images/message.webp" alt="Email" width="20" height="20" loading="lazy" decoding="async" />
                   </span>
                   <a href="mailto:info@ritchiestreet.co.in">info@ritchiestreet.co.in</a>
                 </p>
                 <p className="rs-contact-item">
                   <span className="rs-contact-icon">
-                    <img src="/images/phone.webp" alt="Phone" />
+                    <img src="/images/phone.webp" alt="Phone" width="20" height="20" loading="lazy" decoding="async" />
                   </span>
                   <a href="tel:+918667507040">+91 86675 07040</a>
                 </p>
               </div>
               <div className="rs-footer-socials">
                 <a href="https://www.facebook.com/profile.php?id=61550673917474" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Facebook">
-                  <img src="/images/fb.webp" alt="Facebook" />
+                  <img src="/images/fb.webp" alt="Facebook" width="24" height="24" loading="lazy" decoding="async" />
                 </a>
                 <a href="https://www.instagram.com/ritchiestreet_chn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Instagram">
-                  <img src="/images/insta.webp" alt="Instagram" />
+                  <img src="/images/insta.webp" alt="Instagram" width="24" height="24" loading="lazy" decoding="async" />
                 </a>
                 <a href="https://twitter.com/Ritchistreetchn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="X / Twitter">
-                  <img src="/images/twitter.webp" alt="X" />
+                  <img src="/images/twitter.webp" alt="X" width="24" height="24" loading="lazy" decoding="async" />
                 </a>
               </div>
             </div>

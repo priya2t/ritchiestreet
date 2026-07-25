@@ -33,8 +33,7 @@ const ProductDetail = () => {
     setQuantity(1);
     setImageZoom(false);
     setMainImageLoaded(false);
-    fetchProduct();
-    fetchReviews();
+    Promise.all([fetchProduct(), fetchReviews()]);
   }, [id]);
 
   useEffect(() => {
@@ -269,6 +268,10 @@ const ProductDetail = () => {
                     src={images[selectedImage].src}
                     alt={images[selectedImage].alt || product.name}
                     className={`pd-main-image ${mainImageLoaded ? 'pd-main-image-loaded' : ''}`}
+                    width="600"
+                    height="600"
+                    fetchPriority="high"
+                    loading="eager"
                     style={imageZoom ? {
                       transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
                     } : {}}
@@ -300,7 +303,7 @@ const ProductDetail = () => {
                     className={`pd-thumb ${index === selectedImage ? 'pd-thumb-active' : ''}`}
                     onClick={() => setSelectedImage(index)}
                   >
-                    <img src={img.src} alt={img.alt || `View ${index + 1}`} loading="lazy" decoding="async" />
+                    <img src={img.src} alt={img.alt || `View ${index + 1}`} width="80" height="80" loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>

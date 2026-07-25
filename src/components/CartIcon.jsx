@@ -31,6 +31,8 @@ const CartIcon = () => {
     <div className="cart-icon-container" ref={dropdownRef}>
       <button 
         className="cart-icon-btn"
+        aria-label={`Cart, ${getCartCount()} items`}
+        aria-expanded={isDropdownOpen}
         onMouseEnter={() => setIsDropdownOpen(true)}
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
@@ -70,7 +72,7 @@ const CartIcon = () => {
                   <div key={item.id} className="mini-cart-item">
                     <div className="mini-cart-item-image">
                       {item.images && item.images.length > 0 && (
-                        <img src={item.images[0].src} alt={item.name} />
+                        <img src={item.images[0].src} alt={item.name} width="50" height="50" loading="lazy" decoding="async" />
                       )}
                     </div>
                     

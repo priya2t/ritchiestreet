@@ -203,6 +203,25 @@ const Contact = () => {
           .pf-arrow-desktop { display: none; }
           .pf-arrow-mobile { display: inline-block; }
         }
+        @media (max-width: 640px) {
+          .contact-quick-cards {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+          }
+          .contact-quick-cards > .contact-card {
+            padding: 18px 10px !important;
+            text-align: center !important;
+          }
+          .contact-quick-cards > .contact-card h3 {
+            font-size: 14px !important;
+            margin: 0 0 6px 0 !important;
+          }
+          .contact-quick-cards > .contact-card a,
+          .contact-quick-cards > .contact-card p {
+            font-size: 12px !important;
+            word-break: break-word !important;
+          }
+        }
       `}</style>
 
       {/* Hero Banner */}
@@ -253,7 +272,7 @@ const Contact = () => {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 20px 64px 20px' }}>
 
         {/* Quick Contact Cards */}
-        <div style={{
+        <div className="contact-quick-cards" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '20px',

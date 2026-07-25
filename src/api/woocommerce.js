@@ -25,58 +25,64 @@ const woocommerceApi = axios.create({
   }
 });
 
+const API_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const apiCache = new Map();
+const apiInFlight = new Map();
+
+const cachedGet = (cacheKey, fetcher) => {
+  const now = Date.now();
+  const cached = apiCache.get(cacheKey);
+  if (cached && now - cached.ts < API_CACHE_TTL) {
+    return Promise.resolve(cached.data);
+  }
+  const inFlight = apiInFlight.get(cacheKey);
+  if (inFlight) return inFlight;
+
+  const promise = fetcher().then(data => {
+    apiCache.set(cacheKey, { data, ts: Date.now() });
+    apiInFlight.delete(cacheKey);
+    return data;
+  }).catch(err => {
+    apiInFlight.delete(cacheKey);
+    throw err;
+  });
+  apiInFlight.set(cacheKey, promise);
+  return promise;
+};
+
 // Products API
 export const getProducts = async (params = {}) => {
-  try {
-    const response = await storeApi.get('/products', { params });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    throw error;
-  }
+  const requestParams = { per_page: 100, ...params };
+  return cachedGet(`products:${JSON.stringify(requestParams)}`, () =>
+    storeApi.get('/products', { params: requestParams }).then(res => res.data)
+  );
 };
 
 export const getProduct = async (id) => {
-  try {
-    const response = await storeApi.get(`/products/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching product:', error);
-    throw error;
-  }
+  return cachedGet(`product:${id}`, () =>
+    storeApi.get(`/products/${id}`).then(res => res.data)
+  );
 };
 
 export const getProductsByCategory = async (categoryId, params = {}) => {
-  try {
-    const response = await storeApi.get('/products', {
-      params: { ...params, category: categoryId }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching products by category:', error);
-    throw error;
-  }
+  const requestParams = { per_page: 100, ...params, category: categoryId };
+  return cachedGet(`products-category:${categoryId}:${JSON.stringify(params)}`, () =>
+    storeApi.get('/products', { params: requestParams }).then(res => res.data)
+  );
 };
 
 // Categories API
 export const getCategories = async (params = {}) => {
-  try {
-    const response = await storeApi.get('/products/categories', { params });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    throw error;
-  }
+  const requestParams = { per_page: 100, hide_empty: true, ...params };
+  return cachedGet(`categories:${JSON.stringify(requestParams)}`, () =>
+    storeApi.get('/products/categories', { params: requestParams }).then(res => res.data)
+  );
 };
 
 export const getCategory = async (id) => {
-  try {
-    const response = await storeApi.get(`/products/categories/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching category:', error);
-    throw error;
-  }
+  return cachedGet(`category:${id}`, () =>
+    storeApi.get(`/products/categories/${id}`).then(res => res.data)
+  );
 };
 
 // Cart API (WooCommerce session-based cart)

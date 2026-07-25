@@ -1,28 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Home from './api/Home';
-import ProductDetail from './api/ProductDetail';
-import Cart from './api/Cart';
-import Checkout from './api/Checkout';
-import Login from './api/Login';
-import LoginNew from './api/LoginNew';
-import LoginFlow from './components/LoginFlow';
-import ExistingUserLogin from './components/ExistingUserLogin';
-import Register from './api/Register';
-import ExistingUserRegister from './components/ExistingUserRegister';
-import MyAccount from './api/MyAccount';
-import OrderSuccess from './api/OrderSuccess';
-import About from './components/About';
-import Contact from './components/Contact';
-import Terms from './components/Terms';
-import Services from './components/Services';
-import ProductsPage from './api/ProductsPage';
-import CategoryProducts from './api/CategoryProducts';
-import SearchResults from './api/SearchResults';
 import BrandAnnouncer from './components/BrandAnnouncer';
 import { useUserStore } from './api/userStore';
+
+const Home = React.lazy(() => import('./api/Home'));
+const ProductsPage = React.lazy(() => import('./api/ProductsPage'));
+const ProductDetail = React.lazy(() => import('./api/ProductDetail'));
+const Cart = React.lazy(() => import('./api/Cart'));
+const Checkout = React.lazy(() => import('./api/Checkout'));
+const OrderSuccess = React.lazy(() => import('./api/OrderSuccess'));
+const ExistingUserLogin = React.lazy(() => import('./components/ExistingUserLogin'));
+const ExistingUserRegister = React.lazy(() => import('./components/ExistingUserRegister'));
+const MyAccount = React.lazy(() => import('./api/MyAccount'));
+const About = React.lazy(() => import('./components/About'));
+const Contact = React.lazy(() => import('./components/Contact'));
+const Services = React.lazy(() => import('./components/Services'));
+const Terms = React.lazy(() => import('./components/Terms'));
+const CategoryProducts = React.lazy(() => import('./api/CategoryProducts'));
+const SearchResults = React.lazy(() => import('./api/SearchResults'));
 
 function App() {
   const { initAuth } = useUserStore();
@@ -35,23 +32,25 @@ function App() {
 return (
   <Router basename="/" useTransitions>
     <Header />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/products" element={<ProductsPage />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/order-success/:orderId" element={<OrderSuccess />} />
-      <Route path="/login" element={<ExistingUserLogin />} />
-      <Route path="/register" element={<ExistingUserRegister />} />
-      <Route path="/my-account" element={<MyAccount />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/terms" element={<Terms />} />
-      <Route path="/category/:slug" element={<CategoryProducts />} />
-      <Route path="/search" element={<SearchResults />} />
-    </Routes>
+    <Suspense fallback={<div className="page-loader" aria-live="polite">Loading page...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-success/:orderId" element={<OrderSuccess />} />
+        <Route path="/login" element={<ExistingUserLogin />} />
+        <Route path="/register" element={<ExistingUserRegister />} />
+        <Route path="/my-account" element={<MyAccount />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/category/:slug" element={<CategoryProducts />} />
+        <Route path="/search" element={<SearchResults />} />
+      </Routes>
+    </Suspense>
     <BrandAnnouncer />
     <Footer />
   </Router>

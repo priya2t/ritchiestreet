@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from './woocommerce';
 import { useCartStore } from './cartStore';
@@ -82,7 +82,7 @@ const Home = () => {
     setCurrentSlide((prev) => (prev + 1) % banners.length);
   };
 
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = useMemo(() => products.filter(product => {
     const categoryName = product.categories && product.categories.length > 0 
       ? product.categories[0].name 
       : '';
@@ -98,7 +98,7 @@ const Home = () => {
     if (activeCategory === 'TV') return categoryName.includes('TV') || categoryName.includes('Television');
     if (activeCategory === 'Others') return true;
     return false;
-  });
+  }), [products, activeCategory]);
 
   return (
     <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
@@ -126,14 +126,22 @@ const Home = () => {
                         <img
                           src={banner.image}
                           alt={banner.alt}
-                          loading="lazy"
+                          width="675"
+                          height="360"
+                          {...(index === 0
+                            ? { fetchPriority: 'high', decoding: 'async' }
+                            : { loading: 'lazy', decoding: 'async' })}
                         />
                       </Link>
                     ) : (
                       <img
                         src={banner.image}
                         alt={banner.alt}
-                        loading="lazy"
+                        width="675"
+                        height="360"
+                        {...(index === 0
+                          ? { fetchPriority: 'high', decoding: 'async' }
+                          : { loading: 'lazy', decoding: 'async' })}
                       />
                     )}
                   </div>
@@ -164,25 +172,25 @@ const Home = () => {
               <div className="hrp-services-grid">
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/laptop1.webp" alt="Computer Repair" />
+                    <img src="/images/laptop1.webp" alt="Computer Repair" width="48" height="48" loading="lazy" decoding="async" />
                   </span>
                   <span className="hrp-service-label">Computer<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/tv&mobile.webp" alt="TV Repair" />
+                    <img src="/images/tv&mobile.webp" alt="TV Repair" width="48" height="48" loading="lazy" decoding="async" />
                   </span>
                   <span className="hrp-service-label">Tv & Mobile<br/>Repair</span>
                 </Link>
                 <Link to="/services" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/printer.webp" alt="Printer Repair" />
+                    <img src="/images/printer.webp" alt="Printer Repair" width="48" height="48" loading="lazy" decoding="async" />
                   </span>
                   <span className="hrp-service-label">Printer<br/>Service</span>
                 </Link>
                 <Link to="/contact" className="hrp-service-item">
                   <span className="hrp-service-icon">
-                    <img src="/images/globe.webp" alt="Web Developement" />
+                    <img src="/images/globe.webp" alt="Web Developement" width="48" height="48" loading="lazy" decoding="async" />
                   </span>
                   <span className="hrp-service-label">Web<br/>Developement</span>
                 </Link>
@@ -243,7 +251,7 @@ const Home = () => {
 
         {/* Coming Soon Banner */}
         <div className="coming-soon-banner coming-soon-banner--home">
-          <img src="/images/coming_soon_banner.webp" alt="Products coming soon" />
+          <img src="/images/coming_soon_banner.webp" alt="Products coming soon" width="1200" height="300" loading="lazy" decoding="async" />
         </div>
 
         {/* Categories Section */}

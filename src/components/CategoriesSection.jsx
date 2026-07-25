@@ -29,7 +29,10 @@ const CategoriesSection = () => {
               className="category-img-fill"
               src={category.image}
               alt={category.name}
+              width="400"
+              height="300"
               loading="lazy"
+              decoding="async"
             />
           </Link>
         ))}
@@ -38,4 +41,4 @@ const CategoriesSection = () => {
   );
 };
 
-export default CategoriesSection;
+export default React.memo(CategoriesSection);

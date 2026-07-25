@@ -126,7 +126,12 @@ const Services = () => {
           }
           @media (max-width: 480px) {
             .service-icons-strip {
-              grid-template-columns: 1fr !important;
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: 12px !important;
+            }
+            .service-icons-strip > div {
+              min-height: 120px !important;
+              padding: 16px 8px !important;
             }
           }
         `}

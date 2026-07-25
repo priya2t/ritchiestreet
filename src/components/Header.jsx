@@ -152,7 +152,7 @@ const Header = () => {
           <div className="premium-header-left">
             <div className="premium-logo">
               <Link to="/">
-                <img src="/images/logo.png" alt="Ritchie Street" />
+                <img src="/images/logo.png" alt="Ritchie Street" width="160" height="40" decoding="async" />
               </Link>
             </div>
           </div>
@@ -199,7 +199,7 @@ const Header = () => {
                           onClick={() => handleSuggestionClick(product)}
                         >
                           <div className="search-suggestion-thumb">
-                            <img src={product.image} alt={product.name} loading="lazy" />
+                            <img src={product.image} alt={product.name} width="40" height="40" loading="lazy" decoding="async" />
                           </div>
                           <div className="search-suggestion-info">
                             <span className="search-suggestion-name">{product.name}</span>

@@ -75,6 +75,8 @@ const ProductCard = ({ product, compact = false }) => {
           <img
             src={imgError ? PLACEHOLDER_IMG : imageUrl}
             alt={product.name}
+            width="200"
+            height="200"
             loading="lazy"
             decoding="async"
             onLoad={() => setImgLoaded(true)}
@@ -117,6 +119,8 @@ const ProductCard = ({ product, compact = false }) => {
         <img
           src={imgError ? PLACEHOLDER_IMG : imageUrl}
           alt={product.name}
+          width="200"
+          height="200"
           loading="lazy"
           decoding="async"
           onLoad={() => setImgLoaded(true)}
@@ -174,4 +178,4 @@ const ProductCard = ({ product, compact = false }) => {
   );
 };
 
-export default ProductCard;
+export default React.memo(ProductCard);

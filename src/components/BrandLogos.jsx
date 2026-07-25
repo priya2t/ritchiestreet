@@ -24,7 +24,7 @@ const BrandLogos = () => {
         <div className="brands-slider">
           {duplicatedBrands.map((brand, index) => (
             <div key={`${brand.name}-${index}`} className="brand-logo-card">
-              <img src={brand.img} alt={brand.name} loading="lazy" />
+              <img src={brand.img} alt={brand.name} width="120" height="60" loading="lazy" decoding="async" />
             </div>
           ))}
         </div>
@@ -33,4 +33,4 @@ const BrandLogos = () => {
   );
 };
 
-export default BrandLogos;
+export default React.memo(BrandLogos);

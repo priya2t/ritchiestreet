@@ -127,7 +127,8 @@ const BrandAnnouncer = ({
               className="ba__hero-img"
               width="280"
               height="280"
-              loading="eager"
+              loading="lazy"
+              decoding="async"
             />
             <Cursor variant="hero" />
           </span>
@@ -146,7 +147,8 @@ const BrandAnnouncer = ({
               className="ba__widget-img"
               width="72"
               height="72"
-              loading="eager"
+              loading="lazy"
+              decoding="async"
             />
             <Waves className="ba__widget-waves" />
           </span>
