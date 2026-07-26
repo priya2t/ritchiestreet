@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
+﻿import React, { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from './woocommerce';
 import Layout from './Layout';
@@ -20,7 +20,7 @@ const BenefitCard = React.memo(({ icon: Icon, title, desc, accent }) => (
 ));
 
 const whyChooseData = [
-  { icon: FaShippingFast, title: 'Free Shipping', desc: 'Fast & reliable delivery on all orders above ₹1000.', accent: 'blue' },
+  { icon: FaShippingFast, title: 'Free Shipping', desc: 'Fast & reliable delivery on all orders above Γé╣1000.', accent: 'blue' },
   { icon: FaUndo, title: 'Easy Replacements', desc: 'Hassle-free replacements within 7 days.', accent: 'green' },
   { icon: FaMoneyBillWave, title: 'Cash On Delivery', desc: 'Multiple safe payment options.', accent: 'purple' },
   { icon: FaHeadset, title: '24/7 Support', desc: 'Expert assistance whenever you need help.', accent: 'orange' },
@@ -42,9 +42,9 @@ const Home = () => {
   const mainRef = useRef(null);
 
   const banners = useMemo(() => [
-    { image: '/images/slider.webp', alt: 'Ritchie Street Shopping banner', link: null },
-    { image: '/images/services.webp', alt: 'Services banner', link: '/services' },
-    { image: '/images/contactBanner.webp', alt: 'Other Enquiries banner', link: '/contact' }
+    { image: '/images/slider1A.webp', alt: 'Ritchie Street Shopping banner', link: null },
+    { image: '/images/slider2A.webp', alt: 'Services banner', link: '/services' },
+    { image: '/images/slider3A.webp', alt: 'Other Enquiries banner', link: '/contact' }
   ], []);
 
   useEffect(() => {
@@ -229,10 +229,10 @@ const Home = () => {
               </p>
               {/* Trust badges 
               <div className="hrp-trust-row">
-                <span className="hrp-trust-badge">✓ Genuine Parts</span>
-                <span className="hrp-trust-badge">✓ Certified</span>
-                <span className="hrp-trust-badge">✓ Warranty</span>
-                <span className="hrp-trust-badge">✓ Same-Day Support</span>
+                <span className="hrp-trust-badge">Γ£ô Genuine Parts</span>
+                <span className="hrp-trust-badge">Γ£ô Certified</span>
+                <span className="hrp-trust-badge">Γ£ô Warranty</span>
+                <span className="hrp-trust-badge">Γ£ô Same-Day Support</span>
               </div>*/}
             </div>
 
