@@ -36,6 +36,25 @@
   --premium-orange-end: #ff5e00;
 }
 
+/* Defer entrance/hover animations until after the first paint */
+.home:not(.home-ready) .hrp-card,
+.home:not(.home-ready) .brands-slider {
+  animation: none !important;
+}
+
+.home:not(.home-ready) .hero-carousel-track,
+.home:not(.home-ready) .hero-carousel-slide img,
+.home:not(.home-ready) .premium-card,
+.home:not(.home-ready) .category-card-premium,
+.home:not(.home-ready) .brand-logo-card,
+.home:not(.home-ready) .fp-card,
+.home:not(.home-ready) .hrp-contact-btn,
+.home:not(.home-ready) .hrp-service-item,
+.home:not(.home-ready) .hero-carousel-arrow,
+.home:not(.home-ready) .hero-carousel-dot {
+  transition: none !important;
+}
+
 body {
   background: var(--bg-color);
   color: var(--text-dark);

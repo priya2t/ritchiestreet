@@ -1,41 +1,63 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from './woocommerce';
-import { useCartStore } from './cartStore';
 import Layout from './Layout';
-import ProductCard from '../components/ProductCard';
-import ProductTicker from '../components/ProductTicker';
-import CategoriesSection from '../components/CategoriesSection';
-import BrandLogos from '../components/BrandLogos';
 import { FaShippingFast, FaUndo, FaMoneyBillWave, FaHeadset, FaAward, FaTruck, FaTools, FaLock, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import './Home.css';
 
-const BenefitCard = ({ icon, title, desc, accent }) => (
+const CategoriesSection = React.lazy(() => import('../components/CategoriesSection'));
+const ProductTicker = React.lazy(() => import('../components/ProductTicker'));
+const BrandLogos = React.lazy(() => import('../components/BrandLogos'));
+
+const BenefitCard = React.memo(({ icon: Icon, title, desc, accent }) => (
   <article className={`premium-card premium-card--${accent}`} aria-label={title}>
     <div className="premium-card__badge" aria-hidden="true">
-      {icon}
+      <Icon />
     </div>
     <h3 className="premium-card__title">{title}</h3>
     <p className="premium-card__desc">{desc}</p>
   </article>
-);
+));
+
+const whyChooseData = [
+  { icon: FaShippingFast, title: 'Free Shipping', desc: 'Fast & reliable delivery on all orders above ₹1000.', accent: 'blue' },
+  { icon: FaUndo, title: 'Easy Replacements', desc: 'Hassle-free replacements within 7 days.', accent: 'green' },
+  { icon: FaMoneyBillWave, title: 'Cash On Delivery', desc: 'Multiple safe payment options.', accent: 'purple' },
+  { icon: FaHeadset, title: '24/7 Support', desc: 'Expert assistance whenever you need help.', accent: 'orange' },
+];
+
+const whyBuyData = [
+  { icon: FaAward, title: 'Genuine Products', desc: '100% authentic products from authorized dealers.', accent: 'blue' },
+  { icon: FaTruck, title: 'Fast Delivery', desc: 'Quick delivery across Chennai and nearby locations.', accent: 'orange' },
+  { icon: FaTools, title: 'Expert Support', desc: 'Professional technical guidance before and after purchase.', accent: 'purple' },
+  { icon: FaLock, title: 'Secure Shopping', desc: 'Trusted checkout with encrypted payment protection.', accent: 'green' },
+];
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
-  const { addToCart, openCart } = useCartStore();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const banners = [
+  const mainRef = useRef(null);
+
+  const banners = useMemo(() => [
     { image: '/images/slider.webp', alt: 'Ritchie Street Shopping banner', link: null },
     { image: '/images/services.webp', alt: 'Services banner', link: '/services' },
     { image: '/images/contactBanner.webp', alt: 'Other Enquiries banner', link: '/contact' }
-  ];
+  ], []);
 
   useEffect(() => {
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!main) return;
+    const id = requestAnimationFrame(() => {
+      main.classList.add('home-ready');
+    });
+    return () => cancelAnimationFrame(id);
   }, []);
 
   useEffect(() => {
@@ -45,64 +67,34 @@ const Home = () => {
       }, 4000);
       return () => clearInterval(interval);
     }
-  }, [isPaused, banners.length]);
+  }, [isPaused, banners]);
 
   const fetchProducts = async () => {
     try {
       const data = await getProducts();
       setProducts(data);
-      setLoading(false);
+      setProductsLoading(false);
     } catch (err) {
       setError('Failed to fetch products');
-      setLoading(false);
+      setProductsLoading(false);
     }
   };
 
-  const handleAddToCart = (product) => {
-    const productToAdd = {
-      id: product.id,
-      name: product.name,
-      price: (parseFloat(product.prices.price || 0) / 100),
-      images: product.images,
-      prices: product.prices
-    };
-    addToCart(productToAdd);
-    openCart();
-  };
-
-  const goToSlide = (index) => {
+  const goToSlide = useCallback((index) => {
     setCurrentSlide(index);
-  };
+  }, []);
 
-  const goToPrevSlide = () => {
+  const goToPrevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
-  };
+  }, [banners]);
 
-  const goToNextSlide = () => {
+  const goToNextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % banners.length);
-  };
-
-  const filteredProducts = useMemo(() => products.filter(product => {
-    const categoryName = product.categories && product.categories.length > 0 
-      ? product.categories[0].name 
-      : '';
-    
-    if (activeCategory === 'All') return true;
-    if (activeCategory === 'Laptop') return categoryName.includes('Laptop');
-    if (activeCategory === 'Gaming') return categoryName.includes('Gaming');
-    if (activeCategory === 'Desktop') return categoryName.includes('Desktop');
-    if (activeCategory === 'iPad') return categoryName.includes('iPad') || categoryName.includes('Tablet');
-    if (activeCategory === 'CCTV') return categoryName.includes('CCTV');
-    if (activeCategory === 'Computer Accessories') return categoryName.includes('Computer') || categoryName.includes('Accessory');
-    if (activeCategory === 'Phone') return categoryName.includes('Phone') || categoryName.includes('Mobile');
-    if (activeCategory === 'TV') return categoryName.includes('TV') || categoryName.includes('Television');
-    if (activeCategory === 'Others') return true;
-    return false;
-  }), [products, activeCategory]);
+  }, [banners]);
 
   return (
     <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
-      <main className="home">
+      <main ref={mainRef} className="home">
         {/* Hero Section - Premium Carousel + Right Panel */}
         <section className="hero-section">
 
@@ -119,9 +111,7 @@ const Home = () => {
                     key={index}
                     className={`hero-carousel-slide ${index === currentSlide ? 'active' : ''}`}
                   >
-                    {loading ? (
-                      <div className="hero-skeleton"></div>
-                    ) : banner.link ? (
+                    {banner.link ? (
                       <Link to={banner.link} className="hero-slide-link">
                         <img
                           src={banner.image}
@@ -129,7 +119,7 @@ const Home = () => {
                           width="675"
                           height="360"
                           {...(index === 0
-                            ? { fetchPriority: 'high', decoding: 'async' }
+                            ? { fetchPriority: 'high', loading: 'eager', decoding: 'async' }
                             : { loading: 'lazy', decoding: 'async' })}
                         />
                       </Link>
@@ -254,26 +244,27 @@ const Home = () => {
           <img src="/images/coming_soon_banner.webp" alt="Products coming soon" width="1200" height="300" loading="lazy" decoding="async" />
         </div>
 
-        {/* Categories Section */}
-        <CategoriesSection />
+        <Suspense fallback={<div />}>
+          {/* Categories Section */}
+          <CategoriesSection />
 
-        {/* Featured Products Section */}
-        <section className="featured-products-section">
-          <div className="section-header">
-            <h2 className="section-title">Featured Products</h2>
-            {/*<Link to="/products" className="view-all-btn">View All</Link>*/}
-          </div>
-          {loading ? (
-            <div className="loading">Loading products...</div>
-          ) : error ? (
-            <div className="error-message">{error}</div>
-          ) : (
-            <ProductTicker products={products} />
-          )}
-        </section>
+          {/* Featured Products Section */}
+          <section className="featured-products-section">
+            <div className="section-header">
+              <h2 className="section-title">Featured Products</h2>
+            </div>
+            {productsLoading ? (
+              <div className="loading">Loading products...</div>
+            ) : error ? (
+              <div className="error-message">{error}</div>
+            ) : (
+              <ProductTicker products={products} />
+            )}
+          </section>
 
-        {/* Trusted Brands Section */}
-        <BrandLogos />
+          {/* Trusted Brands Section */}
+          <BrandLogos />
+        </Suspense>
 
         {/* Why Choose Us Section */}
         <section className="premium-section" aria-labelledby="why-choose-title">
@@ -285,30 +276,9 @@ const Home = () => {
               <div className="premium-section__accent" aria-hidden="true"></div>
             </div>
             <div className="premium-section__grid">
-              <BenefitCard
-                icon={<FaShippingFast />}
-                title="Free Shipping"
-                desc="Fast & reliable delivery on all orders above ₹1000."
-                accent="blue"
-              />
-              <BenefitCard
-                icon={<FaUndo />}
-                title="Easy Replacements"
-                desc="Hassle-free replacements within 7 days."
-                accent="green"
-              />
-              <BenefitCard
-                icon={<FaMoneyBillWave />}
-                title="Cash On Delivery"
-                desc="Multiple safe payment options."
-                accent="purple"
-              />
-              <BenefitCard
-                icon={<FaHeadset />}
-                title="24/7 Support"
-                desc="Expert assistance whenever you need help."
-                accent="orange"
-              />
+              {whyChooseData.map((item) => (
+                <BenefitCard key={item.title} {...item} />
+              ))}
             </div>
           </div>
         </section>
@@ -323,30 +293,9 @@ const Home = () => {
               <div className="premium-section__accent" aria-hidden="true"></div>
             </div>
             <div className="premium-section__grid">
-              <BenefitCard
-                icon={<FaAward />}
-                title="Genuine Products"
-                desc="100% authentic products from authorized dealers."
-                accent="blue"
-              />
-              <BenefitCard
-                icon={<FaTruck />}
-                title="Fast Delivery"
-                desc="Quick delivery across Chennai and nearby locations."
-                accent="orange"
-              />
-              <BenefitCard
-                icon={<FaTools />}
-                title="Expert Support"
-                desc="Professional technical guidance before and after purchase."
-                accent="purple"
-              />
-              <BenefitCard
-                icon={<FaLock />}
-                title="Secure Shopping"
-                desc="Trusted checkout with encrypted payment protection."
-                accent="green"
-              />
+              {whyBuyData.map((item) => (
+                <BenefitCard key={item.title} {...item} />
+              ))}
             </div>
           </div>
         </section>

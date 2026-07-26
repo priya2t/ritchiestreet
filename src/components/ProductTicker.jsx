@@ -85,4 +85,4 @@ const ProductTicker = ({ products }) => {
   );
 };
 
-export default ProductTicker;
+export default React.memo(ProductTicker);
