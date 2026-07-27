@@ -89,7 +89,7 @@ const Footer = () => {
             <div className="rs-footer-widget">
               <div className="rs-footer-logo">
                 <Link to="/" onClick={scrollToTop}>
-                  <img src="/images/logo.png" alt="Ritchie Street" width="160" height="40" decoding="async" />
+                  <img src="/images/logo.webp" alt="Ritchie Street" width="160" height="40" decoding="async" />
                 </Link>
               </div>
               {/*<p className="rs-footer-description">

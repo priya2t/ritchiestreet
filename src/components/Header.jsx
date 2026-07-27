@@ -152,7 +152,7 @@ const Header = () => {
           <div className="premium-header-left">
             <div className="premium-logo">
               <Link to="/">
-                <img src="/images/logo.png" alt="Ritchie Street" width="160" height="40" decoding="async" />
+                <img src="/images/logo.webp" alt="Ritchie Street" width="160" height="40" decoding="async" />
               </Link>
             </div>
           </div>
