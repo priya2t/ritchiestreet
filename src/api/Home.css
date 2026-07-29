@@ -107,7 +107,7 @@ body {
   width: 100%;
   flex-shrink: 0;
   position: relative;
-  background: #fff;
+  background: black;
   aspect-ratio: 675 / 360;
   display: flex;
   align-items: center;
