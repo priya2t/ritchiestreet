@@ -3,6 +3,41 @@ import { useNavigate } from 'react-router-dom';
 
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
+
+  // Calculate total with GST and shipping
+  const calculateOrderTotal = (order) => {
+    let subtotal = 0;
+
+    // Calculate subtotal from line items
+    if (order.line_items && Array.isArray(order.line_items)) {
+      subtotal = order.line_items.reduce((sum, item) => {
+        const itemTotal = parseFloat(item.total) || 0;
+        return sum + itemTotal;
+      }, 0);
+    } else {
+      // Fallback to order total if line items not available
+      subtotal = parseFloat(order.total) || 0;
+    }
+
+    // Calculate GST (18%)
+    const gst = subtotal * 0.18;
+
+    // Calculate shipping (free for orders >= 1000, otherwise 50)
+    const shipping = subtotal >= 1000 ? 0 : 50;
+
+    // Calculate grand total
+    const grandTotal = subtotal + gst + shipping;
+
+    return {
+      subtotal,
+      gst,
+      shipping,
+      grandTotal
+    };
+  };
+
+  const { grandTotal } = calculateOrderTotal(order);
+
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case 'pending':
@@ -104,8 +139,18 @@ const OrderCard = ({ order }) => {
             color: '#111827',
             margin: '0'
           }}>
-            ₹{order.total}
+            ₹{grandTotal.toFixed(2)}
           </p>
+          {order.advance_payment_accepted === 'yes' && (
+            <p style={{
+              fontSize: '12px',
+              color: '#16a34a',
+              margin: '4px 0 0 0',
+              fontWeight: '600'
+            }}>
+              ✅ {order.advance_payment_percentage || 50}% Advance Payment Enabled
+            </p>
+          )}
         </div>
         <div style={{
           display: 'flex',

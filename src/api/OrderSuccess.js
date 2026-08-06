@@ -25,6 +25,18 @@ const OrderSuccess = () => {
         const gst = subtotal * 0.18;
         const shipping = subtotal >= 1000 ? 0 : 50;
         const grandTotal = subtotal + gst + shipping;
+
+        // Check for advance payment in order meta
+        const advancePaymentAccepted = orderFromState.advance_payment_accepted === 'yes' ||
+                                     orderFromState.meta_data?.find(meta => meta.key === '_advance_payment_accepted')?.value === 'yes';
+        const advancePaymentPercentage = orderFromState.advance_payment_percentage ||
+                                        orderFromState.meta_data?.find(meta => meta.key === '_advance_payment_percentage')?.value || '50';
+
+        const advancePayment = advancePaymentAccepted ? {
+          accepted: 'yes',
+          percentage: advancePaymentPercentage
+        } : null;
+
         setOrderSummary({
           orderId: orderFromState.id,
           status: orderFromState.status,
@@ -34,7 +46,8 @@ const OrderSuccess = () => {
           shipping,
           grandTotal,
           hasExactBreakdown: true,
-          isFromHistory: true
+          isFromHistory: true,
+          advancePayment
         });
         return;
       }

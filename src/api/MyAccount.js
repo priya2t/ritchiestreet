@@ -24,6 +24,10 @@ const MyAccount = () => {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(5);
+
   const [billingForm, setBillingForm] = useState({
     first_name: '',
     last_name: '',
@@ -59,6 +63,19 @@ const MyAccount = () => {
   });
 
   const [activeTab, setActiveTab] = useState('dashboard');
+
+  // Pagination logic
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Reset pagination when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
 
   // Sync account form when user data changes
   useEffect(() => {
@@ -568,6 +585,30 @@ const MyAccount = () => {
                     {orders.slice(0, 5).map(order => (
                       <OrderCard key={order.id} order={order} />
                     ))}
+
+                    {orders.length > 5 && (
+                      <button
+                        onClick={() => {
+                          setActiveTab('orders');
+                          setCurrentPage(1);
+                        }}
+                        style={{
+                          marginTop: '16px',
+                          padding: '12px 24px',
+                          backgroundColor: '#ffffff',
+                          color: '#f15b29',
+                          border: '1px solid #f15b29',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          width: '100%'
+                        }}
+                      >
+                        View All Orders ({orders.length})
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div style={{
@@ -631,9 +672,86 @@ const MyAccount = () => {
                 </div>
               ) : orders.length > 0 ? (
                 <div>
-                  {orders.map(order => (
+                  {currentOrders.map(order => (
                     <OrderCard key={order.id} order={order} />
                   ))}
+
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginTop: '24px',
+                      padding: '16px'
+                    }}>
+                      <button
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: currentPage === 1 ? '#f1f5f9' : '#ffffff',
+                          color: currentPage === 1 ? '#94a3b8' : '#f15b29',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        Previous
+                      </button>
+
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+                        <button
+                          key={pageNumber}
+                          onClick={() => paginate(pageNumber)}
+                          style={{
+                            padding: '8px 12px',
+                            backgroundColor: currentPage === pageNumber ? '#f15b29' : '#ffffff',
+                            color: currentPage === pageNumber ? '#ffffff' : '#64748b',
+                            border: currentPage === pageNumber ? '#f15b29' : '1px solid #e2e8f0',
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            minWidth: '40px'
+                          }}
+                        >
+                          {pageNumber}
+                        </button>
+                      ))}
+
+                      <button
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: currentPage === totalPages ? '#f1f5f9' : '#ffffff',
+                          color: currentPage === totalPages ? '#94a3b8' : '#f15b29',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        Next
+                      </button>
+
+                      <span style={{
+                        fontSize: '14px',
+                        color: '#64748b',
+                        marginLeft: '8px'
+                      }}>
+                        Page {currentPage} of {totalPages}
+                      </span>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div style={{
