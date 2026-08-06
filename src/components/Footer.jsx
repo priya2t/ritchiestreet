@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { submitNewsletter } from '../api/wordpress';
+import { FaWallet, FaTruck, FaShieldAlt } from 'react-icons/fa';
 
 const reviews = [
   { name: 'Kanmani Oviyan', text: 'Good service.... overall satisfied.', date: 'a year ago' },
@@ -215,12 +216,25 @@ const Footer = () => {
               <Link to="/contact" onClick={scrollToTop}>Contact</Link>
             </div>
             
-            <div className="rs-bottom-payments">
-              <span>Payment method:</span>
-              <span className="rs-pay-badge">
-                Cash On Delivery
-              </span>
-              
+            <div className="rs-payment-card">
+              <div className="rs-payment-card__header">
+                <FaWallet className="rs-payment-card__icon" />
+                <span className="rs-payment-card__title">Payment Methods</span>
+              </div>
+              <div className="rs-payment-card__methods">
+                <span className="rs-cod-badge">
+                  <FaTruck className="rs-cod-badge__icon" />
+                  Cash on Delivery
+                </span>
+              </div>
+              <div className="rs-payment-card__trust">
+                <FaShieldAlt className="rs-payment-card__shield" />
+                <span>Secure</span>
+                <span className="rs-payment-card__dot">•</span>
+                <span>Fast</span>
+                <span className="rs-payment-card__dot">•</span>
+                <span>Trusted</span>
+              </div>
             </div>
           </div>
         </div>

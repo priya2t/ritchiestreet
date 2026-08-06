@@ -447,6 +447,12 @@
   margin-top: 8px;
 }
 
+.pd-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 .pd-add-to-cart-btn {
   width: 100%;
   padding: 16px 32px;

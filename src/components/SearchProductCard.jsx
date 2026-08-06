@@ -64,6 +64,7 @@ const SearchProductCard = ({ product }) => {
             ₹{price > 0 ? price.toFixed(2) : 'Price not available'}
           </span>
         </div>
+
         <div className="search-product-actions">
           <button
             className="search-add-to-cart"

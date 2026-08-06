@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
+import BestPriceCheck from './BestPriceCheck';
 
 const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8fafc'/%3E%3Crect x='100' y='120' width='200' height='160' rx='12' fill='%23e2e8f0'/%3E%3Ccircle cx='160' cy='180' r='20' fill='%23cbd5e1'/%3E%3Cpolygon points='140,260 200,190 240,230 280,200 300,260' fill='%23cbd5e1'/%3E%3Ctext x='200' y='330' text-anchor='middle' font-family='Arial' font-size='16' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
 
-const CategoryProductCard = ({ product }) => {
+const CategoryProductCard = ({ product, onPriceCompare }) => {
   const { addToCart } = useCartStore();
   const [showToast, setShowToast] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -125,17 +126,25 @@ const CategoryProductCard = ({ product }) => {
           )}
         </div>
 
-        <button
-          className="cp-btn-cart"
-          onClick={handleAddToCart}
-          disabled={!isInStock || price <= 0}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-          </svg>
-          {isInStock ? 'Add to Cart' : 'Out of Stock'}
-        </button>
+        <div className="cp-card-actions">
+          <button
+            className="cp-btn-cart"
+            onClick={handleAddToCart}
+            disabled={!isInStock || price <= 0}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            {isInStock ? 'Add to Cart' : 'Out of Stock'}
+          </button>
+          <BestPriceCheck
+            onClick={() => onPriceCompare && onPriceCompare(product, price)}
+            disabled={!isInStock || price <= 0}
+            compact={true}
+            text="Compare"
+          />
+        </div>
       </div>
 
       {showToast && (

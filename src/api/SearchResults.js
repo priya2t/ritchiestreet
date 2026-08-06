@@ -5,7 +5,7 @@ import Layout from './Layout';
 import SearchResultCard from '../components/SearchResultCard';
 import './SearchResults.css';
 
-const SearchResults = () => {
+const SearchResults = ({ onPriceCompare }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const query = searchParams.get('q') || '';
@@ -205,7 +205,7 @@ const SearchResults = () => {
           {!loading && !error && sortedProducts.length > 0 && (
             <div className={`sr-grid ${fadeIn ? 'sr-fade-in' : ''}`}>
               {sortedProducts.map(product => (
-                <SearchResultCard key={product.id} product={product} />
+                <SearchResultCard key={product.id} product={product} onPriceCompare={onPriceCompare} />
               ))}
             </div>
           )}

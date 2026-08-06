@@ -20,7 +20,7 @@ const BenefitCard = React.memo(({ icon: Icon, title, desc, accent }) => (
 ));
 
 const whyChooseData = [
-  { icon: FaShippingFast, title: 'Free Shipping', desc: 'Fast & reliable delivery on all orders above Γé╣1000.', accent: 'blue' },
+  { icon: FaShippingFast, title: 'Free Shipping', desc: 'Fast & reliable delivery on all orders above Rs 1000.', accent: 'blue' },
   { icon: FaUndo, title: 'Easy Replacements', desc: 'Hassle-free replacements within 7 days.', accent: 'green' },
   { icon: FaMoneyBillWave, title: 'Cash On Delivery', desc: 'Multiple safe payment options.', accent: 'purple' },
   { icon: FaHeadset, title: '24/7 Support', desc: 'Expert assistance whenever you need help.', accent: 'orange' },
@@ -33,13 +33,15 @@ const whyBuyData = [
   { icon: FaLock, title: 'Secure Shopping', desc: 'Trusted checkout with encrypted payment protection.', accent: 'green' },
 ];
 
-const Home = () => {
+const Home = ({ onPriceCompare }) => {
   const [products, setProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const mainRef = useRef(null);
+  const heroRef = useRef(null);
+  const [heroHeight, setHeroHeight] = useState(null);
 
   const banners = useMemo(() => [
     { image: '/images/slider1A.webp', alt: 'Ritchie Street Shopping banner', link: null },
@@ -58,6 +60,32 @@ const Home = () => {
       main.classList.add('home-ready');
     });
     return () => cancelAnimationFrame(id);
+  }, []);
+
+  // Synchronize "Products Are Coming Soon" banner height with the hero section
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const updateHeight = () => {
+      if (hero) {
+        setHeroHeight(hero.getBoundingClientRect().height);
+      }
+    };
+
+    updateHeight();
+
+    let resizeObserver;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(updateHeight);
+      resizeObserver.observe(hero);
+    }
+
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -96,7 +124,7 @@ const Home = () => {
     <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
       <main ref={mainRef} className="home">
         {/* Hero Section - Premium Carousel + Right Panel */}
-        <section className="hero-section">
+        <section ref={heroRef} className="hero-section">
 
           {/* Left: Slider */}
           <div className="hero-left">
@@ -240,13 +268,21 @@ const Home = () => {
         </section>
 
         {/* Coming Soon Banner */}
-        <div className="coming-soon-banner coming-soon-banner--home">
+        <div
+          className="coming-soon-banner coming-soon-banner--home"
+          style={{ '--coming-soon-height': heroHeight ? `${heroHeight}px` : 'auto' }}
+        >
           <img src="/images/coming_soon_banner.webp" alt="Products coming soon" width="1200" height="300" loading="lazy" decoding="async" />
         </div>
 
         <Suspense fallback={<div />}>
           {/* Categories Section */}
           <CategoriesSection />
+
+          {/* Refurbished Banner */}
+          <div className="refurbished-banner">
+            <img src="/images/refurbished.webp" alt="Refurbished Products" width="1200" height="300" loading="lazy" decoding="async" />
+          </div>
 
           {/* Featured Products Section */}
           <section className="featured-products-section">
@@ -258,9 +294,14 @@ const Home = () => {
             ) : error ? (
               <div className="error-message">{error}</div>
             ) : (
-              <ProductTicker products={products} />
+              <ProductTicker products={products} onPriceCompare={onPriceCompare} />
             )}
           </section>
+
+          {/* Rental Banner */}
+          <div className="rental-banner">
+            <img src="/images/rental.webp" alt="Rental Products" width="1200" height="300" loading="lazy" decoding="async" />
+          </div>
 
           {/* Trusted Brands Section */}
           <BrandLogos />

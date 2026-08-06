@@ -215,6 +215,24 @@ body {
   100% { background-position: -200% 0; }
 }
 
+/* Refurbished and Rental Banners */
+.refurbished-banner,
+.rental-banner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.refurbished-banner img,
+.rental-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* ============================================
    PREMIUM TRUST SECTIONS
 ============================================ */
@@ -882,6 +900,46 @@ body {
   flex-shrink: 0;
 }
 
+/* Icon-only Cart Button */
+.fp-cart-icon-only {
+  width: 100%;
+  padding: 0;
+  justify-content: center;
+}
+
+/* Action Buttons Container */
+.fp-action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.fp-action-buttons .fp-cart-btn {
+  flex: 0 0 auto;
+  width: 44px;
+  min-width: 44px;
+}
+
+.fp-action-buttons .bpc-button {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  padding: 0 12px;
+}
+
+.fp-action-buttons .bpc-button .bpc-icon {
+  font-size: 16px;
+}
+
+.fp-action-buttons .bpc-button .bpc-text {
+  font-size: 12px;
+}
+
+.fp-cart-icon-only svg {
+  margin: 0;
+}
+
 /* ============================================
    CATEGORY SECTION
 ============================================ */
@@ -936,15 +994,19 @@ body {
    BRANDS SECTION - Horizontal Slider
 ============================================ */
 .brands-section {
-  
+  padding: 12px 0 0px;
   background: var(--bg-color);
-  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .brands-slider-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .brands-section-title {
@@ -955,13 +1017,18 @@ body {
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  padding: 0 20px;
+}
+
+.brands-slider-wrapper {
+  overflow: hidden;
+  width: 100%;
 }
 
 .brands-slider-container .brands-slider {
   display: flex;
   gap: 20px;
   width: max-content;
-  max-width: none;
   animation: scroll 30s linear infinite;
   padding: 10px 0;
 }
@@ -999,6 +1066,21 @@ body {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+/* Responsive Brand Logo Cards */
+@media (max-width: 640px) {
+  .brand-logo-card {
+    width: 120px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-logo-card {
+    width: 100px;
+    height: 60px;
+  }
 }
 
 /* ============================================
@@ -1134,30 +1216,34 @@ body {
   .hero-carousel {
     border-radius: 16px;
   }
-  
+
   .hero-carousel-arrow {
     width: 44px;
     height: 44px;
     font-size: 26px;
   }
-  
+
   .hero-carousel-arrow-prev {
     left: 10px;
   }
-  
+
   .hero-carousel-arrow-next {
     right: 10px;
   }
-  
+
   .hero-carousel-dot {
     width: 8px;
     height: 8px;
   }
-  
+
+  .brands-slider-container {
+    padding: 0 16px;
+  }
+
   .service-features-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .categories-grid-premium {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1195,11 +1281,15 @@ body {
   .hero-carousel {
     border-radius: 12px;
   }
-  
+
   .hero-carousel-arrow {
     width: 36px;
     height: 36px;
     font-size: 20px;
+  }
+
+  .brands-slider-container {
+    padding: 0 16px;
   }
   
   .hero-carousel-arrow-prev {
@@ -1283,6 +1373,15 @@ body {
     font-size: 13px;
   }
 
+  .fp-action-buttons {
+    gap: 6px;
+  }
+
+  .fp-action-buttons .fp-cart-btn {
+    width: 40px;
+    min-width: 40px;
+  }
+
   .fp-slider-arrow {
     width: 36px;
     height: 36px;
@@ -1331,7 +1430,11 @@ body {
   .homepage-container {
     padding: 0 12px;
   }
-  
+
+  .brands-slider-container {
+    padding: 0 12px;
+  }
+
   .hero-carousel {
     border-radius: 10px;
   }
@@ -1434,6 +1537,24 @@ body {
     min-height: 36px;
     font-size: 12px;
     border-radius: 8px;
+  }
+
+  .fp-action-buttons {
+    gap: 6px;
+  }
+
+  .fp-action-buttons .fp-cart-btn {
+    width: 36px;
+    min-width: 36px;
+  }
+
+  .fp-action-buttons .bpc-button {
+    font-size: 11px;
+    padding: 0 8px;
+  }
+
+  .fp-action-buttons .bpc-button .bpc-text {
+    font-size: 10px;
   }
 
   .fp-slider-arrow {
@@ -1742,5 +1863,49 @@ body {
   .hrp-contact-btn {
     flex: none;
     width: 100%;
+  }
+}
+
+/* ============================================
+   COMING SOON BANNER
+============================================ */
+.home .coming-soon-banner--home {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 14px;
+  padding: 0 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: stretch;
+  line-height: 0;
+}
+
+.home .coming-soon-banner--home img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Desktop: dynamically match hero section height */
+@media (min-width: 901px) {
+  .home .coming-soon-banner--home {
+    height: var(--coming-soon-height, auto);
+  }
+
+  .home .coming-soon-banner--home img {
+    height: 100%;
+  }
+}
+
+/* Mobile: natural responsive height */
+@media (max-width: 640px) {
+  .home .coming-soon-banner--home {
+    padding: 0 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
   }
 }

@@ -4,11 +4,14 @@ import { useCartStore } from './cartStore';
 import { useUserStore } from './userStore';
 import { createOrder } from './woocommerce';
 import Layout from './Layout';
+import { useAdvancePayment } from '../hooks/useAdvancePayment';
+import AdvancePaymentSuccess from '../components/AdvancePaymentSuccess';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { cart, getCartTotal, getCartCount, clearCart, getGstAmount, getShippingCharge, getGrandTotal } = useCartStore();
   const { user, isAuthenticated, isAuthInitialized } = useUserStore();
+  const { isRequired, acknowledged, isReady, acceptance } = useAdvancePayment(cart, getGrandTotal);
   const [billingForm, setBillingForm] = useState({
     first_name: '',
     last_name: '',
@@ -70,17 +73,26 @@ const Checkout = () => {
     }
 
     if (!isAuthenticated) {
-      console.log('=== CHECKOUT: USER NOT AUTHENTICATED ===');
-      console.log('Saving redirectAfterLogin: /checkout');
       sessionStorage.setItem('redirectAfterLogin', '/checkout');
       navigate('/login');
     }
   }, [isAuthInitialized, isAuthenticated, navigate]);
 
+  // Redirect back to Cart if the user bypassed the advance payment acknowledgement
+  React.useEffect(() => {
+    if (!isAuthInitialized || !isReady) return;
+    if (isAuthenticated && isRequired && !acknowledged) {
+      sessionStorage.setItem(
+        'advance_payment_message',
+        'Please acknowledge the 50% advance payment policy before proceeding to Checkout.'
+      );
+      navigate('/cart', { replace: true });
+    }
+  }, [isAuthInitialized, isAuthenticated, isReady, isRequired, acknowledged, navigate]);
+
   // Pre-fill forms if user is logged in
   React.useEffect(() => {
     if (isAuthenticated && user) {
-      console.log('Pre-filling forms with user data:', user);
       setBillingForm(prev => ({
         ...prev,
         first_name: user.billing_first_name || user.first_name || '',
@@ -155,15 +167,6 @@ const Checkout = () => {
     setError('');
 
     try {
-      console.log('=== CHECKOUT SUBMISSION START ===');
-      console.log('Billing form:', billingForm);
-      console.log('Shipping form:', shippingForm);
-      console.log('Ship to different address:', shipToDifferentAddress);
-      console.log('Cart items:', cart);
-      console.log('Cart total:', getCartTotal());
-      console.log('User authenticated:', isAuthenticated);
-      console.log('User data:', user);
-
       // Validate cart is not empty
       if (!cart || cart.length === 0) {
         setError('Your cart is empty. Please add items before checkout.');
@@ -253,20 +256,16 @@ const Checkout = () => {
         line_items: cart.map(item => ({
           product_id: item.id,
           quantity: item.quantity
-        }))
+        })),
+        advance_payment: acceptance
       };
 
       // Add customer_id if user is authenticated
       if (isAuthenticated && user && user.id) {
         orderData.customer_id = user.id;
-        console.log('Adding customer_id to order:', user.id);
       }
 
-      console.log('Order payload:', JSON.stringify(orderData, null, 2));
-
       const order = await createOrder(orderData);
-
-      console.log('Order created successfully:', order);
 
       // Save order summary for the success page before clearing cart
       const orderSummary = {
@@ -279,6 +278,7 @@ const Checkout = () => {
           price: Number(item.price) || 0,
           total: (Number(item.price) || 0) * (Number(item.quantity) || 1)
         })),
+        advancePayment: acceptance,
         subtotal: getCartTotal(),
         gst: getGstAmount(),
         shipping: getShippingCharge(),
@@ -632,6 +632,12 @@ const Checkout = () => {
           </div>
 
           <aside className="checkout-sidebar">
+            {acknowledged && isRequired && (
+              <AdvancePaymentSuccess
+                title="✅ Advance Payment Accepted"
+                message="You have accepted the 50% advance payment requirement for this order. Our team will contact you with the payment details before processing your order."
+              />
+            )}
             <div className="order-summary-card">
               <div className="card-header">
                 <h2>Order Summary</h2>

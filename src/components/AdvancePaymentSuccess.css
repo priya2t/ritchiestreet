@@ -1,0 +1,40 @@
+/* src/components/AdvancePaymentSuccess.css */
+
+.advance-payment-success {
+  background: #f0fdf4;
+  border: 1px solid #22c55e;
+  border-left: 4px solid #22c55e;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  color: #14532d;
+  line-height: 1.5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.advance-payment-success-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #14532d;
+}
+
+.advance-payment-success-message {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .advance-payment-success {
+    padding: 0.875rem 1rem;
+  }
+
+  .advance-payment-success-title {
+    font-size: 1rem;
+  }
+
+  .advance-payment-success-message {
+    font-size: 0.9rem;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 
-const ProductTicker = ({ products }) => {
+const ProductTicker = ({ products, onPriceCompare }) => {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -69,7 +69,7 @@ const ProductTicker = ({ products }) => {
       >
         {products.map((product) => (
           <div key={product.id} className="fp-slider-item">
-            <ProductCard product={product} />
+            <ProductCard product={product} onPriceCompare={onPriceCompare} />
           </div>
         ))}
       </div>

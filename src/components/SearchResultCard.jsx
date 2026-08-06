@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
+import BestPriceCheck from './BestPriceCheck';
 
 const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8fafc'/%3E%3Crect x='100' y='120' width='200' height='160' rx='12' fill='%23e2e8f0'/%3E%3Ccircle cx='160' cy='180' r='20' fill='%23cbd5e1'/%3E%3Cpolygon points='140,260 200,190 240,230 280,200 300,260' fill='%23cbd5e1'/%3E%3Ctext x='200' y='330' text-anchor='middle' font-family='Arial' font-size='16' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
 
-const SearchResultCard = ({ product }) => {
+const SearchResultCard = ({ product, onPriceCompare }) => {
   const { addToCart } = useCartStore();
   const [showToast, setShowToast] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -109,6 +110,12 @@ const SearchResultCard = ({ product }) => {
             </svg>
             Add to Cart
           </button>
+          <BestPriceCheck
+            onClick={() => onPriceCompare && onPriceCompare(product, displayPrice)}
+            disabled={!inStock || displayPrice <= 0}
+            compact={true}
+            text="Compare"
+          />
           <Link to={`/product/${product.id}`} className="sr-btn-view">
             View Product
           </Link>

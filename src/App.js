@@ -1,8 +1,9 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BrandAnnouncer from './components/BrandAnnouncer';
+import PriceComparisonModal from './components/PriceComparisonModal';
 import { useUserStore } from './api/userStore';
 
 const Home = React.lazy(() => import('./api/Home'));
@@ -23,19 +24,34 @@ const SearchResults = React.lazy(() => import('./api/SearchResults'));
 
 function App() {
   const { initAuth } = useUserStore();
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState(0);
+  const [isComparisonOpen, setComparisonOpen] = useState(false);
 
   // Initialize authentication state on app load
   useEffect(() => {
     initAuth();
   }, [initAuth]);
 
-return (
+  const handlePriceCompare = (product, price) => {
+    setSelectedProduct(product);
+    setSelectedPrice(price);
+    setComparisonOpen(true);
+  };
+
+  const handleCloseComparison = () => {
+    setComparisonOpen(false);
+    setSelectedProduct(null);
+    setSelectedPrice(0);
+  };
+
+  return (
   <Router basename="/" useTransitions>
     <Header />
     <Suspense fallback={<div className="page-loader" aria-live="polite">Loading page...</div>}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/" element={<Home onPriceCompare={handlePriceCompare} />} />
+        <Route path="/products" element={<ProductsPage onPriceCompare={handlePriceCompare} />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
@@ -47,12 +63,19 @@ return (
         <Route path="/contact" element={<Contact />} />
         <Route path="/services" element={<Services />} />
         <Route path="/terms" element={<Terms />} />
-        <Route path="/category/:slug" element={<CategoryProducts />} />
-        <Route path="/search" element={<SearchResults />} />
+        <Route path="/category/:slug" element={<CategoryProducts onPriceCompare={handlePriceCompare} />} />
+        <Route path="/search" element={<SearchResults onPriceCompare={handlePriceCompare} />} />
       </Routes>
     </Suspense>
     <BrandAnnouncer />
     <Footer />
+    <PriceComparisonModal
+      key={selectedProduct?.id || 'modal'}
+      isOpen={isComparisonOpen}
+      onClose={handleCloseComparison}
+      product={selectedProduct}
+      price={selectedPrice}
+    />
   </Router>
 );
 }

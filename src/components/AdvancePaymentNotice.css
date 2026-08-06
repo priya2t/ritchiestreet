@@ -1,0 +1,120 @@
+/* src/components/AdvancePaymentNotice.css */
+
+.advance-payment-notice {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  color: #78350f;
+  line-height: 1.5;
+}
+
+.advance-payment-redirect-banner {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.875rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.advance-payment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.advance-payment-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.advance-payment-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.advance-payment-description {
+  font-size: 0.95rem;
+  margin: 0 0 1rem 0;
+  color: #78350f;
+}
+
+.advance-payment-description strong {
+  color: #92400e;
+}
+
+.advance-payment-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #78350f;
+  line-height: 1.4;
+}
+
+.advance-payment-checkbox-label input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.05rem;
+  accent-color: #f15b29;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.advance-payment-checkbox-label input[type="checkbox"]:focus {
+  outline: 2px solid #f15b29;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.advance-payment-checkbox-text {
+  user-select: none;
+}
+
+/* Style the Proceed to Checkout button when it is disabled by the advance gate */
+.cart-totals-card .checkout-btn-full:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background-color: #f15b29;
+  transform: none;
+  box-shadow: none;
+}
+
+.cart-totals-card .checkout-btn-full:disabled:hover {
+  background-color: #f15b29;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .advance-payment-notice {
+    padding: 0.875rem 1rem;
+  }
+
+  .advance-payment-title {
+    font-size: 1rem;
+  }
+
+  .advance-payment-description,
+  .advance-payment-checkbox-label {
+    font-size: 0.9rem;
+  }
+
+  .advance-payment-checkbox-label input[type="checkbox"] {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+}

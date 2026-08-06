@@ -21,12 +21,14 @@ const BrandLogos = () => {
       <div className="brands-slider-container">
         <h2 className="brands-section-title">Trusted Brands</h2>
         <div className="premium-section__accent" aria-hidden="true"></div>
-        <div className="brands-slider">
-          {duplicatedBrands.map((brand, index) => (
-            <div key={`${brand.name}-${index}`} className="brand-logo-card">
-              <img src={brand.img} alt={brand.name} width="120" height="60" loading="lazy" decoding="async" />
-            </div>
-          ))}
+        <div className="brands-slider-wrapper">
+          <div className="brands-slider">
+            {duplicatedBrands.map((brand, index) => (
+              <div key={`${brand.name}-${index}`} className="brand-logo-card">
+                <img src={brand.img} alt={brand.name} width="120" height="60" loading="lazy" decoding="async" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from './cartStore';
 import { useUserStore } from './userStore';
 import Layout from './Layout';
+import { useAdvancePayment } from '../hooks/useAdvancePayment';
+import AdvancePaymentNotice from '../components/AdvancePaymentNotice';
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cart, removeFromCart, updateQuantity, getCartTotal, getCartCount, getGstAmount, getShippingCharge, getGrandTotal } = useCartStore();
   const { isAuthenticated } = useUserStore();
+  const { isRequired, acknowledged, setAcknowledged } = useAdvancePayment(cart, getGrandTotal);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [redirectMessage, setRedirectMessage] = useState('');
+
+  // Display any message passed back from Checkout when advance payment validation fails
+  useEffect(() => {
+    const message = sessionStorage.getItem('advance_payment_message');
+    if (message) {
+      setRedirectMessage(message);
+      sessionStorage.removeItem('advance_payment_message');
+    }
+  }, []);
 
   const handleSelectItem = (itemId) => {
     setSelectedItems(prev => 
@@ -31,18 +44,32 @@ const Cart = () => {
     setSelectedItems([]);
   };
 
-  const handleProceedToCheckout = () => {
+  const isProceeding = useRef(false);
+
+  const handleProceedToCheckout = useCallback(() => {
+    if (isProceeding.current) return;
+    isProceeding.current = true;
+
+    // Trace logs for advance payment debugging — remove after confirming the fix
+    console.log('Advance Payment Trace: Button clicked');
+
+    if (isRequired && !acknowledged) {
+      console.log('Advance Payment Trace: Validation failed - acceptance required');
+      isProceeding.current = false;
+      return;
+    }
+
+    console.log('Advance Payment Trace: Acceptance detected, validation passed');
+
     if (!isAuthenticated) {
-      // Store the intended redirect path
-      console.log('=== CART: PROCEED TO CHECKOUT - USER NOT AUTHENTICATED ===');
-      console.log('Saving redirectAfterLogin: /checkout');
+      console.log('Advance Payment Trace: Redirect started -> /login');
       sessionStorage.setItem('redirectAfterLogin', '/checkout');
       navigate('/login');
     } else {
-      console.log('=== CART: PROCEED TO CHECKOUT - USER AUTHENTICATED ===');
+      console.log('Advance Payment Trace: Redirect started -> /checkout');
       navigate('/checkout');
     }
-  };
+  }, [isRequired, acknowledged, isAuthenticated, navigate]);
 
   if (cart.length === 0) {
     return (
@@ -193,7 +220,20 @@ const Cart = () => {
                 <span className="totals-value grand-total-value">₹{getGrandTotal().toFixed(2)}</span>
               </div>
 
-              <button onClick={handleProceedToCheckout} className="checkout-btn-full">
+              {isRequired && (
+                <AdvancePaymentNotice
+                  acknowledged={acknowledged}
+                  onAcknowledge={setAcknowledged}
+                  message={redirectMessage}
+                />
+              )}
+
+              <button
+                onClick={handleProceedToCheckout}
+                className="checkout-btn-full"
+                disabled={isRequired && !acknowledged}
+                title={isRequired && !acknowledged ? 'Please accept the advance payment policy to continue.' : ''}
+              >
                 Proceed to Checkout
               </button>
             </div>

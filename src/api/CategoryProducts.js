@@ -25,7 +25,7 @@ const getCategoryDisplayName = (slug) => {
     .join(' ');
 };
 
-const CategoryProducts = () => {
+const CategoryProducts = ({ onPriceCompare }) => {
   const { slug } = useParams();
   const [category, setCategory] = useState(null);
   const [products, setProducts] = useState([]);
@@ -285,7 +285,7 @@ const CategoryProducts = () => {
           {!isLoading && !error && sortedProducts.length > 0 && (
             <div className={`cp-grid ${fadeIn ? 'cp-fade-in' : ''}`} key={slug}>
               {sortedProducts.map((product) => (
-                <CategoryProductCard key={product.id} product={product} />
+                <CategoryProductCard key={product.id} product={product} onPriceCompare={onPriceCompare} />
               ))}
             </div>
           )}

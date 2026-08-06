@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import Layout from './Layout';
+import AdvancePaymentSuccess from '../components/AdvancePaymentSuccess';
 
 const OrderSuccess = () => {
   const { orderId } = useParams();
@@ -120,6 +121,13 @@ const OrderSuccess = () => {
                 : 'Thank you for your purchase. Your order has been received and is being processed.'}
             </p>
           </div>
+
+          {orderSummary?.advancePayment?.accepted === 'yes' && (
+            <AdvancePaymentSuccess
+              title="✅ Advance Payment Accepted"
+              message="Thank you for accepting the 50% advance payment requirement. Our team will contact you shortly to collect the advance payment before processing your order."
+            />
+          )}
 
           <div className="order-info-cards">
             <div className="order-info-card order-number-card">
