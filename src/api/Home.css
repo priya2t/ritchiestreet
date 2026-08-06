@@ -233,6 +233,115 @@ body {
   display: block;
 }
 
+/* Promo Carousel Styles */
+.promo-carousel {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.promo-carousel-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.promo-carousel-slide {
+  min-width: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promo-carousel-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transition: opacity 0.5s ease;
+  max-height: 400px;
+}
+
+.promo-carousel-slide.active img {
+  opacity: 1;
+}
+
+/* Promo Navigation Arrows */
+.promo-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  z-index: 20;
+  color: #444;
+  line-height: 1;
+}
+
+.promo-carousel-arrow:hover {
+  background: #ff6b00;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(255,107,0,0.35);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.promo-carousel-arrow-prev {
+  left: 12px;
+}
+
+.promo-carousel-arrow-next {
+  right: 12px;
+}
+
+/* Promo Dot Indicators */
+.promo-carousel-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 20;
+}
+
+.promo-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ccc;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease, width 0.25s ease, border-radius 0.25s ease;
+  padding: 0;
+}
+
+.promo-carousel-dot:hover {
+  background: #ff6b00;
+}
+
+.promo-carousel-dot.active {
+  background: #ff6b00;
+  width: 24px;
+  border-radius: 4px;
+}
+
 /* ============================================
    PREMIUM TRUST SECTIONS
 ============================================ */
@@ -1885,7 +1994,7 @@ body {
 .home .coming-soon-banner--home img {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
 }
@@ -1893,11 +2002,11 @@ body {
 /* Desktop: dynamically match hero section height */
 @media (min-width: 901px) {
   .home .coming-soon-banner--home {
-    height: var(--coming-soon-height, auto);
+    height: auto;
   }
 
   .home .coming-soon-banner--home img {
-    height: 100%;
+    height: auto;
   }
 }
 

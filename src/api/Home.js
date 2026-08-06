@@ -39,14 +39,21 @@ const Home = ({ onPriceCompare }) => {
   const [error, setError] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [promoSlide, setPromoSlide] = useState(0);
+  const [isPromoPaused, setIsPromoPaused] = useState(false);
   const mainRef = useRef(null);
   const heroRef = useRef(null);
-  const [heroHeight, setHeroHeight] = useState(null);
 
   const banners = useMemo(() => [
     { image: '/images/slider1A.webp', alt: 'Ritchie Street Shopping banner', link: null },
     { image: '/images/slider2A.webp', alt: 'Services banner', link: '/services' },
     { image: '/images/slider3A.webp', alt: 'Other Enquiries banner', link: '/contact' }
+  ], []);
+
+  const promoBanners = useMemo(() => [
+    { image: '/images/coming_soon_banner.webp', alt: 'Products coming soon' },
+    { image: '/images/refurbished.webp', alt: 'Refurbished Products' },
+    { image: '/images/rental.webp', alt: 'Rental Products' }
   ], []);
 
   useEffect(() => {
@@ -62,32 +69,6 @@ const Home = ({ onPriceCompare }) => {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // Synchronize "Products Are Coming Soon" banner height with the hero section
-  useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
-
-    const updateHeight = () => {
-      if (hero) {
-        setHeroHeight(hero.getBoundingClientRect().height);
-      }
-    };
-
-    updateHeight();
-
-    let resizeObserver;
-    if (typeof ResizeObserver !== 'undefined') {
-      resizeObserver = new ResizeObserver(updateHeight);
-      resizeObserver.observe(hero);
-    }
-
-    return () => {
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-    };
-  }, []);
-
   useEffect(() => {
     if (!isPaused) {
       const interval = setInterval(() => {
@@ -96,6 +77,15 @@ const Home = ({ onPriceCompare }) => {
       return () => clearInterval(interval);
     }
   }, [isPaused, banners]);
+
+  useEffect(() => {
+    if (!isPromoPaused) {
+      const interval = setInterval(() => {
+        setPromoSlide((prev) => (prev + 1) % promoBanners.length);
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [isPromoPaused, promoBanners]);
 
   const fetchProducts = async () => {
     try {
@@ -119,6 +109,18 @@ const Home = ({ onPriceCompare }) => {
   const goToNextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % banners.length);
   }, [banners]);
+
+  const goToPromoSlide = useCallback((index) => {
+    setPromoSlide(index);
+  }, []);
+
+  const goToPrevPromoSlide = useCallback(() => {
+    setPromoSlide((prev) => (prev - 1 + promoBanners.length) % promoBanners.length);
+  }, [promoBanners]);
+
+  const goToNextPromoSlide = useCallback(() => {
+    setPromoSlide((prev) => (prev + 1) % promoBanners.length);
+  }, [promoBanners]);
 
   return (
     <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
@@ -267,22 +269,49 @@ const Home = ({ onPriceCompare }) => {
           </div>
         </section>
 
-        {/* Coming Soon Banner */}
-        <div
-          className="coming-soon-banner coming-soon-banner--home"
-          style={{ '--coming-soon-height': heroHeight ? `${heroHeight}px` : 'auto' }}
-        >
-          <img src="/images/coming_soon_banner.webp" alt="Products coming soon" width="1200" height="300" loading="lazy" decoding="async" />
+        {/* Coming Soon Banner - Promo Slider */}
+        <div className="coming-soon-banner coming-soon-banner--home">
+          <div
+            className="promo-carousel"
+            onMouseEnter={() => setIsPromoPaused(true)}
+            onMouseLeave={() => setIsPromoPaused(false)}
+          >
+            <div className="promo-carousel-track" style={{ transform: `translateX(-${promoSlide * 100}%)` }}>
+              {promoBanners.map((banner, index) => (
+                <div
+                  key={index}
+                  className={`promo-carousel-slide ${index === promoSlide ? 'active' : ''}`}
+                >
+                  <img
+                    src={banner.image}
+                    alt={banner.alt}
+                    width="1200"
+                    height="300"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button className="promo-carousel-arrow promo-carousel-arrow-prev" onClick={goToPrevPromoSlide}>‹</button>
+            <button className="promo-carousel-arrow promo-carousel-arrow-next" onClick={goToNextPromoSlide}>›</button>
+
+            <div className="promo-carousel-dots">
+              {promoBanners.map((_, index) => (
+                <button
+                  key={index}
+                  className={`promo-carousel-dot ${index === promoSlide ? 'active' : ''}`}
+                  onClick={() => goToPromoSlide(index)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
         <Suspense fallback={<div />}>
           {/* Categories Section */}
           <CategoriesSection />
-
-          {/* Refurbished Banner */}
-          <div className="refurbished-banner">
-            <img src="/images/refurbished.webp" alt="Refurbished Products" width="1200" height="300" loading="lazy" decoding="async" />
-          </div>
 
           {/* Featured Products Section */}
           <section className="featured-products-section">
@@ -297,11 +326,6 @@ const Home = ({ onPriceCompare }) => {
               <ProductTicker products={products} onPriceCompare={onPriceCompare} />
             )}
           </section>
-
-          {/* Rental Banner */}
-          <div className="rental-banner">
-            <img src="/images/rental.webp" alt="Rental Products" width="1200" height="300" loading="lazy" decoding="async" />
-          </div>
 
           {/* Trusted Brands Section */}
           <BrandLogos />
