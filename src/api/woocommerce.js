@@ -53,10 +53,23 @@ const cachedGet = (cacheKey, fetcher) => {
 // Products API
 export const getProducts = async (params = {}) => {
   const requestParams = { per_page: 100, ...params };
-  return cachedGet(`products:${JSON.stringify(requestParams)}`, () =>
-    storeApi.get('/products', { params: requestParams }).then(res => res.data)
-  );
+  console.log('=== WOOCOMMERCE API: getProducts ===');
+  console.log('Request params:', requestParams);
+  
+  try {
+    const data = await cachedGet(`products:${JSON.stringify(requestParams)}`, () =>
+      storeApi.get('/products', { params: requestParams }).then(res => res.data)
+    );
+    console.log('Products fetched:', data.length);
+    return data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    console.error('Error response:', error.response?.data);
+    throw error;
+  }
 };
+
+
 
 export const getProduct = async (id) => {
   return cachedGet(`product:${id}`, () =>
@@ -66,9 +79,150 @@ export const getProduct = async (id) => {
 
 export const getProductsByCategory = async (categoryId, params = {}) => {
   const requestParams = { per_page: 100, ...params, category: categoryId };
-  return cachedGet(`products-category:${categoryId}:${JSON.stringify(params)}`, () =>
-    storeApi.get('/products', { params: requestParams }).then(res => res.data)
+  console.log('=== WOOCOMMERCE API: getProductsByCategory ===');
+  console.log('Category ID:', categoryId);
+  console.log('Request params:', requestParams);
+  
+  try {
+    const data = await cachedGet(`products-category:${categoryId}:${JSON.stringify(params)}`, () =>
+      storeApi.get('/products', { params: requestParams }).then(res => res.data)
+    );
+    console.log('Products fetched:', data.length);
+    return data;
+  } catch (error) {
+    console.error('Error fetching products by category:', error);
+    console.error('Error response:', error.response?.data);
+    throw error;
+  }
+};
+
+export const getProductsByAttribute = async (attributeName, attributeValue, params = {}) => {
+  // Note: This function is deprecated - use getProductsWithAttributeFilter with IDs instead
+  console.warn('getProductsByAttribute is deprecated. Use getProductsWithAttributeFilter with attribute ID and term ID.');
+  const requestParams = { 
+    per_page: 100, 
+    ...params,
+    attribute: attributeName,
+    attribute_term: attributeValue
+  };
+  return cachedGet(`products-attribute:${attributeName}:${attributeValue}:${JSON.stringify(params)}`, () =>
+    woocommerceApi.get('/products', { params: requestParams }).then(res => res.data)
   );
+};
+
+export const getCategoryBySlug = async (slug) => {
+  const requestParams = { slug, per_page: 1 };
+  return cachedGet(`category-slug:${slug}`, () =>
+    storeApi.get('/products/categories', { params: requestParams }).then(res => res.data[0])
+  );
+};
+
+// Product Attributes API
+export const getProductAttributes = async (params = {}) => {
+  const requestParams = { per_page: 100, ...params };
+  console.log('=== WOOCOMMERCE API: getProductAttributes ===');
+  console.log('Request params:', requestParams);
+  
+  try {
+    const data = await cachedGet(`product-attributes:${JSON.stringify(requestParams)}`, () =>
+      woocommerceApi.get('/products/attributes', { params: requestParams }).then(res => res.data)
+    );
+    console.log('Attributes fetched:', data.length);
+    return data;
+  } catch (error) {
+    console.error('Error fetching product attributes:', error);
+    console.error('Error response:', error.response?.data);
+    console.error('Error status:', error.response?.status);
+    throw error;
+  }
+};
+
+export const getAttributeBySlug = async (slug) => {
+  const requestParams = { slug, per_page: 1 };
+  console.log('=== WOOCOMMERCE API: getAttributeBySlug ===');
+  console.log('Slug:', slug);
+  console.log('Request params:', requestParams);
+  
+  try {
+    const data = await cachedGet(`attribute-slug:${slug}`, () =>
+      woocommerceApi.get('/products/attributes', { params: requestParams }).then(res => res.data)
+    );
+    console.log('Attribute found:', data[0]);
+    return data[0];
+  } catch (error) {
+    console.error('Error fetching attribute by slug:', error);
+    console.error('Error response:', error.response?.data);
+    console.error('Error status:', error.response?.status);
+    throw error;
+  }
+};
+
+export const getAttributeTerms = async (attributeId, params = {}) => {
+  const requestParams = { per_page: 100, ...params };
+  console.log('=== WOOCOMMERCE API: getAttributeTerms ===');
+  console.log('Attribute ID:', attributeId);
+  console.log('Request params:', requestParams);
+  
+  try {
+    const data = await cachedGet(`attribute-terms:${attributeId}:${JSON.stringify(requestParams)}`, () =>
+      woocommerceApi.get(`/products/attributes/${attributeId}/terms`, { params: requestParams }).then(res => res.data)
+    );
+    console.log('Attribute terms fetched:', data.length);
+    return data;
+  } catch (error) {
+    console.error('Error fetching attribute terms:', error);
+    console.error('Error response:', error.response?.data);
+    console.error('Error status:', error.response?.status);
+    throw error;
+  }
+};
+
+export const getAttributeTermBySlug = async (attributeId, slug) => {
+  const requestParams = { slug, per_page: 1 };
+  console.log('=== WOOCOMMERCE API: getAttributeTermBySlug ===');
+  console.log('Attribute ID:', attributeId);
+  console.log('Term slug:', slug);
+  console.log('Request params:', requestParams);
+  
+  try {
+    const data = await cachedGet(`attribute-term-slug:${attributeId}:${slug}`, () =>
+      woocommerceApi.get(`/products/attributes/${attributeId}/terms`, { params: requestParams }).then(res => res.data)
+    );
+    console.log('Attribute term found:', data[0]);
+    return data[0];
+  } catch (error) {
+    console.error('Error fetching attribute term by slug:', error);
+    console.error('Error response:', error.response?.data);
+    console.error('Error status:', error.response?.status);
+    throw error;
+  }
+};
+
+// Get products with attribute filtering using authenticated API
+export const getProductsWithAttribute = async (attributeId, termId, params = {}) => {
+  const requestParams = { 
+    per_page: 100, 
+    ...params,
+    attribute: attributeId,
+    attribute_term: termId
+  };
+  console.log('=== WOOCOMMERCE API: getProductsWithAttribute ===');
+  console.log('Attribute ID:', attributeId);
+  console.log('Term ID:', termId);
+  console.log('Request params:', requestParams);
+  console.log('Full API URL:', `${WP_URL}/wp-json/wc/v3/products?${new URLSearchParams(requestParams).toString()}`);
+  
+  try {
+    const data = await cachedGet(`products-attribute:${attributeId}:${termId}:${JSON.stringify(params)}`, () =>
+      woocommerceApi.get('/products', { params: requestParams }).then(res => res.data)
+    );
+    console.log('Products fetched:', data.length);
+    return data;
+  } catch (error) {
+    console.error('Error fetching products with attribute:', error);
+    console.error('Error response:', error.response?.data);
+    throw error;
+  }
 };
 
 // Categories API

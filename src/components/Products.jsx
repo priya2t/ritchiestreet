@@ -1,6 +1,7 @@
 // src/components/Products.jsx
 import React, { useState, useEffect } from 'react';
 import { getProducts } from '../api/wordpress';
+import ComingSoonPlaceholder from './ComingSoonPlaceholder';
 import './Products.css'; // We'll create this next
 
 function Products() {
@@ -46,13 +47,8 @@ function Products() {
         );
     }
 
-    if (products.length === 0) {
-        return (
-            <div className="no-products">
-                <h3>No Products Found</h3>
-                <p>Please add some products to your WooCommerce store.</p>
-            </div>
-        );
+    if (!products || products.length === 0) {
+        return <ComingSoonPlaceholder />;
     }
 
     return (

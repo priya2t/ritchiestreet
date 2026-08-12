@@ -237,6 +237,7 @@ const Header = () => {
               <div className="premium-contact-text">
                 <span className="premium-contact-label">Phone</span>
                 <a href="tel:+918667507040">+91 86675 07040</a>
+                <a href="tel:+918608860853">+91 86088 60853</a>
               </div>
             </div>
 

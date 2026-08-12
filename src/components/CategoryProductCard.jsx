@@ -6,11 +6,15 @@ import BestPriceCheck from './BestPriceCheck';
 
 const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8fafc'/%3E%3Crect x='100' y='120' width='200' height='160' rx='12' fill='%23e2e8f0'/%3E%3Ccircle cx='160' cy='180' r='20' fill='%23cbd5e1'/%3E%3Cpolygon points='140,260 200,190 240,230 280,200 300,260' fill='%23cbd5e1'/%3E%3Ctext x='200' y='330' text-anchor='middle' font-family='Arial' font-size='16' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
 
-const CategoryProductCard = ({ product, onPriceCompare }) => {
+const CategoryProductCard = ({ product, onPriceCompare, categorySlug }) => {
   const { addToCart } = useCartStore();
   const [showToast, setShowToast] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+
+  // Determine button configuration based on category
+  const isUsedCategory = categorySlug === 'used';
+  const isRentalCategory = categorySlug === 'rental';
 
   // Price extraction — WooCommerce Store API format (prices in minor units)
   const prices = product.prices || {};
@@ -127,23 +131,40 @@ const CategoryProductCard = ({ product, onPriceCompare }) => {
         </div>
 
         <div className="cp-card-actions">
-          <button
-            className="cp-btn-cart"
-            onClick={handleAddToCart}
-            disabled={!isInStock || price <= 0}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            {isInStock ? 'Add to Cart' : 'Out of Stock'}
-          </button>
-          <BestPriceCheck
-            onClick={() => onPriceCompare && onPriceCompare(product, price)}
-            disabled={!isInStock || price <= 0}
-            compact={true}
-            text="Compare"
-          />
+          {isRentalCategory ? (
+            // Rental category: Show Contact Us button only
+            <Link to="/contact" className="cp-btn-cart cp-btn-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Contact Us
+            </Link>
+          ) : (
+            <>
+              {/* Used category: Show Add to Cart only (no Compare) */}
+              {/* Other categories: Show both Add to Cart and Compare */}
+              <button
+                className="cp-btn-cart"
+                onClick={handleAddToCart}
+                disabled={!isInStock || price <= 0}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                {isInStock ? 'Add to Cart' : 'Out of Stock'}
+              </button>
+              {!isUsedCategory && (
+                <BestPriceCheck
+                  onClick={() => onPriceCompare && onPriceCompare(product, price)}
+                  disabled={!isInStock || price <= 0}
+                  compact={true}
+                  text="Compare"
+                />
+              )}
+            </>
+          )}
         </div>
       </div>
 

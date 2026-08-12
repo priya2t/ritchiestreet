@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
+import ComingSoonPlaceholder from './ComingSoonPlaceholder';
 
 const ProductTicker = ({ products, onPriceCompare }) => {
   const scrollRef = useRef(null);
@@ -49,7 +50,7 @@ const ProductTicker = ({ products, onPriceCompare }) => {
     touchStartX.current = null;
   };
 
-  if (!products || products.length === 0) return null;
+  if (!products || products.length === 0) return <ComingSoonPlaceholder />;
 
   return (
     <div className="fp-slider-wrapper">

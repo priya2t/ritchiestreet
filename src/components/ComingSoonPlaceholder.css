@@ -1,0 +1,113 @@
+/* ============================================
+   COMING SOON PLACEHOLDER - Products Coming Soon
+   ============================================ */
+
+.coming-soon-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  min-height: 400px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.coming-soon-placeholder__icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  border-radius: 50%;
+  color: #ff6b00;
+  margin-bottom: 24px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.coming-soon-placeholder__icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.coming-soon-placeholder__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.coming-soon-placeholder__subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .coming-soon-placeholder {
+    padding: 40px 24px;
+    min-height: 300px;
+  }
+
+  .coming-soon-placeholder__icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+  }
+
+  .coming-soon-placeholder__icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .coming-soon-placeholder__title {
+    font-size: 20px;
+  }
+
+  .coming-soon-placeholder__subtitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .coming-soon-placeholder {
+    padding: 32px 20px;
+    min-height: 250px;
+  }
+
+  .coming-soon-placeholder__title {
+    font-size: 18px;
+  }
+
+  .coming-soon-placeholder__subtitle {
+    font-size: 13px;
+  }
+}

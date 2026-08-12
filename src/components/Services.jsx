@@ -278,13 +278,13 @@ const Services = () => {
             </p>
             <a href="tel:+918667507040" style={{
               display: 'block',
-              fontSize: '24px',
+              fontSize: '18px',
               fontWeight: '700',
               color: 'white',
               textDecoration: 'none',
               marginTop: '5px'
             }}>
-              +91 86675 07040
+              +91 86675 07040, +91 86088 60853
             </a>
           </div>
         </div>

@@ -101,7 +101,8 @@ const sections = [
     ],
     contacts: [
       { type: 'email', label: 'customerCare@ritchiestreet.co.in', href: 'mailto:customerCare@ritchiestreet.co.in' },
-      { type: 'phone', label: '+91 86675 07040', href: 'tel:+91 86675 07040' }
+      { type: 'phone', label: '+91 86675 07040', href: 'tel:+91 86675 07040' },
+      { type: 'phone', label: '+91 86088 60853', href: 'tel:+91 86088 60853' }
     ]
   }
 ];

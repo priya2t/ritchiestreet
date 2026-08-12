@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCategories, getProductsByCategory } from './woocommerce';
 import Layout from './Layout';
 import CategoryProductCard from '../components/CategoryProductCard';
+import SortDropdown from '../components/SortDropdown';
+import FilterToolbar from '../components/FilterToolbar';
+import ComingSoonPlaceholder from '../components/ComingSoonPlaceholder';
 import './CategoryProducts.css';
 
 const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
@@ -173,8 +176,16 @@ const CategoryProducts = ({ onPriceCompare }) => {
     }
   }, [products, sortBy]);
 
+  const handleSortChange = useCallback((newSort) => {
+    setSortBy(newSort);
+  }, []);
+
   const categoryName = category?.name || getCategoryDisplayName(slug);
-  const showProductCount = category && products.length > 0 && !isLoading;
+  const showProductCount = category && products && products.length > 0 && !isLoading;
+  
+  // Check if this is a refurbished or used category page
+  const isRefurbishedCategory = slug === 'refurbished' || slug === 'used';
+  const showConditionFilter = false; // Condition dropdown removed as requested
 
   // Skeleton loader
   const renderSkeleton = () => (
@@ -227,22 +238,21 @@ const CategoryProducts = ({ onPriceCompare }) => {
               </div>
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Filter Toolbar */}
             {!error && (
-              <div className="cp-sort">
-                <label htmlFor="cp-sort-select">Sort By:</label>
-                <select
-                  id="cp-sort-select"
+              <FilterToolbar>
+                <SortDropdown
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  disabled={isLoading || products.length === 0}
-                >
-                  <option value="featured">Featured</option>
-                  <option value="price-low-high">Price: Low to High</option>
-                  <option value="price-high-low">Price: High to Low</option>
-                  <option value="newest">Newest</option>
-                </select>
-              </div>
+                  onChange={handleSortChange}
+                  options={[
+                    { value: 'featured', label: 'Default' },
+                    { value: 'price-low-high', label: 'Price: Low to High' },
+                    { value: 'price-high-low', label: 'Price: High to Low' },
+                    { value: 'newest', label: 'Newest' }
+                  ]}
+                  disabled={isLoading || sortedProducts.length === 0}
+                />
+              </FilterToolbar>
             )}
           </div>
 
@@ -265,27 +275,15 @@ const CategoryProducts = ({ onPriceCompare }) => {
           )}
 
           {/* Empty State */}
-          {!isLoading && !error && category && products.length === 0 && (
-            <div className="cp-empty">
-              <div className="cp-empty-icon">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                </svg>
-              </div>
-              <h2>Products are not available for this category</h2>
-              <p>There are no products in the "{categoryName}" category yet.</p>
-              <Link to="/" className="cp-back-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Browse All Products
-              </Link>
-            </div>
+          {!isLoading && !error && category && (!products || products.length === 0) && (
+            <ComingSoonPlaceholder />
           )}
 
           {/* Products Grid */}
-          {!isLoading && !error && sortedProducts.length > 0 && (
+          {!isLoading && !error && sortedProducts && sortedProducts.length > 0 && (
             <div className={`cp-grid ${fadeIn ? 'cp-fade-in' : ''}`} key={slug}>
               {sortedProducts.map((product) => (
-                <CategoryProductCard key={product.id} product={product} onPriceCompare={onPriceCompare} />
+                <CategoryProductCard key={product.id} product={product} onPriceCompare={onPriceCompare} categorySlug={slug} />
               ))}
             </div>
           )}

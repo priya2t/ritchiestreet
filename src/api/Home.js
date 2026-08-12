@@ -51,9 +51,10 @@ const Home = ({ onPriceCompare }) => {
   ], []);
 
   const promoBanners = useMemo(() => [
-    { image: '/images/coming_soon_banner.webp', alt: 'Products coming soon' },
-    { image: '/images/refurbished.webp', alt: 'Refurbished Products' },
-    { image: '/images/rental.webp', alt: 'Rental Products' }
+    { image: '/images/coming_soon_banner.webp', alt: 'Products coming soon', link: null },
+    { image: '/images/refurbished.webp', alt: 'Refurbished Products', link: '/category/refurbished' },
+    { image: '/images/used.webp', alt: 'Used Products', link: '/category/used' },
+    { image: '/images/rental.webp', alt: 'Rental Products', link: '/category/rental' }
   ], []);
 
   useEffect(() => {
@@ -282,14 +283,27 @@ const Home = ({ onPriceCompare }) => {
                   key={index}
                   className={`promo-carousel-slide ${index === promoSlide ? 'active' : ''}`}
                 >
-                  <img
-                    src={banner.image}
-                    alt={banner.alt}
-                    width="1200"
-                    height="300"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  {banner.link ? (
+                    <Link to={banner.link} className="promo-slide-link">
+                      <img
+                        src={banner.image}
+                        alt={banner.alt}
+                        width="1200"
+                        height="300"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </Link>
+                  ) : (
+                    <img
+                      src={banner.image}
+                      alt={banner.alt}
+                      width="1200"
+                      height="300"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
                 </div>
               ))}
             </div>

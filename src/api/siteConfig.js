@@ -7,7 +7,7 @@ export const company = {
   name: 'Ritchie Street Best Online Electronics Hub',
   shortName: 'Ritchie Street',
   email: 'info@ritchiestreet.co.in',
-  phone: '+91 86675 07040',
+  phone: '+91 86675 07040, +91 86088 60853',
   website: 'www.ritchiestreet.co.in',
   address: '6, 107, Mangadu Rd, next to Niagara Juice Shop, Mangala Nagar, Paraniputhur, Iyyappanthangal, Chennai, Tamil Nadu 600122',
   facebook: 'https://www.facebook.com/profile.php?id=61550673917474',

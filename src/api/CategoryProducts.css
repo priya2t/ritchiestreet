@@ -412,8 +412,17 @@
   background: #e5e7eb;
   color: #9ca3af;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+}
+
+/* Contact Us Button (for rental category) */
+.cp-btn-contact {
+  text-decoration: none;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+}
+
+.cp-btn-contact:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 /* === Error State === */

@@ -106,7 +106,7 @@ const Contact = () => {
     document.title = 'Contact Us - Ritchie Street Best Online Electronics Hub';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Contact Ritchie Street for electronics, software development, and networking services in Chennai. Call us at +91 86675 07040.');
+      metaDescription.setAttribute('content', 'Contact Ritchie Street for electronics, software development, and networking services in Chennai. Call us at +91 86675 07040 , 86088 60853');
     }
   }, []);
 
@@ -162,7 +162,8 @@ const Contact = () => {
     {
       icon: '/images/chat.webp', title: 'Call Us', color: '#f15b29',
       lines: [
-        { href: 'tel:+918667507040', text: '+91 86675 07040' }
+        { href: 'tel:+918667507040', text: '+91 86675 07040' },
+        { href: 'tel:+918608860853', text: '+91 86088 60853' }
       ]
     },
     {

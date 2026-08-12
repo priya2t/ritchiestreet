@@ -114,6 +114,7 @@ const Footer = () => {
                     <img src="/images/phone.webp" alt="Phone" width="20" height="20" loading="lazy" decoding="async" />
                   </span>
                   <a href="tel:+918667507040">+91 86675 07040</a>
+                  <a href="tel:+918608860853">+91 86088 60853</a>
                 </p>
               </div>
               <div className="rs-footer-socials">
