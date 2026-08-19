@@ -4,6 +4,7 @@ import { usePriceComparison } from '../hooks/usePriceComparison';
 import { useCartStore } from '../api/cartStore';
 import { Link } from 'react-router-dom';
 import Toast from './Toast';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import './PriceComparisonModal.css';
 
 const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f8fafc'/%3E%3Crect x='20' y='24' width='40' height='32' rx='4' fill='%23e2e8f0'/%3E%3Ctext x='40' y='68' text-anchor='middle' font-family='Arial' font-size='10' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
@@ -171,6 +172,7 @@ const PriceComparisonModal = ({ isOpen, onClose, product, price }) => {
 
   const hasData = data?.has_data && data?.stores?.length > 0;
   const imageUrl = (product.images && product.images.length > 0 && product.images[0].src) || PLACEHOLDER_IMAGE;
+  const decodedProductName = decodeHTMLEntities(product.name || '');
 
   const modalContent = (
     <div className="pcm-overlay" onClick={handleOverlayClick} role="presentation" aria-hidden="true">
@@ -186,12 +188,12 @@ const PriceComparisonModal = ({ isOpen, onClose, product, price }) => {
           <div className="pcm-product-info">
             <img
               src={imageUrl}
-              alt={product.name}
+              alt={decodedProductName}
               className="pcm-product-image"
               onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }}
             />
             <div className="pcm-product-details">
-              <h3 id="pcm-title" className="pcm-product-name">{product.name}</h3>
+              <h3 id="pcm-title" className="pcm-product-name">{decodedProductName}</h3>
               <div className="pcm-product-price">
                 <span className="pcm-price-current">{formatPrice(price)}</span>
                 <span className="pcm-price-label">at Ritchiestreet</span>
@@ -228,7 +230,7 @@ const PriceComparisonModal = ({ isOpen, onClose, product, price }) => {
               {/* Savings Banner */}
               {comparison?.isRitchieLowest && comparison?.savings > 0 && (
                 <div className="pcm-savings-banner">
-                  <div className="pcm-savings-icon">🎉</div>
+                  <div className="pcm-savings-icon"></div>
                   <div className="pcm-savings-content">
                     <div className="pcm-savings-title">You Save {formatPrice(comparison.savings)}</div>
                     <div className="pcm-savings-subtitle">Compared to the next lowest price</div>

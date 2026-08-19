@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
+import BestPriceCheck from './BestPriceCheck';
+import { hasCompetitorUrls } from '../utils/priceIntelligence';
 
 const SearchProductCard = ({ product }) => {
   const { addToCart } = useCartStore();
@@ -16,6 +18,8 @@ const SearchProductCard = ({ product }) => {
   const category = product.categories && product.categories.length > 0
     ? product.categories[0].name
     : '';
+
+  const showCompare = hasCompetitorUrls(product);
 
   const getStockLabel = () => {
     if (product.stock_status === 'outofstock') return 'Out of Stock';
@@ -67,12 +71,20 @@ const SearchProductCard = ({ product }) => {
 
         <div className="search-product-actions">
           <button
-            className="search-add-to-cart"
+            className={`search-add-to-cart ${!showCompare ? 'search-add-to-cart-full' : ''}`}
             onClick={handleAddToCart}
             disabled={price <= 0 || product.stock_status === 'outofstock'}
           >
             Add to Cart
           </button>
+          {showCompare && (
+            <BestPriceCheck
+              onClick={() => {/* Price compare handler can be passed as prop */}}
+              disabled={price <= 0 || product.stock_status === 'outofstock'}
+              compact={true}
+              text="Compare"
+            />
+          )}
           <Link to={`/product/${product.id}`} className="search-view-product">
             View Product
           </Link>

@@ -288,8 +288,8 @@ const Header = () => {
               key={item.to}
               to={item.to}
               end={item.end || false}
-              className={({ isActive }) =>
-                isActive ? 'premium-nav-link active' : 'premium-nav-link'
+              className={({ isActive }) => 
+                `premium-nav-link ${isActive ? 'active' : ''}`
               }
               onClick={() => setMobileMenuOpen(false)}
             >

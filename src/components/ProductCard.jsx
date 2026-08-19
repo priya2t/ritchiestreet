@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
 import BestPriceCheck from './BestPriceCheck';
+import { hasCompetitorUrls } from '../utils/priceIntelligence';
 import '../api/Home.css';
 
 const PLACEHOLDER_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8fafc'/%3E%3Crect x='50' y='60' width='100' height='80' rx='8' fill='%23e2e8f0'/%3E%3Ctext x='100' y='170' text-anchor='middle' font-family='Arial' font-size='12' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
@@ -45,6 +46,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
   const savings = hasDiscount ? (regularPrice - price) : 0;
 
   const { rating, reviews } = generateRating(product.id);
+  const showCompare = hasCompetitorUrls(product);
 
   const imageUrl = (product.images && product.images.length > 0 && product.images[0].src) || PLACEHOLDER_IMG;
 
@@ -157,7 +159,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
 
         <div className="fp-action-buttons">
           <button
-            className="fp-cart-btn fp-cart-icon-only"
+            className={`fp-cart-btn ${!showCompare ? 'fp-cart-btn-full' : 'fp-cart-icon-only'}`}
             onClick={handleAddToCart}
             disabled={price <= 0}
             aria-label="Add to cart"
@@ -167,12 +169,14 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
             </svg>
           </button>
-          <BestPriceCheck
-            onClick={() => onPriceCompare && onPriceCompare(product, price)}
-            disabled={price <= 0}
-            compact={true}
-            text="Market Price Comparison"
-          />
+          {showCompare && (
+            <BestPriceCheck
+              onClick={() => onPriceCompare && onPriceCompare(product, price)}
+              disabled={price <= 0}
+              compact={true}
+              text="Market Price Comparison"
+            />
+          )}
         </div>
       </div>
 

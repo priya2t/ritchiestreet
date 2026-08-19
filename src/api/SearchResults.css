@@ -483,6 +483,11 @@
   height: 46px;
 }
 
+/* Full-width button when Compare is hidden */
+.sr-btn-cart-full {
+  width: 100%;
+}
+
 .sr-btn-cart:hover:not(:disabled) {
   background: linear-gradient(135deg, #e65c00, #ff6b00);
   transform: translateY(-1px);

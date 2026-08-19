@@ -60,6 +60,34 @@ export const getProducts = async (params = {}) => {
     const data = await cachedGet(`products:${JSON.stringify(requestParams)}`, () =>
       storeApi.get('/products', { params: requestParams }).then(res => res.data)
     );
+    
+    // Fetch competitor URLs for all products
+    const productIds = data.map(p => p.id).join(',');
+    if (productIds) {
+      try {
+        const metaResponse = await axios.get(`${WP_URL}/wp-json/custom/v1/batch-product-meta?product_ids=${productIds}`);
+        if (metaResponse.data && metaResponse.data.success) {
+          const metaMap = metaResponse.data.meta_data || {};
+          data.forEach(product => {
+            product.meta_data = metaMap[product.id] || {};
+          });
+        } else {
+          data.forEach(product => {
+            product.meta_data = {};
+          });
+        }
+      } catch (error) {
+        console.warn('Failed to fetch batch product meta:', error);
+        data.forEach(product => {
+          product.meta_data = {};
+        });
+      }
+    } else {
+      data.forEach(product => {
+        product.meta_data = {};
+      });
+    }
+    
     console.log('Products fetched:', data.length);
     return data;
   } catch (error) {
@@ -72,9 +100,24 @@ export const getProducts = async (params = {}) => {
 
 
 export const getProduct = async (id) => {
-  return cachedGet(`product:${id}`, () =>
+  const product = await cachedGet(`product:${id}`, () =>
     storeApi.get(`/products/${id}`).then(res => res.data)
   );
+  
+  // Fetch competitor URLs from custom API
+  try {
+    const metaResponse = await axios.get(`${WP_URL}/wp-json/custom/v1/product-meta/${id}`);
+    if (metaResponse.data && metaResponse.data.success) {
+      product.meta_data = metaResponse.data.meta_data;
+    } else {
+      product.meta_data = {};
+    }
+  } catch (error) {
+    console.warn('Failed to fetch product meta:', error);
+    product.meta_data = {};
+  }
+  
+  return product;
 };
 
 export const getProductsByCategory = async (categoryId, params = {}) => {
@@ -87,6 +130,34 @@ export const getProductsByCategory = async (categoryId, params = {}) => {
     const data = await cachedGet(`products-category:${categoryId}:${JSON.stringify(params)}`, () =>
       storeApi.get('/products', { params: requestParams }).then(res => res.data)
     );
+    
+    // Fetch competitor URLs for all products
+    const productIds = data.map(p => p.id).join(',');
+    if (productIds) {
+      try {
+        const metaResponse = await axios.get(`${WP_URL}/wp-json/custom/v1/batch-product-meta?product_ids=${productIds}`);
+        if (metaResponse.data && metaResponse.data.success) {
+          const metaMap = metaResponse.data.meta_data || {};
+          data.forEach(product => {
+            product.meta_data = metaMap[product.id] || {};
+          });
+        } else {
+          data.forEach(product => {
+            product.meta_data = {};
+          });
+        }
+      } catch (error) {
+        console.warn('Failed to fetch batch product meta:', error);
+        data.forEach(product => {
+          product.meta_data = {};
+        });
+      }
+    } else {
+      data.forEach(product => {
+        product.meta_data = {};
+      });
+    }
+    
     console.log('Products fetched:', data.length);
     return data;
   } catch (error) {

@@ -1016,6 +1016,12 @@ body {
   justify-content: center;
 }
 
+/* Full-width Cart Button (when Compare is hidden) */
+.fp-cart-btn-full {
+  width: 100%;
+  flex: 1;
+}
+
 /* Action Buttons Container */
 .fp-action-buttons {
   display: flex;
@@ -1491,6 +1497,10 @@ body {
     min-width: 40px;
   }
 
+  .fp-action-buttons .fp-cart-btn-full {
+    width: 100%;
+  }
+
   .fp-slider-arrow {
     width: 36px;
     height: 36px;
@@ -1655,6 +1665,10 @@ body {
   .fp-action-buttons .fp-cart-btn {
     width: 36px;
     min-width: 36px;
+  }
+
+  .fp-action-buttons .fp-cart-btn-full {
+    width: 100%;
   }
 
   .fp-action-buttons .bpc-button {

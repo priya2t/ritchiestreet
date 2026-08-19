@@ -128,7 +128,6 @@ const Home = ({ onPriceCompare }) => {
       <main ref={mainRef} className="home">
         {/* Hero Section - Premium Carousel + Right Panel */}
         <section ref={heroRef} className="hero-section">
-
           {/* Left: Slider */}
           <div className="hero-left">
             <div
