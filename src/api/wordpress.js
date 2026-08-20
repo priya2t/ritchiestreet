@@ -96,21 +96,22 @@ export const getPosts = async () => {
 };
 
 // Product search using custom WordPress endpoint (no WooCommerce auth required)
-export const searchProducts = async (searchTerm, limit = 50) => {
+export const searchProducts = async (searchTerm, limit = 12, page = 1) => {
     try {
         if (!searchTerm || searchTerm.trim().length < 2) {
-            return { success: true, products: [] };
+            return { success: true, products: [], total: 0, totalPages: 0, currentPage: 1 };
         }
         const response = await axios.get(`${WP_URL}/wp-json/custom/v1/search-products`, {
             params: {
                 search: searchTerm.trim(),
-                limit
+                limit,
+                page
             }
         });
         return response.data;
     } catch (error) {
         console.error('Error searching products:', error);
-        return { success: false, products: [] };
+        return { success: false, products: [], total: 0, totalPages: 0, currentPage: 1 };
     }
 };
 
@@ -123,7 +124,8 @@ export const searchSuggestions = async (searchTerm) => {
         const response = await axios.get(`${WP_URL}/wp-json/custom/v1/search-products`, {
             params: {
                 search: searchTerm.trim(),
-                suggestions: 5
+                suggestions: 5,
+                limit: 5
             }
         });
         return response.data;

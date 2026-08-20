@@ -121,15 +121,20 @@ export const getProduct = async (id) => {
 };
 
 export const getProductsByCategory = async (categoryId, params = {}) => {
-  const requestParams = { per_page: 100, ...params, category: categoryId };
+  const requestParams = { per_page: 12, page: 1, ...params, category: categoryId };
   console.log('=== WOOCOMMERCE API: getProductsByCategory ===');
   console.log('Category ID:', categoryId);
   console.log('Request params:', requestParams);
   
   try {
-    const data = await cachedGet(`products-category:${categoryId}:${JSON.stringify(params)}`, () =>
-      storeApi.get('/products', { params: requestParams }).then(res => res.data)
+    const result = await cachedGet(`products-category:${categoryId}:${JSON.stringify(requestParams)}`, () =>
+      storeApi.get('/products', { params: requestParams }).then(res => ({
+        data: res.data,
+        headers: res.headers
+      }))
     );
+    
+    const data = result.data;
     
     // Fetch competitor URLs for all products
     const productIds = data.map(p => p.id).join(',');
@@ -158,8 +163,21 @@ export const getProductsByCategory = async (categoryId, params = {}) => {
       });
     }
     
+    // Extract pagination info from headers
+    const total = parseInt(result.headers['x-wp-total'] || '0');
+    const totalPages = parseInt(result.headers['x-wp-totalpages'] || '1');
+    
     console.log('Products fetched:', data.length);
-    return data;
+    console.log('Total products:', total);
+    console.log('Total pages:', totalPages);
+    
+    return {
+      products: data,
+      total,
+      totalPages,
+      currentPage: parseInt(requestParams.page || '1'),
+      perPage: parseInt(requestParams.per_page || '12')
+    };
   } catch (error) {
     console.error('Error fetching products by category:', error);
     console.error('Error response:', error.response?.data);

@@ -47,7 +47,8 @@ const Home = ({ onPriceCompare }) => {
   const banners = useMemo(() => [
     { image: '/images/slider1A.webp', alt: 'Ritchie Street Shopping banner', link: null },
     { image: '/images/slider2A.webp', alt: 'Services banner', link: '/services' },
-    { image: '/images/slider3A.webp', alt: 'Other Enquiries banner', link: '/contact' }
+    { image: '/images/slider3A.webp', alt: 'Other Enquiries banner', link: '/contact' },
+    { image: '/images/tally.webp', alt: 'Tally banner', link: null }
   ], []);
 
   const promoBanners = useMemo(() => [

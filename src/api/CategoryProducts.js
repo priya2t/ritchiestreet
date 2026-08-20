@@ -6,14 +6,11 @@ import CategoryProductCard from '../components/CategoryProductCard';
 import SortDropdown from '../components/SortDropdown';
 import FilterToolbar from '../components/FilterToolbar';
 import ComingSoonPlaceholder from '../components/ComingSoonPlaceholder';
+import Pagination from '../components/Pagination';
 import './CategoryProducts.css';
 
 const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
-const categoryCache = new Map();
 const allCategoriesCache = { data: null, timestamp: 0 };
-
-const isCacheEntryValid = (entry) =>
-  Boolean(entry) && Boolean(entry.timestamp) && Date.now() - entry.timestamp < CACHE_TTL;
 
 const isListCacheValid = () =>
   Boolean(allCategoriesCache.data) &&
@@ -37,6 +34,9 @@ const CategoryProducts = ({ onPriceCompare }) => {
   const [error, setError] = useState('');
   const [sortBy, setSortBy] = useState('featured');
   const [fadeIn, setFadeIn] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     let isCancelled = false;
@@ -50,25 +50,13 @@ const CategoryProducts = ({ onPriceCompare }) => {
     };
 
     const loadCategoryData = async () => {
-      const cached = categoryCache.get(slug);
-      if (isCacheEntryValid(cached)) {
-        if (!isCancelled) {
-          setCategory(cached.category);
-          setProducts(cached.products);
-          setIsLoading(false);
-          setError('');
-          setFadeIn(false);
-          scheduleFadeIn();
-        }
-      } else {
-        if (!isCancelled) {
-          setCategory(null);
-          setProducts([]);
-          setIsLoading(true);
-          setError('');
-          setFadeIn(false);
-          if (fadeInTimer) clearTimeout(fadeInTimer);
-        }
+      if (!isCancelled) {
+        setCategory(null);
+        setProducts([]);
+        setIsLoading(true);
+        setError('');
+        setFadeIn(false);
+        if (fadeInTimer) clearTimeout(fadeInTimer);
       }
 
       if (!isCancelled) {
@@ -102,16 +90,13 @@ const CategoryProducts = ({ onPriceCompare }) => {
           return;
         }
 
-        const productsData = await getProductsByCategory(matchedCategory.id);
+        const productsData = await getProductsByCategory(matchedCategory.id, { page: currentPage });
 
         if (!isCancelled) {
           setCategory(matchedCategory);
-          setProducts(productsData);
-          categoryCache.set(slug, {
-            category: matchedCategory,
-            products: productsData,
-            timestamp: Date.now(),
-          });
+          setProducts(productsData.products);
+          setTotalPages(productsData.totalPages);
+          setTotal(productsData.total);
           setIsLoading(false);
           setError('');
           setFadeIn(false);
@@ -120,23 +105,12 @@ const CategoryProducts = ({ onPriceCompare }) => {
       } catch (err) {
         console.error('Error fetching category products:', err);
         if (!isCancelled) {
-          const cached = categoryCache.get(slug);
-          if (isCacheEntryValid(cached)) {
-            // Keep cached data; do not overwrite with error on a background refresh.
-            setCategory(cached.category);
-            setProducts(cached.products);
-            setIsLoading(false);
-            setError('');
-            setFadeIn(false);
-            scheduleFadeIn();
-          } else {
-            setError('Failed to load products. Please try again later.');
-            setCategory(null);
-            setProducts([]);
-            setIsLoading(false);
-            setFadeIn(false);
-            if (fadeInTimer) clearTimeout(fadeInTimer);
-          }
+          setError('Failed to load products. Please try again later.');
+          setCategory(null);
+          setProducts([]);
+          setIsLoading(false);
+          setFadeIn(false);
+          if (fadeInTimer) clearTimeout(fadeInTimer);
         }
       } finally {
         if (!isCancelled) {
@@ -151,7 +125,7 @@ const CategoryProducts = ({ onPriceCompare }) => {
       isCancelled = true;
       if (fadeInTimer) clearTimeout(fadeInTimer);
     };
-  }, [slug]);
+  }, [slug, currentPage]);
 
   // Helper to extract price from WooCommerce Store API product
   const getProductPrice = (product) => {
@@ -160,7 +134,7 @@ const CategoryProducts = ({ onPriceCompare }) => {
     return (parseFloat(prices.price || 0) / divisor) || 0;
   };
 
-  // Sort products
+  // Sort products (only for current page)
   const sortedProducts = useMemo(() => {
     const sorted = [...products];
     switch (sortBy) {
@@ -178,10 +152,16 @@ const CategoryProducts = ({ onPriceCompare }) => {
 
   const handleSortChange = useCallback((newSort) => {
     setSortBy(newSort);
+    setCurrentPage(1); // Reset to page 1 when sort changes
+  }, []);
+
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+    setFadeIn(false);
   }, []);
 
   const categoryName = category?.name || getCategoryDisplayName(slug);
-  const showProductCount = category && products && products.length > 0 && !isLoading;
+  const showProductCount = category && total > 0 && !isLoading;
   
   // Check if this is a refurbished or used category page
   const isRefurbishedCategory = slug === 'refurbished' || slug === 'used';
@@ -232,7 +212,7 @@ const CategoryProducts = ({ onPriceCompare }) => {
                   {isLoading || (isFetching && products.length === 0)
                     ? 'Loading products...'
                     : showProductCount
-                    ? `Showing ${sortedProducts.length} Product${sortedProducts.length !== 1 ? 's' : ''}`
+                    ? `Showing ${total} Product${total !== 1 ? 's' : ''}`
                     : ' '}
                 </p>
               </div>
@@ -286,6 +266,15 @@ const CategoryProducts = ({ onPriceCompare }) => {
                 <CategoryProductCard key={product.id} product={product} onPriceCompare={onPriceCompare} categorySlug={slug} />
               ))}
             </div>
+          )}
+
+          {/* Pagination */}
+          {!isLoading && !error && totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           )}
         </div>
       </main>

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { searchProducts } from './wordpress';
 import Layout from './Layout';
 import SearchResultCard from '../components/SearchResultCard';
+import Pagination from '../components/Pagination';
 import './SearchResults.css';
 
 const SearchResults = ({ onPriceCompare }) => {
@@ -16,28 +17,20 @@ const SearchResults = ({ onPriceCompare }) => {
   const [searchInput, setSearchInput] = useState(query);
   const [sortBy, setSortBy] = useState('featured');
   const [fadeIn, setFadeIn] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    setSearchInput(query);
-    if (query.trim().length >= 2) {
-      fetchSearchResults(query);
-    } else if (query.trim().length > 0) {
-      setProducts([]);
-      setError('Please enter at least 2 characters to search.');
-    } else {
-      setProducts([]);
-      setError('');
-    }
-  }, [query]);
-
-  const fetchSearchResults = async (keyword) => {
+  const fetchSearchResults = useCallback(async (keyword, page = 1) => {
     try {
       setLoading(true);
       setError('');
       setFadeIn(false);
-      const data = await searchProducts(keyword, 50);
+      const data = await searchProducts(keyword, 12, page);
       if (data.success) {
         setProducts(data.products || []);
+        setTotalPages(data.totalPages || 1);
+        setTotal(data.total || 0);
       } else {
         setError('Failed to load search results. Please try again.');
       }
@@ -48,7 +41,29 @@ const SearchResults = ({ onPriceCompare }) => {
       setLoading(false);
       setTimeout(() => setFadeIn(true), 50);
     }
-  };
+  }, []);
+
+  // Handle query changes (reset to page 1)
+  useEffect(() => {
+    setSearchInput(query);
+    setCurrentPage(1);
+    if (query.trim().length >= 2) {
+      fetchSearchResults(query, 1);
+    } else if (query.trim().length > 0) {
+      setProducts([]);
+      setError('Please enter at least 2 characters to search.');
+    } else {
+      setProducts([]);
+      setError('');
+    }
+  }, [query, fetchSearchResults]);
+
+  // Handle page changes
+  useEffect(() => {
+    if (query.trim().length >= 2 && currentPage > 1) {
+      fetchSearchResults(query, currentPage);
+    }
+  }, [currentPage, query, fetchSearchResults]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -59,6 +74,11 @@ const SearchResults = ({ onPriceCompare }) => {
     }
     navigate(`/search?q=${encodeURIComponent(keyword)}`);
   };
+
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+    setFadeIn(false);
+  }, []);
 
   // Sort products
   const sortedProducts = useMemo(() => {
@@ -75,6 +95,14 @@ const SearchResults = ({ onPriceCompare }) => {
         return sorted;
     }
   }, [products, sortBy]);
+
+  // Reset to page 1 when sort changes
+  useEffect(() => {
+    if (query.trim().length >= 2) {
+      setCurrentPage(1);
+      fetchSearchResults(query, 1);
+    }
+  }, [sortBy, query, fetchSearchResults]);
 
   return (
     <Layout
@@ -102,7 +130,7 @@ const SearchResults = ({ onPriceCompare }) => {
               <div className="sr-header-text">
                 <h1>Search Results</h1>
                 {query && (
-                  <p>Showing {sortedProducts.length} product{sortedProducts.length !== 1 ? 's' : ''} for: <strong>"{query}"</strong></p>
+                  <p>Showing {total} product{total !== 1 ? 's' : ''} for: <strong>"{query}"</strong></p>
                 )}
               </div>
             </div>
@@ -208,6 +236,15 @@ const SearchResults = ({ onPriceCompare }) => {
                 <SearchResultCard key={product.id} product={product} onPriceCompare={onPriceCompare} />
               ))}
             </div>
+          )}
+
+          {/* Pagination */}
+          {!loading && !error && totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           )}
         </div>
       </main>
