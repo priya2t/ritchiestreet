@@ -5,6 +5,7 @@ import axios from 'axios';
 const WP_URL = process.env.REACT_APP_WORDPRESS_URL || 'http://localhost/rich/rich_wordpress';
 const WP_API = `${WP_URL}/wp-json/wp/v2`;
 const WC_API = `${WP_URL}/wp-json/wc/v3`;
+const CUSTOM_API = `${WP_URL}/wp-json/custom/v1`;
 
 // WooCommerce API keys from environment
 const CONSUMER_KEY = process.env.REACT_APP_WC_CONSUMER_KEY;
@@ -389,5 +390,26 @@ export const submitNewsletter = async (email) => {
         console.error('Error response status:', error.response?.status);
         console.error('Error response data:', error.response?.data);
         throw error;
+    }
+};
+
+// Visitor count API functions
+export const getVisitorCount = async () => {
+    try {
+        const response = await axios.get(`${CUSTOM_API}/visitor-count`);
+        return response.data.count;
+    } catch (error) {
+        console.error('Error fetching visitor count:', error);
+        return 0;
+    }
+};
+
+export const incrementVisitorCount = async () => {
+    try {
+        const response = await axios.post(`${CUSTOM_API}/visitor-count/increment`);
+        return response.data.count;
+    } catch (error) {
+        console.error('Error incrementing visitor count:', error);
+        return 0;
     }
 };

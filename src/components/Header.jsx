@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useUserStore } from '../api/userStore';
-import { searchSuggestions } from '../api/wordpress';
+import { searchSuggestions, getVisitorCount, incrementVisitorCount } from '../api/wordpress';
 import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import '../api/SearchResults.css';
 
@@ -45,28 +45,28 @@ const Header = () => {
 
   // Visitor count tracking
   useEffect(() => {
-    const hasIncremented = sessionStorage.getItem('visitorIncremented');
-    
-    if (!hasIncremented) {
-      const getVisitorCount = () => {
-        const stored = localStorage.getItem('visitorCount');
-        return stored ? parseInt(stored, 10) : 0;
-      };
+    const trackVisitor = async () => {
+      try {
+        const hasIncremented = sessionStorage.getItem('visitorIncremented');
+        
+        if (!hasIncremented) {
+          // First visit in this session - increment count
+          const newCount = await incrementVisitorCount();
+          setVisitorCount(newCount);
+          sessionStorage.setItem('visitorIncremented', 'true');
+        } else {
+          // Already counted in this session - just fetch current count
+          const count = await getVisitorCount();
+          setVisitorCount(count);
+        }
+      } catch (error) {
+        console.error('Error tracking visitor:', error);
+        // Fallback to 0 on error
+        setVisitorCount(0);
+      }
+    };
 
-      const incrementVisitorCount = () => {
-        const currentCount = getVisitorCount();
-        const newCount = currentCount + 1;
-        localStorage.setItem('visitorCount', newCount.toString());
-        return newCount;
-      };
-
-      const count = incrementVisitorCount();
-      setVisitorCount(count);
-      sessionStorage.setItem('visitorIncremented', 'true');
-    } else {
-      const stored = localStorage.getItem('visitorCount');
-      setVisitorCount(stored ? parseInt(stored, 10) : 0);
-    }
+    trackVisitor();
   }, []);
 
   // Fetch live suggestions when debounced search term changes
@@ -178,7 +178,7 @@ const Header = () => {
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          <span>Total Visitors: {visitorCount.toLocaleString()}</span>
+          <span></span>
         </div>
       </div>
 
