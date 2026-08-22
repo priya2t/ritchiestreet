@@ -1186,15 +1186,29 @@ body {
 /* Responsive Brand Logo Cards */
 @media (max-width: 640px) {
   .brand-logo-card {
-    width: 120px;
-    height: 70px;
+    width: 140px;
+    height: 75px;
+    padding: 12px;
+  }
+
+  .brands-slider-container .brands-slider {
+    gap: 15px;
   }
 }
 
 @media (max-width: 480px) {
   .brand-logo-card {
-    width: 100px;
-    height: 60px;
+    width: 120px;
+    height: 65px;
+    padding: 10px;
+  }
+
+  .brands-slider-container .brands-slider {
+    gap: 12px;
+  }
+
+  .brands-slider-container {
+    padding: 0 12px;
   }
 }
 

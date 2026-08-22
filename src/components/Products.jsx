@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { getProducts } from '../api/wordpress';
 import ComingSoonPlaceholder from './ComingSoonPlaceholder';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import './Products.css'; // We'll create this next
 
 function Products() {
@@ -61,7 +62,7 @@ function Products() {
                             <div className="product-image">
                                 <img 
                                     src={product.images[0].src} 
-                                    alt={product.name}
+                                    alt={decodeHTMLEntities(product.name)}
                                     onError={(e) => {
                                         e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23f8fafc'/%3E%3Ctext x='150' y='150' text-anchor='middle' font-family='Arial' font-size='14' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
                                     }}
@@ -72,7 +73,7 @@ function Products() {
                             </div>
                         )}
                         <div className="product-info">
-                            <h3 className="product-title">{product.name}</h3>
+                            <h3 className="product-title">{decodeHTMLEntities(product.name)}</h3>
                             <div className="product-price">
                                 {(() => {
                                     const prices = product.prices || {};

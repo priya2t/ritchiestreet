@@ -4,6 +4,7 @@ import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
 import BestPriceCheck from './BestPriceCheck';
 import { hasCompetitorUrls } from '../utils/priceIntelligence';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 
 const PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8fafc'/%3E%3Crect x='100' y='120' width='200' height='160' rx='12' fill='%23e2e8f0'/%3E%3Ccircle cx='160' cy='180' r='20' fill='%23cbd5e1'/%3E%3Cpolygon points='140,260 200,190 240,230 280,200 300,260' fill='%23cbd5e1'/%3E%3Ctext x='200' y='330' text-anchor='middle' font-family='Arial' font-size='16' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
 
@@ -53,7 +54,7 @@ const CategoryProductCard = ({ product, onPriceCompare, categorySlug }) => {
     if (!isInStock || price <= 0) return;
     const productToAdd = {
       id: product.id,
-      name: product.name,
+      name: decodeHTMLEntities(product.name),
       price: price,
       images: product.images,
       prices: product.prices
@@ -88,7 +89,7 @@ const CategoryProductCard = ({ product, onPriceCompare, categorySlug }) => {
           <img
             className={imgLoaded ? 'cp-card-image-loaded' : ''}
             src={imgError ? PLACEHOLDER_IMAGE : imageUrl}
-            alt={product.name}
+            alt={decodeHTMLEntities(product.name)}
             loading="lazy"
             decoding="async"
             onLoad={() => setImgLoaded(true)}
@@ -113,7 +114,7 @@ const CategoryProductCard = ({ product, onPriceCompare, categorySlug }) => {
       {/* Card Body */}
       <div className="cp-card-body">
         <h3 className="cp-card-title">
-          <Link to={`/product/${product.id}`}>{product.name}</Link>
+          <Link to={`/product/${product.id}`}>{decodeHTMLEntities(product.name)}</Link>
         </h3>
 
         <div className="cp-card-pricing">

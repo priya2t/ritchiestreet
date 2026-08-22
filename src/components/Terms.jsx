@@ -100,7 +100,7 @@ const sections = [
       'If you have any questions, concerns, or inquiries regarding our terms and conditions, please contact our customer service team.'
     ],
     contacts: [
-      { type: 'email', label: 'customerCare@ritchiestreet.co.in', href: 'mailto:customerCare@ritchiestreet.co.in' },
+      { type: 'email', label: 'customercare@ritchiestreet.co.in', href: 'mailto:customercare@ritchiestreet.co.in' },
       { type: 'phone', label: '+91 86675 07040', href: 'tel:+91 86675 07040' },
       { type: 'phone', label: '+91 86088 60853', href: 'tel:+91 86088 60853' }
     ]

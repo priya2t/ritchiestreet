@@ -4,6 +4,7 @@ import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
 import BestPriceCheck from './BestPriceCheck';
 import { hasCompetitorUrls } from '../utils/priceIntelligence';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 
 const SearchProductCard = ({ product }) => {
   const { addToCart } = useCartStore();
@@ -31,7 +32,7 @@ const SearchProductCard = ({ product }) => {
     e.preventDefault();
     const productToAdd = {
       id: product.id,
-      name: product.name,
+      name: decodeHTMLEntities(product.name),
       price: price,
       images: product.images,
       prices: product.prices
@@ -46,7 +47,7 @@ const SearchProductCard = ({ product }) => {
       <div className="search-product-image">
         <Link to={`/product/${product.id}`}>
           {product.images && product.images.length > 0 ? (
-            <img src={product.images[0].src} alt={product.name} loading="lazy" />
+            <img src={product.images[0].src} alt={decodeHTMLEntities(product.name)} loading="lazy" />
           ) : (
             <div className="search-product-no-image">No Image</div>
           )}
@@ -55,7 +56,7 @@ const SearchProductCard = ({ product }) => {
       <div className="search-product-info">
         {category && <span className="search-product-category">{category}</span>}
         <Link to={`/product/${product.id}`} className="search-product-name">
-          {product.name}
+          {decodeHTMLEntities(product.name)}
         </Link>
         <span className={`search-product-stock ${product.stock_status}`}>
           {getStockLabel()}

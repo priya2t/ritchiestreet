@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import Layout from './Layout';
 import AdvancePaymentSuccess from '../components/AdvancePaymentSuccess';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 
 const OrderSuccess = () => {
   const { orderId } = useParams();
@@ -17,7 +18,7 @@ const OrderSuccess = () => {
       if (orderFromState) {
         const items = orderFromState.line_items?.map(item => ({
           id: item.id,
-          name: item.name,
+          name: decodeHTMLEntities(item.name),
           quantity: item.quantity,
           total: parseFloat(item.total) || 0
         })) || [];
@@ -273,7 +274,7 @@ const OrderSuccess = () => {
                     <div className="summary-items">
                       {orderSummary.items?.map((item) => (
                         <div key={item.id} className="summary-item">
-                          <span className="summary-item-name">{item.name} × {item.quantity}</span>
+                          <span className="summary-item-name">{decodeHTMLEntities(item.name)} × {item.quantity}</span>
                           <span className="summary-item-price">{formatPrice(item.total)}</span>
                         </div>
                       ))}

@@ -4,6 +4,7 @@ import { useCartStore } from '../api/cartStore';
 import Toast from './Toast';
 import BestPriceCheck from './BestPriceCheck';
 import { hasCompetitorUrls } from '../utils/priceIntelligence';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import '../api/Home.css';
 
 const PLACEHOLDER_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8fafc'/%3E%3Crect x='50' y='60' width='100' height='80' rx='8' fill='%23e2e8f0'/%3E%3Ctext x='100' y='170' text-anchor='middle' font-family='Arial' font-size='12' fill='%2394a3b8'%3ENo Image%3C/text%3E%3C/svg%3E";
@@ -61,7 +62,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
     if (price <= 0) return;
     const productToAdd = {
       id: product.id,
-      name: product.name,
+      name: decodeHTMLEntities(product.name),
       price: price,
       images: product.images,
       prices: product.prices
@@ -77,7 +78,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
         <Link to={`/product/${product.id}`} className="fd-img-wrap">
           <img
             src={imgError ? PLACEHOLDER_IMG : imageUrl}
-            alt={product.name}
+            alt={decodeHTMLEntities(product.name)}
             width="200"
             height="200"
             loading="lazy"
@@ -89,7 +90,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
         </Link>
         <div className="fd-card-body">
           <Link to={`/product/${product.id}`} className="fd-card-name">
-            {product.name}
+            {decodeHTMLEntities(product.name)}
           </Link>
           <div className="fd-card-pricing">
             <span className="fd-card-price">₹{price > 0 ? price.toLocaleString('en-IN') : '—'}</span>
@@ -121,7 +122,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
       <Link to={`/product/${product.id}`} className="fp-image-wrap">
         <img
           src={imgError ? PLACEHOLDER_IMG : imageUrl}
-          alt={product.name}
+          alt={decodeHTMLEntities(product.name)}
           width="200"
           height="200"
           loading="lazy"
@@ -134,7 +135,7 @@ const ProductCard = ({ product, compact = false, onPriceCompare }) => {
 
       <div className="fp-body">
         <Link to={`/product/${product.id}`} className="fp-title">
-          {product.name}
+          {decodeHTMLEntities(product.name)}
         </Link>
 
         <div className="fp-rating">

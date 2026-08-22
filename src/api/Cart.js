@@ -5,6 +5,7 @@ import { useUserStore } from './userStore';
 import Layout from './Layout';
 import { useAdvancePayment } from '../hooks/useAdvancePayment';
 import AdvancePaymentNotice from '../components/AdvancePaymentNotice';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -123,12 +124,12 @@ const Cart = () => {
                   <div className="cart-row-product">
                     <div className="cart-product-image">
                       {item.images && item.images.length > 0 && (
-                        <img src={item.images[0].src} alt={item.name} />
+                        <img src={item.images[0].src} alt={decodeHTMLEntities(item.name)} />
                       )}
                     </div>
                     <div className="cart-product-info">
                       <h3 className="cart-product-name">
-                        <Link to={`/product/${item.id}`}>{item.name}</Link>
+                        <Link to={`/product/${item.id}`}>{decodeHTMLEntities(item.name)}</Link>
                       </h3>
                       <button 
                         className="cart-remove-icon"

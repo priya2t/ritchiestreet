@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../api/cartStore';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 
 const CartIcon = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -72,14 +73,14 @@ const CartIcon = () => {
                   <div key={item.id} className="mini-cart-item">
                     <div className="mini-cart-item-image">
                       {item.images && item.images.length > 0 && (
-                        <img src={item.images[0].src} alt={item.name} width="50" height="50" loading="lazy" decoding="async" />
+                        <img src={item.images[0].src} alt={decodeHTMLEntities(item.name)} width="50" height="50" loading="lazy" decoding="async" />
                       )}
                     </div>
                     
                     <div className="mini-cart-item-details">
                       <h4 className="mini-cart-item-name">
                         <Link to={`/product/${item.id}`} onClick={() => setIsDropdownOpen(false)}>
-                          {item.name}
+                          {decodeHTMLEntities(item.name)}
                         </Link>
                       </h4>
                       <p className="mini-cart-item-price">₹{(Number(item.price) || 0).toFixed(2)}</p>

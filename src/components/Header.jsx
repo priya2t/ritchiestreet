@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useUserStore } from '../api/userStore';
 import { searchSuggestions } from '../api/wordpress';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import '../api/SearchResults.css';
 
 // Simple debounce hook
@@ -23,6 +24,7 @@ const Header = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [visitorCount, setVisitorCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, logout } = useUserStore();
@@ -40,6 +42,32 @@ const Header = () => {
       setSearchTerm(q);
     }
   }, [location.pathname, location.search]);
+
+  // Visitor count tracking
+  useEffect(() => {
+    const hasIncremented = sessionStorage.getItem('visitorIncremented');
+    
+    if (!hasIncremented) {
+      const getVisitorCount = () => {
+        const stored = localStorage.getItem('visitorCount');
+        return stored ? parseInt(stored, 10) : 0;
+      };
+
+      const incrementVisitorCount = () => {
+        const currentCount = getVisitorCount();
+        const newCount = currentCount + 1;
+        localStorage.setItem('visitorCount', newCount.toString());
+        return newCount;
+      };
+
+      const count = incrementVisitorCount();
+      setVisitorCount(count);
+      sessionStorage.setItem('visitorIncremented', 'true');
+    } else {
+      const stored = localStorage.getItem('visitorCount');
+      setVisitorCount(stored ? parseInt(stored, 10) : 0);
+    }
+  }, []);
 
   // Fetch live suggestions when debounced search term changes
   useEffect(() => {
@@ -126,7 +154,7 @@ const Header = () => {
   };
 
   const handleSuggestionClick = (product) => {
-    setSearchTerm(product.name);
+    setSearchTerm(decodeHTMLEntities(product.name));
     setShowSuggestions(false);
     navigate(`/product/${product.id}`);
   };
@@ -145,6 +173,13 @@ const Header = () => {
     <header ref={headerRef} className={`premium-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="premium-announcement">
         <span>Sales and Services are only within Chennai</span>
+        <div className="visitor-counter">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Total Visitors: {visitorCount.toLocaleString()}</span>
+        </div>
       </div>
 
       <div className="premium-main-header">
@@ -199,10 +234,10 @@ const Header = () => {
                           onClick={() => handleSuggestionClick(product)}
                         >
                           <div className="search-suggestion-thumb">
-                            <img src={product.image} alt={product.name} width="40" height="40" loading="lazy" decoding="async" />
+                            <img src={product.image} alt={decodeHTMLEntities(product.name)} width="40" height="40" loading="lazy" decoding="async" />
                           </div>
                           <div className="search-suggestion-info">
-                            <span className="search-suggestion-name">{product.name}</span>
+                            <span className="search-suggestion-name">{decodeHTMLEntities(product.name)}</span>
                             <span className="search-suggestion-price">
                               {parseFloat(product.price || 0) > 0
                                 ? `₹${parseFloat(product.price).toFixed(2)}`

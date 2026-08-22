@@ -6,6 +6,7 @@ import { createOrder } from './woocommerce';
 import Layout from './Layout';
 import { useAdvancePayment } from '../hooks/useAdvancePayment';
 import AdvancePaymentSuccess from '../components/AdvancePaymentSuccess';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -273,7 +274,7 @@ const Checkout = () => {
         status: order.status || 'pending',
         items: cart.map(item => ({
           id: item.id,
-          name: item.name,
+          name: decodeHTMLEntities(item.name),
           quantity: item.quantity,
           price: Number(item.price) || 0,
           total: (Number(item.price) || 0) * (Number(item.quantity) || 1)
@@ -647,7 +648,7 @@ const Checkout = () => {
                   {cart.map(item => (
                     <div key={item.id} className="order-item">
                       <div className="order-item-info">
-                        <span className="order-item-name">{item.name}</span>
+                        <span className="order-item-name">{decodeHTMLEntities(item.name)}</span>
                         <span className="order-item-qty">Qty: {item.quantity}</span>
                       </div>
                       <span className="order-item-price">₹{((Number(item.price) || 0) * (Number(item.quantity) || 1)).toFixed(2)}</span>

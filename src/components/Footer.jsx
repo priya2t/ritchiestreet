@@ -121,7 +121,7 @@ const Footer = () => {
                 <a href="https://www.facebook.com/profile.php?id=61550673917474" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Facebook">
                   <img src="/images/fb.webp" alt="Facebook" width="24" height="24" loading="lazy" decoding="async" />
                 </a>
-                <a href="https://www.instagram.com/ritchiestreet_chn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Instagram">
+                <a href="https://www.instagram.com/ritchiestreetchn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="Instagram">
                   <img src="/images/insta.webp" alt="Instagram" width="24" height="24" loading="lazy" decoding="async" />
                 </a>
                 <a href="https://twitter.com/Ritchistreetchn" target="_blank" rel="noopener noreferrer" className="rs-social-pill" aria-label="X / Twitter">

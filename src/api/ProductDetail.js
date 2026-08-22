@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProduct, getProductReviews } from './woocommerce';
 import { useCartStore } from './cartStore';
 import Layout from './Layout';
+import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import './ProductDetail.css';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 
@@ -237,7 +238,7 @@ const ProductDetail = () => {
   const ratingCount = product.rating_count || reviews.length || 0;
 
   return (
-    <Layout title={`${product.name} | Ritchie Street`} description={`Buy ${product.name} from Ritchie Street Best Online Electronics Hub.`}>
+    <Layout title={`${decodeHTMLEntities(product.name)} | Ritchie Street`} description={`Buy ${decodeHTMLEntities(product.name)} from Ritchie Street Best Online Electronics Hub.`}>
       <main className="pd-page">
         <div className={`pd-content ${fadeIn ? 'pd-fade-in' : ''}`}>
         {/* Cart Success Toast */}
@@ -251,7 +252,7 @@ const ProductDetail = () => {
           <nav className="pd-breadcrumb">
             <Link to="/">Home</Link>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-            <span>{product.name}</span>
+            <span>{decodeHTMLEntities(product.name)}</span>
           </nav>
           {/* === PRODUCT GALLERY === */}
           <div className="pd-gallery">
@@ -312,7 +313,7 @@ const ProductDetail = () => {
 
           {/* === PRODUCT INFO === */}
           <div className="pd-info">
-            <h1 className="pd-title">{product.name}</h1>
+            <h1 className="pd-title">{decodeHTMLEntities(product.name)}</h1>
 
             {/* Rating */}
             {(avgRating > 0 || ratingCount > 0) && (
