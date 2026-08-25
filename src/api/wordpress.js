@@ -394,22 +394,98 @@ export const submitNewsletter = async (email) => {
 };
 
 // Visitor count API functions
+// Visitor count API functions
+
 export const getVisitorCount = async () => {
     try {
-        const response = await axios.get(`${CUSTOM_API}/visitor-count`);
-        return response.data.count;
+        console.log(
+            'Fetching visitor count from:',
+            `${CUSTOM_API}/visitor-count`
+        );
+
+        const response = await axios.get(
+            `${CUSTOM_API}/visitor-count`
+        );
+
+        console.log(
+            'Visitor count response:',
+            response.data
+        );
+
+        return response.data;
+
     } catch (error) {
-        console.error('Error fetching visitor count:', error);
-        return 0;
+
+        console.error(
+            'Error fetching visitor count:',
+            error
+        );
+
+        console.error(
+            'Error details:',
+            error.response?.data
+        );
+
+        console.error(
+            'Error status:',
+            error.response?.status
+        );
+
+        return {
+            success: false,
+            today: 0,
+            yesterday: 0,
+            total: 0
+        };
     }
 };
 
+
 export const incrementVisitorCount = async () => {
     try {
-        const response = await axios.post(`${CUSTOM_API}/visitor-count/increment`);
-        return response.data.count;
+
+        console.log(
+            'Incrementing visitor count at:',
+            `${CUSTOM_API}/visitor-count/increment`
+        );
+
+        const response = await axios.post(
+            `${CUSTOM_API}/visitor-count/increment`,
+            {},
+            {
+                withCredentials: true
+            }
+        );
+
+        console.log(
+            'Increment visitor count response:',
+            response.data
+        );
+
+        return response.data;
+
     } catch (error) {
-        console.error('Error incrementing visitor count:', error);
-        return 0;
+
+        console.error(
+            'Error incrementing visitor count:',
+            error
+        );
+
+        console.error(
+            'Error details:',
+            error.response?.data
+        );
+
+        console.error(
+            'Error status:',
+            error.response?.status
+        );
+
+        return {
+            success: false,
+            today: 0,
+            yesterday: 0,
+            total: 0
+        };
     }
 };

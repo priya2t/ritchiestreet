@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useUserStore } from '../api/userStore';
-import { searchSuggestions, getVisitorCount, incrementVisitorCount } from '../api/wordpress';
+import { searchSuggestions, incrementVisitorCount } from '../api/wordpress';
 import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import '../api/SearchResults.css';
 
@@ -44,30 +44,28 @@ const Header = () => {
   }, [location.pathname, location.search]);
 
   // Visitor count tracking
-  useEffect(() => {
-    const trackVisitor = async () => {
-      try {
-        const hasIncremented = sessionStorage.getItem('visitorIncremented');
-        
-        if (!hasIncremented) {
-          // First visit in this session - increment count
-          const newCount = await incrementVisitorCount();
-          setVisitorCount(newCount);
-          sessionStorage.setItem('visitorIncremented', 'true');
-        } else {
-          // Already counted in this session - just fetch current count
-          const count = await getVisitorCount();
-          setVisitorCount(count);
-        }
-      } catch (error) {
-        console.error('Error tracking visitor:', error);
-        // Fallback to 0 on error
+// Visitor count tracking
+useEffect(() => {
+  const trackVisitor = async () => {
+    try {
+      const data = await incrementVisitorCount();
+
+      console.log('Visitor tracking:', data);
+
+      if (data && data.success) {
+        setVisitorCount(data.today);
+      } else {
         setVisitorCount(0);
       }
-    };
 
-    trackVisitor();
-  }, []);
+    } catch (error) {
+      console.error('Error tracking visitor:', error);
+      setVisitorCount(0);
+    }
+  };
+
+  trackVisitor();
+}, []);
 
   // Fetch live suggestions when debounced search term changes
   useEffect(() => {
@@ -178,7 +176,7 @@ const Header = () => {
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          <span></span>
+          <span>{visitorCount.toLocaleString()}</span>
         </div>
       </div>
 
