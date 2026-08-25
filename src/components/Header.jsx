@@ -170,13 +170,13 @@ useEffect(() => {
   return (
     <header ref={headerRef} className={`premium-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="premium-announcement">
-        <span>Sales and Services are only within Chennai</span>
+        {/*<span>Sales and Services are only within Chennai</span>*/}
         <div className="visitor-counter">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          <span>{visitorCount.toLocaleString()}</span>
+          <span>Visitors Count: {visitorCount.toLocaleString()}</span>
         </div>
       </div>
 
