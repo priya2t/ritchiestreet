@@ -53,7 +53,7 @@ useEffect(() => {
       console.log('Visitor tracking:', data);
 
       if (data && data.success) {
-        setVisitorCount(data.today);
+        setVisitorCount(data.total);
       } else {
         setVisitorCount(0);
       }
