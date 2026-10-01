@@ -6,7 +6,113 @@ import Layout from './Layout';
 import { decodeHTMLEntities } from '../utils/htmlEntityDecoder';
 import './ProductDetail.css';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
+// === PRODUCT SEO STRUCTURED DATA ===
+const ProductStructuredData = ({
+  product,
+  price,
+  stockInfo,
+  images,
+  avgRating,
+  ratingCount,
+  id
+}) => {
+  if (!product || !product.name || !price) {
+    return null;
+  }
 
+  const productUrl = `https://ritchiestreet.co.in/product/${id}`;
+
+  const productImages = images
+    .filter((img) => img && img.src)
+    .map((img) => img.src);
+
+  const description = (
+    product.short_description ||
+    product.description ||
+    ''
+  )
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // Try to get brand from WooCommerce data when available
+  let brandName = '';
+
+  if (product.brand) {
+    brandName =
+      typeof product.brand === 'string'
+        ? product.brand
+        : product.brand.name || '';
+  }
+
+  if (!brandName && Array.isArray(product.brands) && product.brands.length > 0) {
+    brandName =
+      product.brands[0].name ||
+      product.brands[0].title ||
+      '';
+  }
+
+  // Try to get SKU
+  const sku = product.sku || product.SKU || '';
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+
+    name: decodeHTMLEntities(product.name),
+
+    url: productUrl,
+
+    ...(productImages.length > 0 && {
+      image: productImages
+    }),
+
+    ...(description && {
+      description
+    }),
+
+    ...(sku && {
+      sku
+    }),
+
+    ...(brandName && {
+      brand: {
+        '@type': 'Brand',
+        name: brandName
+      }
+    }),
+
+    offers: {
+      '@type': 'Offer',
+      url: productUrl,
+      priceCurrency: 'INR',
+      price: Number(price).toFixed(2),
+      availability: stockInfo.inStock
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition'
+    },
+
+    ...(ratingCount > 0 &&
+      avgRating > 0 &&
+      avgRating <= 5 && {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: Number(avgRating).toFixed(1),
+          reviewCount: Number(ratingCount)
+        }
+      })
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c')
+      }}
+    />
+  );
+};
 const CACHE_TTL = 1000 * 60 * 30;
 const productCache = new Map();
 const reviewsCache = new Map();
@@ -237,9 +343,22 @@ const ProductDetail = () => {
   );
   const ratingCount = product.rating_count || reviews.length || 0;
 
-  return (
-    <Layout title={`${decodeHTMLEntities(product.name)} | Ritchie Street`} description={`Buy ${decodeHTMLEntities(product.name)} from Ritchie Street Best Online Electronics Hub.`}>
-      <main className="pd-page">
+ return (
+  <Layout
+    title={`${decodeHTMLEntities(product.name)} | Ritchie Street`}
+    description={`Buy ${decodeHTMLEntities(product.name)} from Ritchie Street Best Online Electronics Hub.`}
+  >
+    <ProductStructuredData
+      product={product}
+      price={price}
+      stockInfo={stockInfo}
+      images={images}
+      avgRating={avgRating}
+      ratingCount={ratingCount}
+      id={id}
+    />
+
+    <main className="pd-page">
         <div className={`pd-content ${fadeIn ? 'pd-fade-in' : ''}`}>
         {/* Cart Success Toast */}
         {cartMessage && (
