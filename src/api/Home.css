@@ -1145,7 +1145,7 @@ body {
   gap: 20px;
   width: max-content;
   animation: scroll 30s linear infinite;
-  padding: 10px 0;
+  padding: 10px 20px;
 }
 
 .brands-slider:hover {

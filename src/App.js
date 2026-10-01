@@ -33,6 +33,21 @@ function App() {
     initAuth();
   }, [initAuth]);
 
+  // Disable right-click context menu and drag-save on images only
+  useEffect(() => {
+    const blockImageActions = (e) => {
+      if (e.target instanceof HTMLElement && e.target.closest('img')) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('contextmenu', blockImageActions);
+    document.addEventListener('dragstart', blockImageActions);
+    return () => {
+      document.removeEventListener('contextmenu', blockImageActions);
+      document.removeEventListener('dragstart', blockImageActions);
+    };
+  }, []);
+
   const handlePriceCompare = (product, price) => {
     setSelectedProduct(product);
     setSelectedPrice(price);
