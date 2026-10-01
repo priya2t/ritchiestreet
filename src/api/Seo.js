@@ -17,8 +17,17 @@ const Seo = ({ title, description }) => {
     meta.content = description;
 
     // Canonical URL
-    const canonicalUrl =
-      `https://ritchiestreet.co.in${window.location.pathname}`;
+    const pathname = window.location.pathname;
+
+const normalizedPath =
+  pathname === '/index' ||
+  pathname === '/index.html' ||
+  pathname === '/index.php'
+    ? '/'
+    : pathname.replace(/\/+$/, '') || '/';
+
+const canonicalUrl =
+  `https://ritchiestreet.co.in${normalizedPath}`;
 
     let canonical = document.querySelector('link[rel="canonical"]');
 
