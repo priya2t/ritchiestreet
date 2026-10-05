@@ -125,7 +125,10 @@ const Home = ({ onPriceCompare }) => {
   }, [promoBanners]);
 
   return (
-    <Layout title="Ritchie Street Best Online Electronics Hub" description="Shop electronics, computer accessories, services, CCTV, laptops and Chennai technology support from Ritchie Street.">
+    <Layout
+  title="Ritchie Street Chennai | Best Online Electronics Hub"
+  description="Shop electronics, computer accessories, CCTV, laptops and technology products from Ritchie Street Chennai. Explore products, prices and online shopping."
+>
       <main ref={mainRef} className="home">
         {/* Hero Section - Premium Carousel + Right Panel */}
         <section ref={heroRef} className="hero-section">
