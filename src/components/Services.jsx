@@ -284,7 +284,7 @@ const Services = () => {
               textDecoration: 'none',
               marginTop: '5px'
             }}>
-              +91 86675 07040, +91 86088 60853
+              +91 86675 07040
             </a>
           </div>
         </div>
