@@ -437,7 +437,7 @@ const EngineerDashboard = () => {
                       Pay ₹1 via UPI and submit the transaction ID. Your subscription is
                       extended only after our team verifies the payment.
                     </p>
-                    {renewQr && <img src={renewQr} alt="Payment QR" className="snd-qr" />}
+                    <img src="/images/qr_code.jpeg" alt="Payment QR" className="snd-qr" />
                     <form onSubmit={handleRenew}>
                       <div className="snd-field">
                         <label>UPI Transaction ID (UTR)</label>
