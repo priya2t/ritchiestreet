@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiCheck, FiArrowRight, FiTool, FiAward, FiClock, FiMapPin } from 'react-icons/fi';
 import Layout from '../api/Layout';
 import { submitServiceBooking } from '../api/ServiceNetwork';
+import { SERVICE_TYPES } from '../constants/serviceTypes';
 import './BookService.css';
 
 const initialForm = {
@@ -16,17 +17,7 @@ const initialForm = {
   message: ''
 };
 
-const serviceTypes = [
-  'Laptop Repair',
-  'Desktop / PC Repair',
-  'Mobile Repair',
-  'Printer Repair',
-  'CCTV Installation & Repair',
-  'TV Repair',
-  'Data Recovery',
-  'Networking',
-  'Other'
-];
+const serviceTypes = SERVICE_TYPES;
 
 const BookService = () => {
   const [formData, setFormData] = useState(initialForm);

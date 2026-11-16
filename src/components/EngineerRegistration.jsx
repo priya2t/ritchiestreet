@@ -3,6 +3,7 @@ import QRCode from 'qrcode';
 import Layout from '../api/Layout';
 import { getServicePaymentInfo, submitEngineerRegistration } from '../api/ServiceNetwork';
 import { submitPaymentDetails } from '../api/sn-engineer';
+import { SERVICE_TYPES } from '../constants/serviceTypes';
 import './EngineerRegistration.css';
 
 const initialForm = {
@@ -17,16 +18,7 @@ const initialForm = {
   id_proof_number: ''
 };
 
-const specializations = [
-  'Laptop / Desktop Repair',
-  'Mobile Repair',
-  'Printer Repair',
-  'CCTV Installation & Repair',
-  'TV Repair',
-  'Networking',
-  'Data Recovery',
-  'General Electronics'
-];
+const specializations = SERVICE_TYPES;
 
 const experienceOptions = [
   'Less than 1 year',
