@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../api/Layout';
-import { engineerLogin, setEngineerToken } from '../api/sn-engineer';
+import { engineerLogin, setEngineerToken, getEngineerToken } from '../api/sn-engineer';
 import './EngineerAuth.css';
 
 const EngineerLogin = () => {
@@ -10,6 +10,14 @@ const EngineerLogin = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Already authenticated? Go straight to the dashboard — it validates
+  // the token and sends the user back here only if the session is dead.
+  useEffect(() => {
+    if (getEngineerToken()) {
+      navigate('/engineer-dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
