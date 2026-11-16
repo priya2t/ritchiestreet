@@ -209,11 +209,9 @@ const EngineerRegistration = () => {
                   status will remain <strong>Pending</strong> until it is verified by our team.
                 </p>
 
-                {qrDataUrl && (
-                  <div className="sn-engineer-qr-wrap">
-                    <img src={qrDataUrl} alt="Registration fee payment QR code" />
-                  </div>
-                )}
+                <div className="sn-engineer-qr-wrap">
+                  <img src="/images/qr_code.jpeg" alt="Registration fee payment QR code" />
+                </div>
 
                 <div className="sn-engineer-payment-meta">
                   <span>Reference: <strong>{registration.reference}</strong></span>
