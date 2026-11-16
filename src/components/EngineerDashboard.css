@@ -1,0 +1,436 @@
+/* Service Network engineer dashboard - isolated .snd- scoped styles.
+   Orange/white/light-grey theme matching Ritchie Street branding. */
+
+.snd-page {
+  min-height: 80vh;
+  background: #f4f4f5;
+  padding: 24px 16px 60px;
+}
+
+.snd-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Sidebar */
+.snd-sidebar {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 14px;
+  position: sticky;
+  top: 20px;
+}
+
+.snd-brand {
+  padding: 0 8px 18px;
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.snd-brand strong {
+  font-size: 18px;
+  color: #f97316;
+}
+
+.snd-brand span {
+  font-size: 12px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.snd-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.snd-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 11px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.snd-nav-item:hover {
+  background: #fff4e6;
+  color: #ea580c;
+}
+
+.snd-nav-item.active {
+  background: #f97316;
+  color: #fff;
+}
+
+.snd-nav-logout {
+  margin-top: 14px;
+  border-top: 1px solid #f1f1f1;
+  border-radius: 0 0 8px 8px;
+  padding-top: 14px;
+  color: #dc2626;
+}
+
+.snd-badge-count {
+  background: #dc2626;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 10px;
+  padding: 1px 7px;
+}
+
+/* Main */
+.snd-main {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px;
+  min-height: 500px;
+}
+
+.snd-h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 20px;
+}
+
+.snd-h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 24px 0 12px;
+}
+
+.snd-loading,
+.snd-empty {
+  color: #6b7280;
+  font-size: 15px;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.snd-toast {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.snd-alert {
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.snd-alert--warn {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+/* Stats */
+.snd-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.snd-stat {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.snd-stat span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.snd-stat strong {
+  font-size: 18px;
+  color: #111827;
+}
+
+/* Enquiry cards */
+.snd-enquiry-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.snd-enquiry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.snd-enquiry-id {
+  font-weight: 700;
+  color: #f97316;
+  font-size: 14px;
+}
+
+.snd-enquiry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.snd-enquiry-full {
+  grid-column: 1 / -1;
+}
+
+.snd-enquiry-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: center;
+}
+
+.snd-status-select {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.snd-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.snd-status--new { background: #fef3c7; color: #92400e; }
+.snd-status--accepted, .snd-status--contacted, .snd-status--in_progress { background: #dbeafe; color: #1d4ed8; }
+.snd-status--completed, .snd-status--verified, .snd-status--active { background: #d1fae5; color: #065f46; }
+.snd-status--cancelled, .snd-status--declined, .snd-status--rejected, .snd-status--expired { background: #fee2e2; color: #991b1b; }
+.snd-status--pending, .snd-status--submitted { background: #e0e7ff; color: #3730a3; }
+
+/* Buttons */
+.snd-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.snd-btn--primary {
+  background: #f97316;
+  color: #fff;
+}
+
+.snd-btn--primary:hover { background: #ea580c; }
+
+.snd-btn--ghost {
+  background: #fff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.snd-btn--ghost:hover { background: #f9fafb; }
+
+.snd-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Profile */
+.snd-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.snd-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f97316;
+}
+
+.snd-avatar--empty {
+  background: #fff4e6;
+  color: #f97316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.snd-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.snd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.snd-field--full {
+  grid-column: 1 / -1;
+}
+
+.snd-field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.snd-field input,
+.snd-field textarea,
+.snd-field select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.snd-field input:focus,
+.snd-field textarea:focus {
+  outline: none;
+  border-color: #f97316;
+}
+
+/* Subscription */
+.snd-sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.snd-sub-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.snd-sub-card h3 {
+  margin-top: 0;
+  color: #f97316;
+}
+
+.snd-sub-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.snd-sub-table td {
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.snd-sub-table td:first-child {
+  color: #6b7280;
+  width: 40%;
+}
+
+.snd-sub-note {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.snd-qr {
+  width: 200px;
+  height: 200px;
+  margin: 10px auto;
+  display: block;
+}
+
+.snd-renewal-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px;
+  color: #374151;
+}
+
+/* Notifications */
+.snd-notif-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.snd-notif {
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.snd-notif--unread {
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.snd-notif small {
+  color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .snd-shell {
+    grid-template-columns: 1fr;
+  }
+  .snd-sidebar {
+    position: static;
+  }
+  .snd-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .snd-nav-item {
+    width: auto;
+  }
+  .snd-sub-grid {
+    grid-template-columns: 1fr;
+  }
+  .snd-main {
+    padding: 18px;
+  }
+}

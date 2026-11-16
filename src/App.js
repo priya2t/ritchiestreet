@@ -21,6 +21,11 @@ const Services = React.lazy(() => import('./components/Services'));
 const Terms = React.lazy(() => import('./components/Terms'));
 const CategoryProducts = React.lazy(() => import('./api/CategoryProducts'));
 const SearchResults = React.lazy(() => import('./api/SearchResults'));
+const BookService = React.lazy(() => import('./components/BookService'));
+const EngineerRegistration = React.lazy(() => import('./components/EngineerRegistration'));
+const EngineerLogin = React.lazy(() => import('./components/EngineerLogin'));
+const EngineerActivate = React.lazy(() => import('./components/EngineerActivate'));
+const EngineerDashboard = React.lazy(() => import('./components/EngineerDashboard'));
 
 function App() {
   const { initAuth } = useUserStore();
@@ -80,6 +85,11 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/category/:slug" element={<CategoryProducts onPriceCompare={handlePriceCompare} />} />
         <Route path="/search" element={<SearchResults onPriceCompare={handlePriceCompare} />} />
+        <Route path="/book-service" element={<BookService />} />
+        <Route path="/service-engineer-registration" element={<EngineerRegistration />} />
+        <Route path="/engineer-login" element={<EngineerLogin />} />
+        <Route path="/engineer-activate" element={<EngineerActivate />} />
+        <Route path="/engineer-dashboard" element={<EngineerDashboard />} />
       </Routes>
     </Suspense>
     <BrandAnnouncer />

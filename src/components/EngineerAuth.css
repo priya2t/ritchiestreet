@@ -1,0 +1,106 @@
+/* Service Network engineer auth pages - isolated .sna- scoped styles */
+.sna-auth-page {
+  min-height: 70vh;
+  background: linear-gradient(180deg, #f8fafc, #fff4e6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.sna-auth-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  max-width: 440px;
+  width: 100%;
+  padding: 36px 32px;
+}
+
+.sna-auth-card h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px;
+}
+
+.sna-auth-sub {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.sna-auth-field {
+  margin-bottom: 16px;
+}
+
+.sna-auth-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.sna-auth-field input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.sna-auth-field input:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.sna-auth-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.sna-auth-submit {
+  display: block;
+  width: 100%;
+  background: #f97316;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.sna-auth-submit:hover {
+  background: #ea580c;
+}
+
+.sna-auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sna-auth-links {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+}
+
+.sna-auth-links a {
+  color: #f97316;
+  font-weight: 600;
+}

@@ -171,6 +171,13 @@ useEffect(() => {
     <header ref={headerRef} className={`premium-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="premium-announcement">
         {/*<span>Sales and Services are only within Chennai</span>*/}
+        <Link
+          to="/service-engineer-registration"
+          className="sn-announcement-engineer-link"
+          style={{ marginRight: '18px', color: 'inherit', fontWeight: 600, textDecoration: 'underline' }}
+        >
+          Service Engineer Registration
+        </Link>
         <div className="visitor-counter">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -313,6 +320,8 @@ useEffect(() => {
             { to: '/', label: 'Home', end: true },
             { to: '/about', label: 'About Us' },
             { to: '/services', label: 'Services' },
+            { to: '/book-service', label: 'Book a Service' },
+            { to: '/engineer-login', label: 'Engineer Login' },
             { to: '/contact', label: 'Contact Us' },
             { to: '/terms', label: 'Terms & Conditions' },
           ].map((item) => (
