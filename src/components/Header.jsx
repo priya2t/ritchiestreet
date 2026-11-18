@@ -19,6 +19,7 @@ const useDebounce = (value, delay) => {
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [engineerDropdownOpen, setEngineerDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -29,6 +30,7 @@ const Header = () => {
   const location = useLocation();
   const { isAuthenticated, logout } = useUserStore();
   const dropdownRef = useRef(null);
+  const engineerDropdownRef = useRef(null);
   const headerRef = useRef(null);
   const searchRef = useRef(null);
   const searchInputRef = useRef(null);
@@ -101,8 +103,18 @@ useEffect(() => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setAccountDropdownOpen(false);
       }
+      if (engineerDropdownRef.current && !engineerDropdownRef.current.contains(event.target)) {
+        setEngineerDropdownOpen(false);
+      }
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setEngineerDropdownOpen(false);
+        setAccountDropdownOpen(false);
       }
     };
 
@@ -111,13 +123,20 @@ useEffect(() => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Close the engineer dropdown whenever the route changes.
+  useEffect(() => {
+    setEngineerDropdownOpen(false);
+  }, [location.pathname]);
 
   const handleLockClick = () => {
     if (isAuthenticated) {
@@ -171,13 +190,6 @@ useEffect(() => {
     <header ref={headerRef} className={`premium-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="premium-announcement">
         {/*<span>Sales and Services are only within Chennai</span>*/}
-        <Link
-          to="/service-engineer-registration"
-          className="sn-announcement-engineer-link"
-          style={{ marginRight: '18px', color: 'inherit', fontWeight: 600, textDecoration: 'underline' }}
-        >
-          Service Engineer Registration
-        </Link>
         <div className="visitor-counter">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -319,24 +331,67 @@ useEffect(() => {
           {[
             { to: '/', label: 'Home', end: true },
             { to: '/about', label: 'About Us' },
-            { to: '/services', label: 'Services' },
             { to: '/book-service', label: 'Book a Service' },
-            { to: '/engineer-login', label: 'Engineer Login' },
+            { dropdown: 'engineer' },
             { to: '/contact', label: 'Contact Us' },
             { to: '/terms', label: 'Terms & Conditions' },
-          ].map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end || false}
-              className={({ isActive }) => 
-                `premium-nav-link ${isActive ? 'active' : ''}`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item.label}
-            </NavLink>
-          ))}
+          ].map((item) => {
+            if (item.dropdown === 'engineer') {
+              const engineerActive = location.pathname.startsWith('/engineer') || location.pathname === '/service-engineer-registration';
+              return (
+                <div className="premium-nav-dropdown" ref={engineerDropdownRef} key="engineer-dropdown">
+                  <button
+                    type="button"
+                    className={`premium-nav-link premium-nav-dropdown-toggle ${engineerActive ? 'active' : ''}`}
+                    aria-haspopup="true"
+                    aria-expanded={engineerDropdownOpen}
+                    onClick={() => setEngineerDropdownOpen((o) => !o)}
+                  >
+                    Engineer Login
+                    <svg
+                      className={`premium-nav-caret ${engineerDropdownOpen ? 'open' : ''}`}
+                      width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                  {engineerDropdownOpen && (
+                    <div className="premium-nav-dropdown-menu">
+                      <NavLink
+                        to="/engineer-login"
+                        className={({ isActive }) => `premium-nav-dropdown-item ${isActive ? 'active' : ''}`}
+                        onClick={() => { setEngineerDropdownOpen(false); setMobileMenuOpen(false); }}
+                      >
+                        Login
+                      </NavLink>
+                      <NavLink
+                        to="/service-engineer-registration"
+                        className={({ isActive }) => `premium-nav-dropdown-item ${isActive ? 'active' : ''}`}
+                        onClick={() => { setEngineerDropdownOpen(false); setMobileMenuOpen(false); }}
+                      >
+                        Sign Up
+                      </NavLink>
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end || false}
+                className={({ isActive }) =>
+                  `premium-nav-link ${isActive ? 'active' : ''}`
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </NavLink>
+            );
+          })}
         </div>
       </nav>
     </header>

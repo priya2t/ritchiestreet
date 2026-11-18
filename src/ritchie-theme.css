@@ -342,6 +342,61 @@ body {
   color: #f15b29;
 }
 
+/* Engineer Login dropdown */
+.premium-nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.premium-nav-dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.premium-nav-caret {
+  transition: transform 0.3s ease;
+}
+
+.premium-nav-caret.open {
+  transform: rotate(180deg);
+}
+
+.premium-nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 190px;
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: 6px 0;
+  z-index: 1002;
+}
+
+.premium-nav-dropdown-item {
+  display: block;
+  padding: 11px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.premium-nav-dropdown-item:hover,
+.premium-nav-dropdown-item.active {
+  background: #fff5ed;
+  color: #f15b29;
+}
+
 /* Coming soon banner */
 .coming-soon-banner {
   width: 100%;
@@ -446,6 +501,36 @@ body {
   .premium-nav-link.active {
     background: #fff5ed;
     color: #f15b29;
+  }
+
+  /* Engineer dropdown becomes an inline expandable section on mobile */
+  .premium-nav-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .premium-nav-dropdown-toggle {
+    width: 100%;
+    text-align: left;
+    justify-content: space-between;
+  }
+
+  .premium-nav-dropdown-menu {
+    position: static;
+    transform: none;
+    min-width: 0;
+    border: none;
+    border-left: 3px solid #f15b29;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 20px 10px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .premium-nav-dropdown-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
   }
 
   /* Overlay when menu is open */
