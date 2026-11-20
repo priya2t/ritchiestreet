@@ -42,10 +42,16 @@ const BookService = () => {
     if (!/^[6-9]\d{9}$/.test(phoneDigits.replace(/^91/, '').replace(/^0/, ''))) {
       newErrors.phone = 'Please enter a valid 10-digit phone number';
     }
-    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       newErrors.email = 'Please enter a valid email address';
     }
     if (!formData.service_type) newErrors.service_type = 'Please select a service type';
+    if (!formData.product_details.trim()) newErrors.product_details = 'Product details are required';
+    if (!formData.address.trim()) newErrors.address = 'Service address is required';
+    if (!formData.preferred_date) newErrors.preferred_date = 'Please select a preferred date';
+    if (!formData.message.trim()) newErrors.message = 'Please add a message';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -152,7 +158,7 @@ const BookService = () => {
                       {errors.phone && <span className="sn-booking-error-text">{errors.phone}</span>}
                     </div>
                     <div className="sn-booking-field">
-                      <label htmlFor="sn-email">Email</label>
+                      <label htmlFor="sn-email">Email <span className="sn-booking-required">*</span></label>
                       <input id="sn-email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" />
                       {errors.email && <span className="sn-booking-error-text">{errors.email}</span>}
                     </div>
@@ -167,20 +173,24 @@ const BookService = () => {
                       {errors.service_type && <span className="sn-booking-error-text">{errors.service_type}</span>}
                     </div>
                     <div className="sn-booking-field sn-booking-field--full">
-                      <label htmlFor="sn-product-details">Product Details</label>
+                      <label htmlFor="sn-product-details">Product Details <span className="sn-booking-required">*</span></label>
                       <input id="sn-product-details" name="product_details" type="text" value={formData.product_details} onChange={handleChange} placeholder="Brand, model, approximate purchase date" />
+                      {errors.product_details && <span className="sn-booking-error-text">{errors.product_details}</span>}
                     </div>
                     <div className="sn-booking-field sn-booking-field--full">
-                      <label htmlFor="sn-address">Service Address</label>
+                      <label htmlFor="sn-address">Service Address <span className="sn-booking-required">*</span></label>
                       <textarea id="sn-address" name="address" value={formData.address} onChange={handleChange} placeholder="Address where the service visit is required" />
+                      {errors.address && <span className="sn-booking-error-text">{errors.address}</span>}
                     </div>
                     <div className="sn-booking-field">
-                      <label htmlFor="sn-preferred-date">Preferred Date</label>
+                      <label htmlFor="sn-preferred-date">Preferred Date <span className="sn-booking-required">*</span></label>
                       <input id="sn-preferred-date" name="preferred_date" type="date" value={formData.preferred_date} onChange={handleChange} min={new Date().toISOString().split('T')[0]} />
+                      {errors.preferred_date && <span className="sn-booking-error-text">{errors.preferred_date}</span>}
                     </div>
                     <div className="sn-booking-field">
-                      <label htmlFor="sn-message">Additional Message</label>
+                      <label htmlFor="sn-message">Additional Message <span className="sn-booking-required">*</span></label>
                       <input id="sn-message" name="message" type="text" value={formData.message} onChange={handleChange} placeholder="Any other details" />
+                      {errors.message && <span className="sn-booking-error-text">{errors.message}</span>}
                     </div>
                   </div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Layout from '../api/Layout';
 import { engineerActivate } from '../api/sn-engineer';
 import './EngineerAuth.css';
@@ -12,6 +13,7 @@ const EngineerActivate = () => {
 
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -80,25 +82,47 @@ const EngineerActivate = () => {
               <form onSubmit={handleSubmit} noValidate>
                 <div className="sna-auth-field">
                   <label htmlFor="sna-new-pass">New Password</label>
-                  <input
-                    id="sna-new-pass"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Minimum 8 characters"
-                    autoComplete="new-password"
-                  />
+                  <div className="sna-auth-password-wrap">
+                    <input
+                      id="sna-new-pass"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Minimum 8 characters"
+                      autoComplete="new-password"
+                    />
+                    <button
+                      type="button"
+                      className="sna-auth-toggle"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                    </button>
+                  </div>
                 </div>
                 <div className="sna-auth-field">
                   <label htmlFor="sna-new-pass2">Confirm Password</label>
-                  <input
-                    id="sna-new-pass2"
-                    type="password"
-                    value={password2}
-                    onChange={(e) => setPassword2(e.target.value)}
-                    placeholder="Repeat password"
-                    autoComplete="new-password"
-                  />
+                  <div className="sna-auth-password-wrap">
+                    <input
+                      id="sna-new-pass2"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password2}
+                      onChange={(e) => setPassword2(e.target.value)}
+                      placeholder="Repeat password"
+                      autoComplete="new-password"
+                    />
+                    <button
+                      type="button"
+                      className="sna-auth-toggle"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                    </button>
+                  </div>
                 </div>
                 {error && <div className="sna-auth-error">{error}</div>}
                 <button type="submit" className="sna-auth-submit" disabled={loading}>

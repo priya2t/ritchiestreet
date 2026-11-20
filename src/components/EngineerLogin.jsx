@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Layout from '../api/Layout';
 import { engineerLogin, setEngineerToken, getEngineerToken } from '../api/sn-engineer';
 import './EngineerAuth.css';
@@ -7,6 +8,7 @@ import './EngineerAuth.css';
 const EngineerLogin = () => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -70,14 +72,25 @@ const EngineerLogin = () => {
             </div>
             <div className="sna-auth-field">
               <label htmlFor="sna-pass">Password</label>
-              <input
-                id="sna-pass"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Your password"
-                autoComplete="current-password"
-              />
+              <div className="sna-auth-password-wrap">
+                <input
+                  id="sna-pass"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Your password"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="sna-auth-toggle"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                </button>
+              </div>
             </div>
 
             {error && <div className="sna-auth-error">{error}</div>}

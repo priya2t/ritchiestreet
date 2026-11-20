@@ -104,9 +104,15 @@ const EngineerRegistration = () => {
       newErrors.email = 'A valid email address is required';
     }
     if (!formData.city.trim()) newErrors.city = 'City is required';
-    if (formData.pincode.trim() && !/^[1-9]\d{5}$/.test(formData.pincode.trim())) {
+    if (!formData.pincode.trim()) {
+      newErrors.pincode = 'Pincode is required';
+    } else if (!/^[1-9]\d{5}$/.test(formData.pincode.trim())) {
       newErrors.pincode = 'Pincode must be a valid 6-digit number';
     }
+    if (!formData.experience_years) newErrors.experience_years = 'Please select your experience';
+    if (!formData.specialization) newErrors.specialization = 'Please select a specialization';
+    if (!formData.address.trim()) newErrors.address = 'Address is required';
+    if (!idProof) newErrors.idProof = 'ID proof document is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -133,11 +139,13 @@ const EngineerRegistration = () => {
       return;
     }
     setIdProof(file);
+    setErrors((prev) => ({ ...prev, idProof: '' }));
   };
 
   const removeIdProof = () => {
     setIdProof(null);
     setIdProofError('');
+    setErrors((prev) => ({ ...prev, idProof: '' }));
     if (idProofInputRef.current) idProofInputRef.current.value = '';
   };
 
@@ -354,37 +362,40 @@ const EngineerRegistration = () => {
                     {errors.city && <span className="sn-engineer-error-text">{errors.city}</span>}
                   </div>
                   <div className="sn-engineer-field">
-                    <label htmlFor="sn-eng-pincode">Pincode</label>
+                    <label htmlFor="sn-eng-pincode">Pincode <span className="sn-engineer-required">*</span></label>
                     <input id="sn-eng-pincode" name="pincode" type="text" inputMode="numeric" maxLength="6" value={formData.pincode} onChange={handleChange} placeholder="6-digit pincode" />
                     {errors.pincode && <span className="sn-engineer-error-text">{errors.pincode}</span>}
                   </div>
                   <div className="sn-engineer-field">
-                    <label htmlFor="sn-eng-exp">Experience</label>
+                    <label htmlFor="sn-eng-exp">Experience <span className="sn-engineer-required">*</span></label>
                     <select id="sn-eng-exp" name="experience_years" value={formData.experience_years} onChange={handleChange}>
                       <option value="">Select experience</option>
                       {experienceOptions.map((o) => (
                         <option key={o} value={o}>{o}</option>
                       ))}
                     </select>
+                    {errors.experience_years && <span className="sn-engineer-error-text">{errors.experience_years}</span>}
                   </div>
                   <div className="sn-engineer-field">
-                    <label htmlFor="sn-eng-spec">Specialization</label>
+                    <label htmlFor="sn-eng-spec">Specialization <span className="sn-engineer-required">*</span></label>
                     <select id="sn-eng-spec" name="specialization" value={formData.specialization} onChange={handleChange}>
                       <option value="">Select specialization</option>
                       {specializations.map((s) => (
                         <option key={s} value={s}>{s}</option>
                       ))}
                     </select>
+                    {errors.specialization && <span className="sn-engineer-error-text">{errors.specialization}</span>}
                   </div>
                   <div className="sn-engineer-field sn-engineer-field--full">
-                    <label htmlFor="sn-eng-address">Address</label>
+                    <label htmlFor="sn-eng-address">Address <span className="sn-engineer-required">*</span></label>
                     <textarea id="sn-eng-address" name="address" value={formData.address} onChange={handleChange} placeholder="Your full address" />
+                    {errors.address && <span className="sn-engineer-error-text">{errors.address}</span>}
                   </div>
                   <div className="sn-engineer-field sn-engineer-field--full">
-                    <label htmlFor="sn-eng-idproof">Upload ID Proof</label>
+                    <label htmlFor="sn-eng-idproof">Upload ID Proof <span className="sn-engineer-required">*</span></label>
                     <p className="sn-engineer-hint">
                       Upload any one valid identity document (Aadhaar Card / Driving License / Voter ID / Other).
-                      PDF, JPG or PNG, max 5MB. Optional.
+                      PDF, JPG or PNG, max 5MB.
                     </p>
                     <input
                       id="sn-eng-idproof"
@@ -403,7 +414,7 @@ const EngineerRegistration = () => {
                         </button>
                       </div>
                     )}
-                    {idProofError && <span className="sn-engineer-error-text">{idProofError}</span>}
+                    {(idProofError || errors.idProof) && <span className="sn-engineer-error-text">{idProofError || errors.idProof}</span>}
                   </div>
                 </div>
 

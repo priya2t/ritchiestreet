@@ -59,6 +59,32 @@
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
 }
 
+.sna-auth-password-wrap {
+  position: relative;
+}
+
+.sna-auth-password-wrap input {
+  padding-right: 44px;
+}
+
+.sna-auth-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.sna-auth-toggle:hover {
+  color: #f97316;
+}
+
 .sna-auth-error {
   background: #fef2f2;
   border: 1px solid #fecaca;
