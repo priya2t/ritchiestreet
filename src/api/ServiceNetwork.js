@@ -30,11 +30,16 @@ export const submitServiceBooking = async (formData) => {
     }
 };
 
-// Submit a Service Engineer Registration
+// Submit a Service Engineer Registration.
+// Accepts either a plain object (sent as JSON) or FormData (sent as
+// multipart/form-data so an optional ID proof file can be attached).
 export const submitEngineerRegistration = async (formData) => {
     try {
+        const isFormData = typeof FormData !== 'undefined' && formData instanceof FormData;
         const response = await axios.post(`${SN_API}/engineer-register`, formData, {
-            headers: { 'Content-Type': 'application/json' }
+            // No explicit Content-Type for FormData — axios/browser sets the
+            // multipart boundary automatically.
+            headers: isFormData ? {} : { 'Content-Type': 'application/json' }
         });
         return response.data;
     } catch (error) {

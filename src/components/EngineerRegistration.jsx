@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import QRCode from 'qrcode';
 import Layout from '../api/Layout';
 import { getServicePaymentInfo, submitEngineerRegistration } from '../api/ServiceNetwork';
@@ -14,9 +14,16 @@ const initialForm = {
   city: '',
   pincode: '',
   experience_years: '',
-  specialization: '',
-  id_proof_number: ''
+  specialization: ''
 };
+
+const ID_PROOF_ACCEPT = '.pdf,.jpg,.jpeg,.png';
+const ID_PROOF_MAX_BYTES = 5 * 1024 * 1024;
+const ID_PROOF_EXTS = ['pdf', 'jpg', 'jpeg', 'png'];
+const ID_PROOF_MIMES = ['application/pdf', 'image/jpeg', 'image/png'];
+
+const formatFileSize = (bytes) =>
+  bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 
 const specializations = SERVICE_TYPES;
 
@@ -42,6 +49,9 @@ const EngineerRegistration = () => {
   const [payMsg, setPayMsg] = useState('');
   const [payLoading, setPayLoading] = useState(false);
   const [payDone, setPayDone] = useState(false);
+  const [idProof, setIdProof] = useState(null);
+  const [idProofError, setIdProofError] = useState('');
+  const idProofInputRef = useRef(null);
 
   useEffect(() => {
     getServicePaymentInfo().then((data) => {
@@ -102,6 +112,35 @@ const EngineerRegistration = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleIdProofChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    setIdProofError('');
+    if (!file) {
+      setIdProof(null);
+      return;
+    }
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    if (!ID_PROOF_EXTS.includes(ext) || !ID_PROOF_MIMES.includes(file.type)) {
+      setIdProofError('Only PDF, JPG or PNG files are allowed.');
+      setIdProof(null);
+      e.target.value = '';
+      return;
+    }
+    if (file.size > ID_PROOF_MAX_BYTES) {
+      setIdProofError('File must be 5MB or smaller.');
+      setIdProof(null);
+      e.target.value = '';
+      return;
+    }
+    setIdProof(file);
+  };
+
+  const removeIdProof = () => {
+    setIdProof(null);
+    setIdProofError('');
+    if (idProofInputRef.current) idProofInputRef.current.value = '';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -109,13 +148,10 @@ const EngineerRegistration = () => {
 
     setLoading(true);
     try {
-      const res = await submitEngineerRegistration({
-        ...formData,
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        city: formData.city.trim(),
-        pincode: formData.pincode.trim()
-      });
+      const payload = new FormData();
+      Object.entries(formData).forEach(([key, value]) => payload.append(key, value ?? ''));
+      if (idProof) payload.append('id_proof', idProof);
+      const res = await submitEngineerRegistration(payload);
       if (res.success) {
         setRegistration(res);
         setSubmittedEmail(formData.email.trim());
@@ -165,6 +201,24 @@ const EngineerRegistration = () => {
     } finally {
       setPayLoading(false);
     }
+  };
+
+  const handleRegisterAnotherEngineer = () => {
+    setRegistration(null);
+    setQrDataUrl('');
+    setPayDone(false);
+    setPayMsg('');
+    setPayUtr('');
+    setPayShot(null);
+    setPayLoading(false);
+    setSubmittedEmail('');
+    setLoading(false);
+    setError('');
+    setErrors({});
+    setIdProof(null);
+    setIdProofError('');
+    if (idProofInputRef.current) idProofInputRef.current.value = '';
+    setFormData(initialForm);
   };
 
   const feeAmount = registration?.registration_fee ?? paymentInfo?.fee ?? 0;
@@ -261,7 +315,7 @@ const EngineerRegistration = () => {
                 <button
                   type="button"
                   className="sn-engineer-reset-btn"
-                  onClick={() => { setRegistration(null); setQrDataUrl(''); }}
+                  onClick={handleRegisterAnotherEngineer}
                 >
                   Register Another Engineer
                 </button>
@@ -318,8 +372,29 @@ const EngineerRegistration = () => {
                     <textarea id="sn-eng-address" name="address" value={formData.address} onChange={handleChange} placeholder="Your full address" />
                   </div>
                   <div className="sn-engineer-field sn-engineer-field--full">
-                    <label htmlFor="sn-eng-id">ID Proof Number (Aadhaar / License / Other)</label>
-                    <input id="sn-eng-id" name="id_proof_number" type="text" value={formData.id_proof_number} onChange={handleChange} placeholder="Enter ID proof number" />
+                    <label htmlFor="sn-eng-idproof">Upload ID Proof</label>
+                    <p className="sn-engineer-hint">
+                      Upload any one valid identity document (Aadhaar Card / Driving License / Voter ID / Other).
+                      PDF, JPG or PNG, max 5MB. Optional.
+                    </p>
+                    <input
+                      id="sn-eng-idproof"
+                      ref={idProofInputRef}
+                      type="file"
+                      accept={ID_PROOF_ACCEPT}
+                      onChange={handleIdProofChange}
+                    />
+                    {idProof && (
+                      <div className="sn-engineer-file-chip">
+                        <span className="sn-engineer-file-name">
+                          {idProof.name} ({formatFileSize(idProof.size)})
+                        </span>
+                        <button type="button" className="sn-engineer-file-remove" onClick={removeIdProof}>
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                    {idProofError && <span className="sn-engineer-error-text">{idProofError}</span>}
                   </div>
                 </div>
 
