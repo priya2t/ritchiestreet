@@ -45,6 +45,8 @@ export const submitEngineerRegistration = async (formData) => {
     } catch (error) {
         console.error('Error submitting engineer registration:', error);
         const message = error.response?.data?.message || 'Something went wrong. Please try again.';
-        throw new Error(message);
+        const err = new Error(message);
+        err.code = error.response?.data?.code || '';
+        throw err;
     }
 };

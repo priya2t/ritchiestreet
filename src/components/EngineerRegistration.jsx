@@ -160,7 +160,16 @@ const EngineerRegistration = () => {
         setError(res.message || 'Something went wrong. Please try again.');
       }
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.');
+      const msg = err.message || 'Something went wrong. Please try again.';
+      setError(msg);
+      // Highlight the conflicting field(s) on duplicate-registration errors.
+      if (err.code === 'sn_duplicate_phone') {
+        setErrors((prev) => ({ ...prev, phone: msg }));
+      } else if (err.code === 'sn_duplicate_email') {
+        setErrors((prev) => ({ ...prev, email: msg }));
+      } else if (err.code === 'sn_duplicate_both') {
+        setErrors((prev) => ({ ...prev, phone: msg, email: msg }));
+      }
     } finally {
       setLoading(false);
     }
