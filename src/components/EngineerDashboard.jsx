@@ -421,7 +421,7 @@ const EngineerDashboard = () => {
                 <h1 className="snd-h1">Subscription Management</h1>
                 <div className="snd-sub-grid">
                   <div className="snd-sub-card">
-                    <h3>Monthly Subscription: ₹1</h3>
+                    <h3>Monthly Subscription: ₹199</h3>
                     <table className="snd-sub-table">
                       <tbody>
                         <tr><td>Start Date</td><td>{engineer.subscription_start || '—'}</td></tr>
@@ -434,7 +434,7 @@ const EngineerDashboard = () => {
                   <div className="snd-sub-card">
                     <h3>Renew Subscription</h3>
                     <p className="snd-sub-note">
-                      Pay ₹1 via UPI and submit the transaction ID. Your subscription is
+                      Pay ₹199 via UPI and submit the transaction ID. Your subscription is
                       extended only after our team verifies the payment.
                     </p>
                     <img src="/images/qr_code.jpeg" alt="Payment QR" className="snd-qr" />
