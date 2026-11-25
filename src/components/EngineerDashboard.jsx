@@ -207,8 +207,8 @@ const EngineerDashboard = () => {
   const handleRenew = async (e) => {
     e.preventDefault();
     setRenewMsg('');
-    if (!renewUtr.trim()) {
-      setRenewMsg('Please enter the UPI transaction ID (UTR).');
+    if (!/^\d{12}$/.test(renewUtr.trim())) {
+      setRenewMsg('Please enter a valid 12-digit UPI transaction ID (UTR).');
       return;
     }
     setRenewLoading(true);
@@ -441,7 +441,7 @@ const EngineerDashboard = () => {
                     <form onSubmit={handleRenew}>
                       <div className="snd-field">
                         <label>UPI Transaction ID (UTR)</label>
-                        <input value={renewUtr} onChange={(e) => setRenewUtr(e.target.value)} placeholder="e.g. 123456789012" />
+                        <input type="text" inputMode="numeric" value={renewUtr} onChange={(e) => setRenewUtr(e.target.value)} placeholder="e.g. 123456789012" />
                       </div>
                       <div className="snd-field">
                         <label>Payment Screenshot (optional)</label>

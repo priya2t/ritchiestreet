@@ -193,8 +193,8 @@ const EngineerRegistration = () => {
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
     setPayMsg('');
-    if (!payUtr.trim()) {
-      setPayMsg('Please enter the UPI transaction ID (UTR).');
+    if (!/^\d{12}$/.test(payUtr.trim())) {
+      setPayMsg('Please enter a valid 12-digit UPI transaction ID (UTR).');
       return;
     }
     setPayLoading(true);
@@ -307,6 +307,7 @@ const EngineerRegistration = () => {
                         <input
                           id="sn-utr"
                           type="text"
+                          inputMode="numeric"
                           value={payUtr}
                           onChange={(e) => setPayUtr(e.target.value)}
                           placeholder="Enter UTR / transaction ID"
